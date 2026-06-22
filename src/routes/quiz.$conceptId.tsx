@@ -104,8 +104,8 @@ function QuizPage() {
           Question {cur.questionIdx + 1} of {totalQ} — Formula: <span className="text-[oklch(0.62_0.2_55)] font-bold italic">{formula.name}</span>
         </p>
 
-        <motion.div key={pos} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} className="rounded-2xl bg-card border border-border p-5 shadow-soft mb-5">
-          <p className="text-center font-bold text-lg leading-relaxed"><MathText>{q.text}</MathText></p>
+        <motion.div key={pos} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} className="w-full rounded-2xl bg-card border border-border p-5 shadow-soft mb-5 overflow-x-auto">
+          <div className="w-full text-left font-bold text-sm leading-relaxed"><MathText>{q.text}</MathText></div>
           {q.diagram && (
             <div className="mt-3">
               <TriangleDiagram hyp={q.diagram.hyp} opp={q.diagram.opp} adj={q.diagram.adj} />
