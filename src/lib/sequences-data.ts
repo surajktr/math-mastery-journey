@@ -19,7 +19,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c1-f1",
           "name": "Sequences and Series Basics - ...",
           "expression": {
-            "lhs": "Sequence: An arrangement of numbers in a definite order according to a rule.\nProgression: A sequence whose terms follow a certain distinct mathematical pattern.\nSeries: The sum of the terms of a sequence ($a_1 + a_2 + a_3 + \\\\dots$). It can be a finite series (countable terms) or an infinite series (endless terms).",
+            "lhs": "Sequence: An arrangement of numbers in a definite order according to a rule.\nProgression: A sequence whose terms follow a certain distinct mathematical pattern.\nSeries: The sum of the terms of a sequence ($a_1 + a_2 + a_3 + \\dots$). It can be a finite series (countable terms) or an infinite series (endless terms).",
             "num": "",
             "den": "",
             "color": "info"
@@ -31,13 +31,13 @@ export const sequencesChapter: Chapter = {
               "id": "q1",
               "text": "Which of the following mathematical constructs specifically represents a \"Finite Series\" according to standard algebraic definitions?",
               "options": [
-                "$2, 4, 6, 8, 10, \\\\dots$",
-                "$1 + 3 + 5 + 7 + \\\\dots$",
+                "$2, 4, 6, 8, 10, \\dots$",
+                "$1 + 3 + 5 + 7 + \\dots$",
                 "$5 + 10 + 15 + 20 + 25$",
                 "$1, 4, 9, 16, 25$"
               ],
               "correctIndex": 2,
-              "solution": "A series must be the sum of sequence terms, eliminating options A and D (which are sequences separated by commas).\nA finite series must have a terminating end, meaning a countable number of terms.\nOption B is an infinite series because of the \"$\\\\dots$\" at the end.\nOption C represents a finite sum of exact terms."
+              "solution": "A series must be the sum of sequence terms, eliminating options A and D (which are sequences separated by commas).\nA finite series must have a terminating end, meaning a countable number of terms.\nOption B is an infinite series because of the \"$\\dots$\" at the end.\nOption C represents a finite sum of exact terms."
             },
             {
               "id": "q2",
@@ -79,7 +79,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c2-f1",
           "name": "Special Series Tricks - Multip...",
           "expression": {
-            "lhs": "For a mixed fraction expression of the form $N \\\\frac{N - d}{N} \\\\times N$ (where $N$ consists of $k$ digits of $9$):\n$$\\\\text{Step 1: Write the multiplier } (N)$$\n$$\\\\text{Step 2: Attach as many zeroes as there are } 9\\\\text{'s in the first whole number.}$$\n$$\\\\text{Step 3: Subtract the difference } (d) \\\\text{ between the denominator and numerator.}$$",
+            "lhs": "For a mixed fraction expression of the form $N \\frac{N - d}{N} \\times N$ (where $N$ consists of $k$ digits of $9$):\n$$\\text{Step 1: Write the multiplier } (N)$$\n$$\\text{Step 2: Attach as many zeroes as there are } 9\\text{'s in the first whole number.}$$\n$$\\text{Step 3: Subtract the difference } (d) \\text{ between the denominator and numerator.}$$",
             "num": "",
             "den": "",
             "color": "info"
@@ -89,7 +89,7 @@ export const sequencesChapter: Chapter = {
           "questions": [
             {
               "id": "q1",
-              "text": "Find the exact value of $999 \\\\frac{987}{999} \\\\times 999$.",
+              "text": "Find the exact value of $999 \\frac{987}{999} \\times 999$.",
               "options": [
                 "$998998$",
                 "$998988$",
@@ -97,11 +97,11 @@ export const sequencesChapter: Chapter = {
                 "$998992$"
               ],
               "correctIndex": 1,
-              "solution": "Identify the pattern: Multiplier is $999$. Whole number is $999$ (three $9$s). Denominator = Multiplier.\nStep 1: Base number = $999$.\nStep 2: Add three zeroes (since whole number is $999$) $\\\\rightarrow 999000$.\nStep 3: Find difference between Denom and Num: $999 - 987 = 12$.\nStep 4: Subtract difference: $999000 - 12 = 998988$."
+              "solution": "Identify the pattern: Multiplier is $999$. Whole number is $999$ (three $9$s). Denominator = Multiplier.\nStep 1: Base number = $999$.\nStep 2: Add three zeroes (since whole number is $999$) $\\rightarrow 999000$.\nStep 3: Find difference between Denom and Num: $999 - 987 = 12$.\nStep 4: Subtract difference: $999000 - 12 = 998988$."
             },
             {
               "id": "q2",
-              "text": "Solve for the value of $99 \\\\frac{95}{99} \\\\times 99$.",
+              "text": "Solve for the value of $99 \\frac{95}{99} \\times 99$.",
               "options": [
                 "$9896$",
                 "$9895$",
@@ -113,7 +113,7 @@ export const sequencesChapter: Chapter = {
             },
             {
               "id": "q3",
-              "text": "Evaluate the expression: $9999 \\\\frac{9991}{9999} \\\\times 9999 + 8$.",
+              "text": "Evaluate the expression: $9999 \\frac{9991}{9999} \\times 9999 + 8$.",
               "options": [
                 "$99990000$",
                 "$99989992$",
@@ -121,7 +121,7 @@ export const sequencesChapter: Chapter = {
                 "$99999992$"
               ],
               "correctIndex": 0,
-              "solution": "Apply the trick to the main term: $9999 \\\\frac{9991}{9999} \\\\times 9999$.\nMultiplier is $9999$. Whole number has four $9$s $\\\\rightarrow 99990000$.\nDifference = $9999 - 9991 = 8$.\nTerm value = $99990000 - 8$.\nThe full expression adds $8$ back: $(99990000 - 8) + 8 = 99990000$."
+              "solution": "Apply the trick to the main term: $9999 \\frac{9991}{9999} \\times 9999$.\nMultiplier is $9999$. Whole number has four $9$s $\\rightarrow 99990000$.\nDifference = $9999 - 9991 = 8$.\nTerm value = $99990000 - 8$.\nThe full expression adds $8$ back: $(99990000 - 8) + 8 = 99990000$."
             }
           ]
         }
@@ -139,7 +139,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c3-f1",
           "name": "Special Series - Telescoping F...",
           "expression": {
-            "lhs": "For a series $\\\\frac{1}{a \\\\times b} + \\\\frac{1}{b \\\\times c} + \\\\dots + \\\\frac{1}{y \\\\times z}$ where $b-a = c-b = \\\\text{common difference } (d)$:\n$$\\\\text{Sum} = \\\\frac{1}{d} \\\\left[ \\\\frac{1}{\\\\text{First term of 1st den}} - \\\\frac{1}{\\\\text{Last term of last den}} \\\\right]$$",
+            "lhs": "For a series $\\frac{1}{a \\times b} + \\frac{1}{b \\times c} + \\dots + \\frac{1}{y \\times z}$ where $b-a = c-b = \\text{common difference } (d)$:\n$$\\text{Sum} = \\frac{1}{d} \\left[ \\frac{1}{\\text{First term of 1st den}} - \\frac{1}{\\text{Last term of last den}} \\right]$$",
             "num": "",
             "den": "",
             "color": "info"
@@ -149,27 +149,27 @@ export const sequencesChapter: Chapter = {
           "questions": [
             {
               "id": "q1",
-              "text": "Find the sum of the series: $\\\\frac{1}{3 \\\\times 5} + \\\\frac{1}{5 \\\\times 7} + \\\\frac{1}{7 \\\\times 9} + \\\\dots + \\\\frac{1}{21 \\\\times 23}$.",
+              "text": "Find the sum of the series: $\\frac{1}{3 \\times 5} + \\frac{1}{5 \\times 7} + \\frac{1}{7 \\times 9} + \\dots + \\frac{1}{21 \\times 23}$.",
               "options": [
-                "$\\\\frac{20}{69}$",
-                "$\\\\frac{10}{69}$",
-                "$\\\\frac{2}{23}$",
-                "$\\\\frac{5}{69}$"
+                "$\\frac{20}{69}$",
+                "$\\frac{10}{69}$",
+                "$\\frac{2}{23}$",
+                "$\\frac{5}{69}$"
               ],
               "correctIndex": 1,
-              "solution": "Identify common difference $d$ between factors: $5-3 = 2$, $7-5 = 2$. So, $d = 2$.\nIdentify first term of first denominator: $3$.\nIdentify last term of last denominator: $23$.\nApply formula: $\\\\text{Sum} = \\\\frac{1}{2} \\\\left[ \\\\frac{1}{3} - \\\\frac{1}{23} \\\\right]$.\nCalculate: $\\\\frac{1}{2} \\\\left[ \\\\frac{23 - 3}{69} \\\\right] = \\\\frac{1}{2} \\\\left[ \\\\frac{20}{69} \\\\right] = \\\\frac{10}{69}$."
+              "solution": "Identify common difference $d$ between factors: $5-3 = 2$, $7-5 = 2$. So, $d = 2$.\nIdentify first term of first denominator: $3$.\nIdentify last term of last denominator: $23$.\nApply formula: $\\text{Sum} = \\frac{1}{2} \\left[ \\frac{1}{3} - \\frac{1}{23} \\right]$.\nCalculate: $\\frac{1}{2} \\left[ \\frac{23 - 3}{69} \\right] = \\frac{1}{2} \\left[ \\frac{20}{69} \\right] = \\frac{10}{69}$."
             },
             {
               "id": "q2",
-              "text": "What is the value of $\\\\frac{1}{2 \\\\times 5} + \\\\frac{1}{5 \\\\times 8} + \\\\frac{1}{8 \\\\times 11} + \\\\dots + \\\\frac{1}{29 \\\\times 32}$?",
+              "text": "What is the value of $\\frac{1}{2 \\times 5} + \\frac{1}{5 \\times 8} + \\frac{1}{8 \\times 11} + \\dots + \\frac{1}{29 \\times 32}$?",
               "options": [
-                "$\\\\frac{5}{32}$",
-                "$\\\\frac{15}{64}$",
-                "$\\\\frac{15}{32}$",
-                "$\\\\frac{5}{64}$"
+                "$\\frac{5}{32}$",
+                "$\\frac{15}{64}$",
+                "$\\frac{15}{32}$",
+                "$\\frac{5}{64}$"
               ],
               "correctIndex": 0,
-              "solution": "Common difference $d = 5-2 = 3$.\nFirst term of den $= 2$, Last term of den $= 32$.\nApply formula: $\\\\text{Sum} = \\\\frac{1}{3} \\\\left[ \\\\frac{1}{2} - \\\\frac{1}{32} \\\\right]$.\nCalculate bracket: $\\\\frac{16}{32} - \\\\frac{1}{32} = \\\\frac{15}{32}$.\nFinal calculation: $\\\\frac{1}{3} \\\\times \\\\frac{15}{32} = \\\\frac{5}{32}$."
+              "solution": "Common difference $d = 5-2 = 3$.\nFirst term of den $= 2$, Last term of den $= 32$.\nApply formula: $\\text{Sum} = \\frac{1}{3} \\left[ \\frac{1}{2} - \\frac{1}{32} \\right]$.\nCalculate bracket: $\\frac{16}{32} - \\frac{1}{32} = \\frac{15}{32}$.\nFinal calculation: $\\frac{1}{3} \\times \\frac{15}{32} = \\frac{5}{32}$."
             }
           ]
         },
@@ -177,7 +177,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c3-f2",
           "name": "Special Series - Telescoping F...",
           "expression": {
-            "lhs": "For a series $\\\\frac{1}{a \\\\times b \\\\times c} + \\\\frac{1}{b \\\\times c \\\\times d} + \\\\dots + \\\\frac{1}{x \\\\times y \\\\times z}$:\n$$\\\\text{Sum} = \\\\frac{1}{\\\\text{Diff of 1st \\\\& 3rd no. in den}} \\\\left[ \\\\frac{1}{\\\\text{1st two no. of den}} - \\\\frac{1}{\\\\text{Last two no. of den}} \\\\right]$$",
+            "lhs": "For a series $\\frac{1}{a \\times b \\times c} + \\frac{1}{b \\times c \\times d} + \\dots + \\frac{1}{x \\times y \\times z}$:\n$$\\text{Sum} = \\frac{1}{\\text{Diff of 1st \\& 3rd no. in den}} \\left[ \\frac{1}{\\text{1st two no. of den}} - \\frac{1}{\\text{Last two no. of den}} \\right]$$",
             "num": "",
             "den": "",
             "color": "info"
@@ -187,27 +187,27 @@ export const sequencesChapter: Chapter = {
           "questions": [
             {
               "id": "q1",
-              "text": "Find the sum of: $\\\\frac{1}{2 \\\\times 5 \\\\times 8} + \\\\frac{1}{5 \\\\times 8 \\\\times 11} + \\\\frac{1}{8 \\\\times 11 \\\\times 14} + \\\\frac{1}{11 \\\\times 14 \\\\times 17}$.",
+              "text": "Find the sum of: $\\frac{1}{2 \\times 5 \\times 8} + \\frac{1}{5 \\times 8 \\times 11} + \\frac{1}{8 \\times 11 \\times 14} + \\frac{1}{11 \\times 14 \\times 17}$.",
               "options": [
-                "$\\\\frac{19}{1190}$",
-                "$\\\\frac{11}{1190}$",
-                "$\\\\frac{17}{1190}$",
-                "$\\\\frac{23}{1190}$"
+                "$\\frac{19}{1190}$",
+                "$\\frac{11}{1190}$",
+                "$\\frac{17}{1190}$",
+                "$\\frac{23}{1190}$"
               ],
               "correctIndex": 0,
-              "solution": "Diff of 1st & 3rd no. in denom (e.g., in $2 \\\\times 5 \\\\times 8$, diff is $8 - 2 = 6$).\nIdentify 1st two numbers of first denom: $2 \\\\times 5 = 10$.\nIdentify last two numbers of last denom: $14 \\\\times 17 = 238$.\nFormula: $\\\\text{Sum} = \\\\frac{1}{6} \\\\left[ \\\\frac{1}{10} - \\\\frac{1}{238} \\\\right]$.\nLCM of $10$ and $238$. $10 = 2 \\\\times 5$, $238 = 2 \\\\times 119$. LCM $= 1190$.\nBracket: $\\\\frac{119 - 5}{1190} = \\\\frac{114}{1190}$.\nFinal sum: $\\\\frac{1}{6} \\\\times \\\\frac{114}{1190} = \\\\frac{19}{1190}$. Wait, let me recheck the options.\nLet's recalculate LCM of $10$ and $238$: $1190$. $\\\\frac{119}{1190} - \\\\frac{5}{1190} = \\\\frac{114}{1190}$. Then $\\\\frac{1}{6} \\\\times \\\\frac{114}{1190} = \\\\frac{19}{1190}$. My options list has $2720$ or $1360$. Let me adjust the options to ensure mathematical soundness perfectly. Option C will be $\\\\frac{19}{1190}$. Let's rewrite the correct option clearly. Let's trace it: $\\\\frac{19}{1190}$.\nLet me use an option block that fits:\nA) $\\\\frac{19}{1190}$\nB) $\\\\frac{11}{1190}$\nC) $\\\\frac{17}{1190}$\nD) $\\\\frac{23}{1190}$"
+              "solution": "Diff of 1st & 3rd no. in denom (e.g., in $2 \\times 5 \\times 8$, diff is $8 - 2 = 6$).\nIdentify 1st two numbers of first denom: $2 \\times 5 = 10$.\nIdentify last two numbers of last denom: $14 \\times 17 = 238$.\nFormula: $\\text{Sum} = \\frac{1}{6} \\left[ \\frac{1}{10} - \\frac{1}{238} \\right]$.\nLCM of $10$ and $238$. $10 = 2 \\times 5$, $238 = 2 \\times 119$. LCM $= 1190$.\nBracket: $\\frac{119 - 5}{1190} = \\frac{114}{1190}$.\nFinal sum: $\\frac{1}{6} \\times \\frac{114}{1190} = \\frac{19}{1190}$. Wait, let me recheck the options.\nLet's recalculate LCM of $10$ and $238$: $1190$. $\\frac{119}{1190} - \\frac{5}{1190} = \\frac{114}{1190}$. Then $\\frac{1}{6} \\times \\frac{114}{1190} = \\frac{19}{1190}$. My options list has $2720$ or $1360$. Let me adjust the options to ensure mathematical soundness perfectly. Option C will be $\\frac{19}{1190}$. Let's rewrite the correct option clearly. Let's trace it: $\\frac{19}{1190}$.\nLet me use an option block that fits:\nA) $\\frac{19}{1190}$\nB) $\\frac{11}{1190}$\nC) $\\frac{17}{1190}$\nD) $\\frac{23}{1190}$"
             },
             {
               "id": "q2",
-              "text": "Evaluate: $\\\\frac{1}{1 \\\\times 3 \\\\times 5} + \\\\frac{1}{3 \\\\times 5 \\\\times 7} + \\\\frac{1}{5 \\\\times 7 \\\\times 9} + \\\\frac{1}{7 \\\\times 9 \\\\times 11}$.",
+              "text": "Evaluate: $\\frac{1}{1 \\times 3 \\times 5} + \\frac{1}{3 \\times 5 \\times 7} + \\frac{1}{5 \\times 7 \\times 9} + \\frac{1}{7 \\times 9 \\times 11}$.",
               "options": [
-                "$\\\\frac{16}{99}$",
-                "$\\\\frac{16}{297}$",
-                "$\\\\frac{8}{99}$",
-                "$\\\\frac{4}{99}$"
+                "$\\frac{16}{99}$",
+                "$\\frac{16}{297}$",
+                "$\\frac{8}{99}$",
+                "$\\frac{4}{99}$"
               ],
               "correctIndex": 2,
-              "solution": "Diff of 1st & 3rd no. in denom: $5 - 1 = 4$.\n1st two numbers of 1st denom: $1 \\\\times 3 = 3$.\nLast two numbers of last denom: $9 \\\\times 11 = 99$.\nFormula: $\\\\text{Sum} = \\\\frac{1}{4} \\\\left[ \\\\frac{1}{3} - \\\\frac{1}{99} \\\\right]$.\nBracket calculation: $\\\\frac{33 - 1}{99} = \\\\frac{32}{99}$.\nFinal sum: $\\\\frac{1}{4} \\\\times \\\\frac{32}{99} = \\\\frac{8}{99}$."
+              "solution": "Diff of 1st & 3rd no. in denom: $5 - 1 = 4$.\n1st two numbers of 1st denom: $1 \\times 3 = 3$.\nLast two numbers of last denom: $9 \\times 11 = 99$.\nFormula: $\\text{Sum} = \\frac{1}{4} \\left[ \\frac{1}{3} - \\frac{1}{99} \\right]$.\nBracket calculation: $\\frac{33 - 1}{99} = \\frac{32}{99}$.\nFinal sum: $\\frac{1}{4} \\times \\frac{32}{99} = \\frac{8}{99}$."
             }
           ]
         }
@@ -225,7 +225,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c4-f1",
           "name": "Repetitive Series Concepts - S...",
           "expression": {
-            "lhs": "Sub-formula 1: Sum of $n$ terms of $9 + 99 + 999 + \\\\dots = \\\\frac{10(10^n - 1) - 9n}{9}$\nSub-formula 2: Sum of $n$ terms of $1 + 11 + 111 + \\\\dots = \\\\frac{10(10^n - 1) - 9n}{81}$",
+            "lhs": "Sub-formula 1: Sum of $n$ terms of $9 + 99 + 999 + \\dots = \\frac{10(10^n - 1) - 9n}{9}$\nSub-formula 2: Sum of $n$ terms of $1 + 11 + 111 + \\dots = \\frac{10(10^n - 1) - 9n}{81}$",
             "num": "",
             "den": "",
             "color": "info"
@@ -235,7 +235,7 @@ export const sequencesChapter: Chapter = {
           "questions": [
             {
               "id": "q1",
-              "text": "What is the sum of the first 5 terms of the series $9 + 99 + 999 + \\\\dots$?",
+              "text": "What is the sum of the first 5 terms of the series $9 + 99 + 999 + \\dots$?",
               "options": [
                 "$111105$",
                 "$111115$",
@@ -243,11 +243,11 @@ export const sequencesChapter: Chapter = {
                 "$111111$"
               ],
               "correctIndex": 0,
-              "solution": "Apply Sub-formula 1: $S_n = \\\\frac{10(10^n - 1) - 9n}{9}$. Here $n = 5$.\nSubstitute $n$: $S_5 = \\\\frac{10(10^5 - 1) - 9(5)}{9}$.\nCalculate: $\\\\frac{10(99999) - 45}{9}$.\nSimplify: $\\\\frac{999990 - 45}{9} = \\\\frac{999945}{9}$.\nDivide: $111105$. (Alternatively, add manually to verify: $9 + 99 + 999 + 9999 + 99999 = 111105$)."
+              "solution": "Apply Sub-formula 1: $S_n = \\frac{10(10^n - 1) - 9n}{9}$. Here $n = 5$.\nSubstitute $n$: $S_5 = \\frac{10(10^5 - 1) - 9(5)}{9}$.\nCalculate: $\\frac{10(99999) - 45}{9}$.\nSimplify: $\\frac{999990 - 45}{9} = \\frac{999945}{9}$.\nDivide: $111105$. (Alternatively, add manually to verify: $9 + 99 + 999 + 9999 + 99999 = 111105$)."
             },
             {
               "id": "q2",
-              "text": "If the sum of $n$ terms of the series $9 + 99 + 999 + \\\\dots$ is given by $\\\\frac{10^{x+1} - yx - 10}{9}$, what are the values of $x$ and $y$?",
+              "text": "If the sum of $n$ terms of the series $9 + 99 + 999 + \\dots$ is given by $\\frac{10^{x+1} - yx - 10}{9}$, what are the values of $x$ and $y$?",
               "options": [
                 "$x = n, y = 9$",
                 "$x = 10, y = n$",
@@ -255,7 +255,7 @@ export const sequencesChapter: Chapter = {
                 "$x = 9, y = n$"
               ],
               "correctIndex": 0,
-              "solution": "We know the standard formula is $\\\\frac{10(10^n - 1) - 9n}{9}$.\nExpand the standard formula: $\\\\frac{10^{n+1} - 10 - 9n}{9}$.\nCompare with the given expression: $\\\\frac{10^{x+1} - yx - 10}{9}$.\nBy comparing terms, $x+1 = n+1 \\\\implies x = n$.\nThe middle term is $-yx$ and in the formula it is $-9n$. Since $x=n$, then $y = 9$."
+              "solution": "We know the standard formula is $\\frac{10(10^n - 1) - 9n}{9}$.\nExpand the standard formula: $\\frac{10^{n+1} - 10 - 9n}{9}$.\nCompare with the given expression: $\\frac{10^{x+1} - yx - 10}{9}$.\nBy comparing terms, $x+1 = n+1 \\implies x = n$.\nThe middle term is $-yx$ and in the formula it is $-9n$. Since $x=n$, then $y = 9$."
             },
             {
               "id": "q3",
@@ -267,19 +267,19 @@ export const sequencesChapter: Chapter = {
                 "$1240$"
               ],
               "correctIndex": 0,
-              "solution": "Use Sub-formula 2: $S_n = \\\\frac{10(10^n - 1) - 9n}{81}$. Here $n = 4$.\n$S_4 = \\\\frac{10(10^4 - 1) - 9(4)}{81}$.\n$S_4 = \\\\frac{10(9999) - 36}{81} = \\\\frac{99990 - 36}{81}$.\n$S_4 = \\\\frac{99954}{81} = 1234$. (Manual verification: $1+11+111+1111 = 1234$)."
+              "solution": "Use Sub-formula 2: $S_n = \\frac{10(10^n - 1) - 9n}{81}$. Here $n = 4$.\n$S_4 = \\frac{10(10^4 - 1) - 9(4)}{81}$.\n$S_4 = \\frac{10(9999) - 36}{81} = \\frac{99990 - 36}{81}$.\n$S_4 = \\frac{99954}{81} = 1234$. (Manual verification: $1+11+111+1111 = 1234$)."
             },
             {
               "id": "q4",
-              "text": "What is the sum of $n$ terms of the series $3 + 33 + 333 + \\\\dots$?",
+              "text": "What is the sum of $n$ terms of the series $3 + 33 + 333 + \\dots$?",
               "options": [
-                "$\\\\frac{10(10^n - 1) - 9n}{9}$",
-                "$\\\\frac{10(10^n - 1) - 9n}{27}$",
-                "$\\\\frac{10(10^n - 1) - 9n}{81}$",
-                "$\\\\frac{30(10^n - 1) - 9n}{81}$"
+                "$\\frac{10(10^n - 1) - 9n}{9}$",
+                "$\\frac{10(10^n - 1) - 9n}{27}$",
+                "$\\frac{10(10^n - 1) - 9n}{81}$",
+                "$\\frac{30(10^n - 1) - 9n}{81}$"
               ],
               "correctIndex": 1,
-              "solution": "The series is $3(1 + 11 + 111 + \\\\dots)$.\nWe know the sum of $(1 + 11 + 111 + \\\\dots)$ is $\\\\frac{10(10^n - 1) - 9n}{81}$.\nMultiply this result by $3$: $3 \\\\times \\\\left( \\\\frac{10(10^n - 1) - 9n}{81} \\\\right)$.\nSimplify: $\\\\frac{10(10^n - 1) - 9n}{27}$."
+              "solution": "The series is $3(1 + 11 + 111 + \\dots)$.\nWe know the sum of $(1 + 11 + 111 + \\dots)$ is $\\frac{10(10^n - 1) - 9n}{81}$.\nMultiply this result by $3$: $3 \\times \\left( \\frac{10(10^n - 1) - 9n}{81} \\right)$.\nSimplify: $\\frac{10(10^n - 1) - 9n}{27}$."
             }
           ]
         }
@@ -297,7 +297,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c5-f1",
           "name": "Bar Based Concepts (Recurring ...",
           "expression": {
-            "lhs": "Sub-formula 1: $0.\\\\bar{p} = \\\\frac{p}{9}$\nSub-formula 2: $0.\\\\overline{pq} = \\\\frac{pq}{99}$\nSub-formula 3: $0.p\\\\overline{qr} = \\\\frac{pqr - p}{990}$\nSub-formula 4: $0.\\\\overline{pqr} = \\\\frac{pqr}{999}$",
+            "lhs": "Sub-formula 1: $0.\\bar{p} = \\frac{p}{9}$\nSub-formula 2: $0.\\overline{pq} = \\frac{pq}{99}$\nSub-formula 3: $0.p\\overline{qr} = \\frac{pqr - p}{990}$\nSub-formula 4: $0.\\overline{pqr} = \\frac{pqr}{999}$",
             "num": "",
             "den": "",
             "color": "info"
@@ -307,43 +307,43 @@ export const sequencesChapter: Chapter = {
           "questions": [
             {
               "id": "q1",
-              "text": "Calculate the exact sum: $0.\\\\bar{4} + 0.\\\\overline{32}$.",
+              "text": "Calculate the exact sum: $0.\\bar{4} + 0.\\overline{32}$.",
               "options": [
-                "$\\\\frac{76}{99}$",
-                "$\\\\frac{68}{99}$",
-                "$\\\\frac{36}{99}$",
-                "$\\\\frac{72}{99}$"
+                "$\\frac{76}{99}$",
+                "$\\frac{68}{99}$",
+                "$\\frac{36}{99}$",
+                "$\\frac{72}{99}$"
               ],
               "correctIndex": 0,
-              "solution": "Convert $0.\\\\bar{4}$ to fraction using Sub-formula 1: $\\\\frac{4}{9}$.\nConvert $0.\\\\overline{32}$ to fraction using Sub-formula 2: $\\\\frac{32}{99}$.\nAdd fractions: $\\\\frac{4}{9} + \\\\frac{32}{99}$.\nFind LCM of $9$ and $99$ which is $99$.\nConvert: $\\\\frac{44}{99} + \\\\frac{32}{99} = \\\\frac{76}{99}$."
+              "solution": "Convert $0.\\bar{4}$ to fraction using Sub-formula 1: $\\frac{4}{9}$.\nConvert $0.\\overline{32}$ to fraction using Sub-formula 2: $\\frac{32}{99}$.\nAdd fractions: $\\frac{4}{9} + \\frac{32}{99}$.\nFind LCM of $9$ and $99$ which is $99$.\nConvert: $\\frac{44}{99} + \\frac{32}{99} = \\frac{76}{99}$."
             },
             {
               "id": "q2",
-              "text": "What is the difference between $0.\\\\overline{81}$ and $0.\\\\bar{2}$?",
+              "text": "What is the difference between $0.\\overline{81}$ and $0.\\bar{2}$?",
               "options": [
-                "$\\\\frac{59}{99}$",
-                "$\\\\frac{61}{99}$",
-                "$\\\\frac{19}{33}$",
-                "$\\\\frac{20}{33}$"
+                "$\\frac{59}{99}$",
+                "$\\frac{61}{99}$",
+                "$\\frac{19}{33}$",
+                "$\\frac{20}{33}$"
               ],
               "correctIndex": 0,
-              "solution": "$0.\\\\overline{81} = \\\\frac{81}{99}$.\n$0.\\\\bar{2} = \\\\frac{2}{9} = \\\\frac{22}{99}$.\nSubtract: $\\\\frac{81}{99} - \\\\frac{22}{99} = \\\\frac{59}{99}$."
+              "solution": "$0.\\overline{81} = \\frac{81}{99}$.\n$0.\\bar{2} = \\frac{2}{9} = \\frac{22}{99}$.\nSubtract: $\\frac{81}{99} - \\frac{22}{99} = \\frac{59}{99}$."
             },
             {
               "id": "q3",
-              "text": "Convert the recurring decimal $0.2\\\\overline{45}$ into its simplest fractional form.",
+              "text": "Convert the recurring decimal $0.2\\overline{45}$ into its simplest fractional form.",
               "options": [
-                "$\\\\frac{243}{990}$",
-                "$\\\\frac{245}{990}$",
-                "$\\\\frac{27}{110}$",
-                "$\\\\frac{29}{110}$"
+                "$\\frac{243}{990}$",
+                "$\\frac{245}{990}$",
+                "$\\frac{27}{110}$",
+                "$\\frac{29}{110}$"
               ],
               "correctIndex": 2,
-              "solution": "Use Sub-formula 3: $0.p\\\\overline{qr} = \\\\frac{pqr - p}{990}$.\nHere $p=2$, $q=4$, $r=5$.\nNumerator = $245 - 2 = 243$.\nDenominator = Two digits have bars (two $9$s), one doesn't (one $0$) $\\\\rightarrow 990$.\nFraction = $\\\\frac{243}{990}$.\nSimplify by dividing by $9$: $\\\\frac{27}{110}$."
+              "solution": "Use Sub-formula 3: $0.p\\overline{qr} = \\frac{pqr - p}{990}$.\nHere $p=2$, $q=4$, $r=5$.\nNumerator = $245 - 2 = 243$.\nDenominator = Two digits have bars (two $9$s), one doesn't (one $0$) $\\rightarrow 990$.\nFraction = $\\frac{243}{990}$.\nSimplify by dividing by $9$: $\\frac{27}{110}$."
             },
             {
               "id": "q4",
-              "text": "Evaluate $0.\\\\overline{123} \\\\times 333$.",
+              "text": "Evaluate $0.\\overline{123} \\times 333$.",
               "options": [
                 "$37$",
                 "$41$",
@@ -351,7 +351,7 @@ export const sequencesChapter: Chapter = {
                 "$123$"
               ],
               "correctIndex": 1,
-              "solution": "Use Sub-formula 4: $0.\\\\overline{pqr} = \\\\frac{pqr}{999}$.\nHere $0.\\\\overline{123} = \\\\frac{123}{999}$.\nMultiply by $333$: $\\\\frac{123}{999} \\\\times 333$.\nSimplify $\\\\frac{333}{999} = \\\\frac{1}{3}$.\nFinal calculation: $123 \\\\times \\\\frac{1}{3} = 41$."
+              "solution": "Use Sub-formula 4: $0.\\overline{pqr} = \\frac{pqr}{999}$.\nHere $0.\\overline{123} = \\frac{123}{999}$.\nMultiply by $333$: $\\frac{123}{999} \\times 333$.\nSimplify $\\frac{333}{999} = \\frac{1}{3}$.\nFinal calculation: $123 \\times \\frac{1}{3} = 41$."
             }
           ]
         }
@@ -391,7 +391,7 @@ export const sequencesChapter: Chapter = {
             },
             {
               "id": "q2",
-              "text": "Which term of the AP $5, 9, 13, 17, \\\\dots$ is $81$?",
+              "text": "Which term of the AP $5, 9, 13, 17, \\dots$ is $81$?",
               "options": [
                 "$19^{th}$",
                 "$20^{th}$",
@@ -399,11 +399,11 @@ export const sequencesChapter: Chapter = {
                 "$22^{nd}$"
               ],
               "correctIndex": 1,
-              "solution": "Given: $a = 5$, $d = 9 - 5 = 4$, $a_n = 81$.\nFormula: $a_n = a + (n-1)d$.\nSubstitute: $81 = 5 + (n-1)4$.\nSolve: $76 = 4(n-1) \\\\implies n-1 = 19 \\\\implies n = 20$."
+              "solution": "Given: $a = 5$, $d = 9 - 5 = 4$, $a_n = 81$.\nFormula: $a_n = a + (n-1)d$.\nSubstitute: $81 = 5 + (n-1)4$.\nSolve: $76 = 4(n-1) \\implies n-1 = 19 \\implies n = 20$."
             },
             {
               "id": "q3",
-              "text": "Find the 10th term from the end of the AP: $10, 15, 20, \\\\dots, 135$.",
+              "text": "Find the 10th term from the end of the AP: $10, 15, 20, \\dots, 135$.",
               "options": [
                 "$85$",
                 "$90$",
@@ -411,7 +411,7 @@ export const sequencesChapter: Chapter = {
                 "$100$"
               ],
               "correctIndex": 1,
-              "solution": "Given: AP is $10, 15, \\\\dots, 135$. Common diff $d = 15 - 10 = 5$. Last term $l = 135$.\nWe need 10th term from the end, so $n = 10$.\nFormula: Term from end $= l - (n-1)d$.\nSubstitute: $135 - (10-1)5$.\nCalculate: $135 - (9 \\\\times 5) = 135 - 45 = 90$."
+              "solution": "Given: AP is $10, 15, \\dots, 135$. Common diff $d = 15 - 10 = 5$. Last term $l = 135$.\nWe need 10th term from the end, so $n = 10$.\nFormula: Term from end $= l - (n-1)d$.\nSubstitute: $135 - (10-1)5$.\nCalculate: $135 - (9 \\times 5) = 135 - 45 = 90$."
             },
             {
               "id": "q4",
@@ -423,7 +423,7 @@ export const sequencesChapter: Chapter = {
                 "$30$"
               ],
               "correctIndex": 0,
-              "solution": "Given: Term from end $= 22$, $n = 4$, $d = -2$. Let last term be $l$.\nFormula: Term from end $= l - (n-1)d$.\nSubstitute: $22 = l - (4-1)(-2)$.\nSolve: $22 = l - 3(-2) \\\\implies 22 = l + 6$.\nResult: $l = 16$."
+              "solution": "Given: Term from end $= 22$, $n = 4$, $d = -2$. Let last term be $l$.\nFormula: Term from end $= l - (n-1)d$.\nSubstitute: $22 = l - (4-1)(-2)$.\nSolve: $22 = l - 3(-2) \\implies 22 = l + 6$.\nResult: $l = 16$."
             },
             {
               "id": "q5",
@@ -435,7 +435,7 @@ export const sequencesChapter: Chapter = {
                 "Cannot be determined"
               ],
               "correctIndex": 1,
-              "solution": "Note the property: $a_k (\\\\text{from start}) + a_k (\\\\text{from end}) = a + l$.\nWe are given $a + l = 120$.\nWe need the sum of $15^{th}$ from start and $15^{th}$ from end.\nAccording to the property, this is exactly equal to $a + l$.\nTherefore, the sum is $120$."
+              "solution": "Note the property: $a_k (\\text{from start}) + a_k (\\text{from end}) = a + l$.\nWe are given $a + l = 120$.\nWe need the sum of $15^{th}$ from start and $15^{th}$ from end.\nAccording to the property, this is exactly equal to $a + l$.\nTherefore, the sum is $120$."
             },
             {
               "id": "q6",
@@ -447,7 +447,7 @@ export const sequencesChapter: Chapter = {
                 "$48$"
               ],
               "correctIndex": 0,
-              "solution": "Property: $a_k + a_{n-k+1} = a_1 + a_n$.\nHere $n=21$. Notice that $k=3 \\\\implies n-k+1 = 21-3+1 = 19$. Thus $a_3$ and $a_{19}$ are equidistant from the ends.\nTheir sum $a_3 + a_{19} = 64$.\nThe middle term of 21 terms is the $\\\\frac{21+1}{2}^{th}$ term = $11^{th}$ term ($a_{11}$).\nThe middle term added to itself is also equidistant: $a_{11} + a_{11} = a_3 + a_{19}$.\n$2a_{11} = 64 \\\\implies a_{11} = 32$."
+              "solution": "Property: $a_k + a_{n-k+1} = a_1 + a_n$.\nHere $n=21$. Notice that $k=3 \\implies n-k+1 = 21-3+1 = 19$. Thus $a_3$ and $a_{19}$ are equidistant from the ends.\nTheir sum $a_3 + a_{19} = 64$.\nThe middle term of 21 terms is the $\\frac{21+1}{2}^{th}$ term = $11^{th}$ term ($a_{11}$).\nThe middle term added to itself is also equidistant: $a_{11} + a_{11} = a_3 + a_{19}$.\n$2a_{11} = 64 \\implies a_{11} = 32$."
             }
           ]
         }
@@ -465,7 +465,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c7-f1",
           "name": "Properties of Arithmetic Progr...",
           "expression": {
-            "lhs": "Sub-formula 1: If a constant $k$ is added/subtracted to each term of an AP, the new sequence is an AP with the same $d$. If multiplied/divided by a non-zero $k$, the new AP has common difference $kd$ or $\\\\frac{d}{k}$.\nSub-formula 2: If $a, b, c$ (or $a_{n-1}, a_n, a_{n+1}$) are consecutive terms in AP, then $2b = a + c$ (or $2a_n = a_{n-1} + a_{n+1}$).\nSub-formula 3: If the $n^{th}$ term of a sequence is a linear expression in $n$ (i.e., $An + B$), it forms an AP where the common difference $d = A$.",
+            "lhs": "Sub-formula 1: If a constant $k$ is added/subtracted to each term of an AP, the new sequence is an AP with the same $d$. If multiplied/divided by a non-zero $k$, the new AP has common difference $kd$ or $\\frac{d}{k}$.\nSub-formula 2: If $a, b, c$ (or $a_{n-1}, a_n, a_{n+1}$) are consecutive terms in AP, then $2b = a + c$ (or $2a_n = a_{n-1} + a_{n+1}$).\nSub-formula 3: If the $n^{th}$ term of a sequence is a linear expression in $n$ (i.e., $An + B$), it forms an AP where the common difference $d = A$.",
             "num": "",
             "den": "",
             "color": "info"
@@ -483,7 +483,7 @@ export const sequencesChapter: Chapter = {
                 "$3$"
               ],
               "correctIndex": 0,
-              "solution": "Original common difference $d = 8$.\nOperation 1: Multiply by $3$. The new common difference becomes $d \\\\times 3 = 8 \\\\times 3 = 24$.\nOperation 2: Subtract $5$. Adding or subtracting a constant does NOT change the common difference of an AP.\nTherefore, the common difference remains $24$."
+              "solution": "Original common difference $d = 8$.\nOperation 1: Multiply by $3$. The new common difference becomes $d \\times 3 = 8 \\times 3 = 24$.\nOperation 2: Subtract $5$. Adding or subtracting a constant does NOT change the common difference of an AP.\nTherefore, the common difference remains $24$."
             },
             {
               "id": "q2",
@@ -495,7 +495,7 @@ export const sequencesChapter: Chapter = {
                 "$3.5$"
               ],
               "correctIndex": 1,
-              "solution": "Rule: When an AP is divided by $k$, the new common diff is $\\\\frac{d}{k}$.\nHere, $k = -2$ and new common difference $= 7$.\nEquation: $\\\\frac{d}{-2} = 7$.\nSolve: $d = 7 \\\\times (-2) = -14$."
+              "solution": "Rule: When an AP is divided by $k$, the new common diff is $\\frac{d}{k}$.\nHere, $k = -2$ and new common difference $= 7$.\nEquation: $\\frac{d}{-2} = 7$.\nSolve: $d = 7 \\times (-2) = -14$."
             },
             {
               "id": "q3",
@@ -507,19 +507,19 @@ export const sequencesChapter: Chapter = {
                 "$2$"
               ],
               "correctIndex": 0,
-              "solution": "Condition for 3 terms $a, b, c$ in AP is $2b = a + c$.\nHere, $a = 3x - 1$, $b = 5x + 2$, $c = 9x - 4$.\nSubstitute: $2(5x + 2) = (3x - 1) + (9x - 4)$.\nExpand: $10x + 4 = 12x - 5$.\nSolve: $4 + 5 = 12x - 10x \\\\implies 9 = 2x \\\\implies x = 4.5$.\nWait, let me re-evaluate my options, $4.5$ is not listed. Let me recalculate.\n$2(5x+2) = 10x+4$.\n$(3x-1) + (9x-4) = 12x-5$.\n$10x+4 = 12x-5 \\\\implies 9 = 2x \\\\implies x = 4.5$.\nLet's adjust the question to match an integer option perfectly. Let $c = 8x - 5$.\nThen $a+c = 11x - 6$.\n$2b = 10x + 4$.\n$10x + 4 = 11x - 6 \\\\implies x = 10$.\nLet me keep the original math but change the correct option to $4.5$ or adjust options. Let's adjust options.\nA) $4.5$\nB) $4$\nC) $5$\nD) $2$"
+              "solution": "Condition for 3 terms $a, b, c$ in AP is $2b = a + c$.\nHere, $a = 3x - 1$, $b = 5x + 2$, $c = 9x - 4$.\nSubstitute: $2(5x + 2) = (3x - 1) + (9x - 4)$.\nExpand: $10x + 4 = 12x - 5$.\nSolve: $4 + 5 = 12x - 10x \\implies 9 = 2x \\implies x = 4.5$.\nWait, let me re-evaluate my options, $4.5$ is not listed. Let me recalculate.\n$2(5x+2) = 10x+4$.\n$(3x-1) + (9x-4) = 12x-5$.\n$10x+4 = 12x-5 \\implies 9 = 2x \\implies x = 4.5$.\nLet's adjust the question to match an integer option perfectly. Let $c = 8x - 5$.\nThen $a+c = 11x - 6$.\n$2b = 10x + 4$.\n$10x + 4 = 11x - 6 \\implies x = 10$.\nLet me keep the original math but change the correct option to $4.5$ or adjust options. Let's adjust options.\nA) $4.5$\nB) $4$\nC) $5$\nD) $2$"
             },
             {
               "id": "q4",
-              "text": "If $\\\\log(2), \\\\log(2^x - 1),$ and $\\\\log(2^x + 3)$ are in AP, what is the value of $x$?",
+              "text": "If $\\log(2), \\log(2^x - 1),$ and $\\log(2^x + 3)$ are in AP, what is the value of $x$?",
               "options": [
-                "$\\\\log_2(5)$",
+                "$\\log_2(5)$",
                 "$2$",
-                "$\\\\log_2(3)$",
+                "$\\log_2(3)$",
                 "$3$"
               ],
               "correctIndex": 0,
-              "solution": "If in AP, $2 \\\\log(2^x - 1) = \\\\log(2) + \\\\log(2^x + 3)$.\nUse log properties: $\\\\log((2^x - 1)^2) = \\\\log(2(2^x + 3))$.\nDrop logs: $(2^x - 1)^2 = 2(2^x + 3)$. Let $2^x = y$.\n$(y - 1)^2 = 2(y + 3) \\\\implies y^2 - 2y + 1 = 2y + 6$.\n$y^2 - 4y - 5 = 0 \\\\implies (y - 5)(y + 1) = 0$.\n$y = 5$ or $y = -1$. Since $2^x$ must be positive, $y = 5$.\n$2^x = 5 \\\\implies x = \\\\log_2(5)$."
+              "solution": "If in AP, $2 \\log(2^x - 1) = \\log(2) + \\log(2^x + 3)$.\nUse log properties: $\\log((2^x - 1)^2) = \\log(2(2^x + 3))$.\nDrop logs: $(2^x - 1)^2 = 2(2^x + 3)$. Let $2^x = y$.\n$(y - 1)^2 = 2(y + 3) \\implies y^2 - 2y + 1 = 2y + 6$.\n$y^2 - 4y - 5 = 0 \\implies (y - 5)(y + 1) = 0$.\n$y = 5$ or $y = -1$. Since $2^x$ must be positive, $y = 5$.\n$2^x = 5 \\implies x = \\log_2(5)$."
             },
             {
               "id": "q5",
@@ -579,19 +579,19 @@ export const sequencesChapter: Chapter = {
                 "$14$"
               ],
               "correctIndex": 0,
-              "solution": "Let the 3 terms be $(a-d), a, (a+d)$.\nSum = $(a-d) + a + (a+d) = 3a$.\n$3a = 27 \\\\implies a = 9$.\nProduct = $(a-d)(a)(a+d) = a(a^2 - d^2) = 504$.\nSubstitute $a=9$: $9(81 - d^2) = 504$.\n$81 - d^2 = 56 \\\\implies d^2 = 25 \\\\implies d = \\\\pm 5$.\nIf $d=5$, terms are $4, 9, 14$. Smallest is $4$. (If $d=-5$, terms are $14, 9, 4$, smallest is still $4$)."
+              "solution": "Let the 3 terms be $(a-d), a, (a+d)$.\nSum = $(a-d) + a + (a+d) = 3a$.\n$3a = 27 \\implies a = 9$.\nProduct = $(a-d)(a)(a+d) = a(a^2 - d^2) = 504$.\nSubstitute $a=9$: $9(81 - d^2) = 504$.\n$81 - d^2 = 56 \\implies d^2 = 25 \\implies d = \\pm 5$.\nIf $d=5$, terms are $4, 9, 14$. Smallest is $4$. (If $d=-5$, terms are $14, 9, 4$, smallest is still $4$)."
             },
             {
               "id": "q2",
-              "text": "The sum of three angles of a triangle are in AP. If the smallest angle is $40^\\\\circ$, what is the largest angle?",
+              "text": "The sum of three angles of a triangle are in AP. If the smallest angle is $40^\\circ$, what is the largest angle?",
               "options": [
-                "$60^\\\\circ$",
-                "$80^\\\\circ$",
-                "$100^\\\\circ$",
-                "$120^\\\\circ$"
+                "$60^\\circ$",
+                "$80^\\circ$",
+                "$100^\\circ$",
+                "$120^\\circ$"
               ],
               "correctIndex": 1,
-              "solution": "Let angles be $(a-d), a, (a+d)$.\nSum of angles in a triangle is $180^\\\\circ$. So, $3a = 180 \\\\implies a = 60^\\\\circ$.\nThe smallest angle is given as $40^\\\\circ$. Assuming $d > 0$, $(a-d) = 40$.\n$60 - d = 40 \\\\implies d = 20^\\\\circ$.\nLargest angle = $a+d = 60 + 20 = 80^\\\\circ$."
+              "solution": "Let angles be $(a-d), a, (a+d)$.\nSum of angles in a triangle is $180^\\circ$. So, $3a = 180 \\implies a = 60^\\circ$.\nThe smallest angle is given as $40^\\circ$. Assuming $d > 0$, $(a-d) = 40$.\n$60 - d = 40 \\implies d = 20^\\circ$.\nLargest angle = $a+d = 60 + 20 = 80^\\circ$."
             },
             {
               "id": "q3",
@@ -603,7 +603,7 @@ export const sequencesChapter: Chapter = {
                 "$5$"
               ],
               "correctIndex": 0,
-              "solution": "Let terms be $(a-3d), (a-d), (a+d), (a+3d)$.\nSum $= 4a = 32 \\\\implies a = 8$.\nRatio condition: $\\\\frac{(a-3d)(a+3d)}{(a-d)(a+d)} = \\\\frac{7}{15}$.\n$\\\\frac{a^2 - 9d^2}{a^2 - d^2} = \\\\frac{7}{15}$.\nSubstitute $a=8$: $\\\\frac{64 - 9d^2}{64 - d^2} = \\\\frac{7}{15}$.\nCross-multiply: $15(64 - 9d^2) = 7(64 - d^2)$.\n$960 - 135d^2 = 448 - 7d^2 \\\\implies 512 = 128d^2 \\\\implies d^2 = 4 \\\\implies d = \\\\pm 2$.\nLargest term $= a + 3d = 8 + 3(2) = 14$ (taking positive $d$)."
+              "solution": "Let terms be $(a-3d), (a-d), (a+d), (a+3d)$.\nSum $= 4a = 32 \\implies a = 8$.\nRatio condition: $\\frac{(a-3d)(a+3d)}{(a-d)(a+d)} = \\frac{7}{15}$.\n$\\frac{a^2 - 9d^2}{a^2 - d^2} = \\frac{7}{15}$.\nSubstitute $a=8$: $\\frac{64 - 9d^2}{64 - d^2} = \\frac{7}{15}$.\nCross-multiply: $15(64 - 9d^2) = 7(64 - d^2)$.\n$960 - 135d^2 = 448 - 7d^2 \\implies 512 = 128d^2 \\implies d^2 = 4 \\implies d = \\pm 2$.\nLargest term $= a + 3d = 8 + 3(2) = 14$ (taking positive $d$)."
             },
             {
               "id": "q4",
@@ -615,7 +615,7 @@ export const sequencesChapter: Chapter = {
                 "$4$"
               ],
               "correctIndex": 1,
-              "solution": "Let terms be $a-3d, a-d, a+d, a+3d$. Notice the common diff here is $2d$.\nSum $= 4a = 20 \\\\implies a = 5$.\nSum of squares $= (a-3d)^2 + (a-d)^2 + (a+d)^2 + (a+3d)^2 = 120$.\nExpands to $4a^2 + 20d^2 = 120$.\nSub $a=5$: $4(25) + 20d^2 = 120 \\\\implies 100 + 20d^2 = 120 \\\\implies 20d^2 = 20 \\\\implies d^2 = 1 \\\\implies d = 1$.\nWait! The formula uses a step size of $d$, but the actual common difference between $(a-d)$ and $(a-3d)$ is $2d$.\nSo actual common difference $= 2(1) = 2$."
+              "solution": "Let terms be $a-3d, a-d, a+d, a+3d$. Notice the common diff here is $2d$.\nSum $= 4a = 20 \\implies a = 5$.\nSum of squares $= (a-3d)^2 + (a-d)^2 + (a+d)^2 + (a+3d)^2 = 120$.\nExpands to $4a^2 + 20d^2 = 120$.\nSub $a=5$: $4(25) + 20d^2 = 120 \\implies 100 + 20d^2 = 120 \\implies 20d^2 = 20 \\implies d^2 = 1 \\implies d = 1$.\nWait! The formula uses a step size of $d$, but the actual common difference between $(a-d)$ and $(a-3d)$ is $2d$.\nSo actual common difference $= 2(1) = 2$."
             },
             {
               "id": "q5",
@@ -627,7 +627,7 @@ export const sequencesChapter: Chapter = {
                 "$18$"
               ],
               "correctIndex": 1,
-              "solution": "Let terms be $(a-2d), (a-d), a, (a+d), (a+2d)$.\nSum $= 5a = 30 \\\\implies a = 6$.\nThe first term is $(a-2d)$ and fifth is $(a+2d)$.\nSum of first and fifth $= (a-2d) + (a+2d) = 2a$.\n$2a = 2(6) = 12$."
+              "solution": "Let terms be $(a-2d), (a-d), a, (a+d), (a+2d)$.\nSum $= 5a = 30 \\implies a = 6$.\nThe first term is $(a-2d)$ and fifth is $(a+2d)$.\nSum of first and fifth $= (a-2d) + (a+2d) = 2a$.\n$2a = 2(6) = 12$."
             },
             {
               "id": "q6",
@@ -639,7 +639,7 @@ export const sequencesChapter: Chapter = {
                 "$8$"
               ],
               "correctIndex": 1,
-              "solution": "5 terms in AP: $(a-2d), (a-d), a, (a+d), (a+2d)$.\nSum $= 5a = 100 \\\\implies a = 20$. This matches the middle part being 20.\nProduct of 1st and 5th $= (a-2d)(a+2d) = a^2 - 4d^2 = 336$.\nSubstitute $a=20$: $400 - 4d^2 = 336$.\n$4d^2 = 64 \\\\implies d^2 = 16 \\\\implies d = 4$."
+              "solution": "5 terms in AP: $(a-2d), (a-d), a, (a+d), (a+2d)$.\nSum $= 5a = 100 \\implies a = 20$. This matches the middle part being 20.\nProduct of 1st and 5th $= (a-2d)(a+2d) = a^2 - 4d^2 = 336$.\nSubstitute $a=20$: $400 - 4d^2 = 336$.\n$4d^2 = 64 \\implies d^2 = 16 \\implies d = 4$."
             }
           ]
         }
@@ -657,7 +657,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c9-f1",
           "name": "Sum of First n Terms of an AP ...",
           "expression": {
-            "lhs": "Sub-formula 1: $S_n = \\\\frac{n}{2}[2a + (n-1)d]$ OR $S_n = \\\\frac{n}{2}[a + l]$ (where $l$ is the last term). Number of terms $n = \\\\frac{l - a}{d} + 1$.\nSub-formula 2: A sequence is an AP if the sum of its first $n$ terms is of the form $An^2 + Bn$ (a pure quadratic in $n$). Here, common difference $d = 2A$.\nSub-formula 3: Nth term $a_n = S_n - S_{n-1}$.",
+            "lhs": "Sub-formula 1: $S_n = \\frac{n}{2}[2a + (n-1)d]$ OR $S_n = \\frac{n}{2}[a + l]$ (where $l$ is the last term). Number of terms $n = \\frac{l - a}{d} + 1$.\nSub-formula 2: A sequence is an AP if the sum of its first $n$ terms is of the form $An^2 + Bn$ (a pure quadratic in $n$). Here, common difference $d = 2A$.\nSub-formula 3: Nth term $a_n = S_n - S_{n-1}$.",
             "num": "",
             "den": "",
             "color": "info"
@@ -675,11 +675,11 @@ export const sequencesChapter: Chapter = {
                 "$4900$"
               ],
               "correctIndex": 0,
-              "solution": "First number $>100$ divisible by 3 is $102$. Last number $<200$ divisible by 3 is $198$.\nThis is an AP: $102, 105, \\\\dots, 198$ with $a=102, l=198, d=3$.\nFind $n$ using formula: $n = \\\\frac{l-a}{d} + 1 = \\\\frac{198-102}{3} + 1 = \\\\frac{96}{3} + 1 = 32 + 1 = 33$.\nSum $S_{33} = \\\\frac{n}{2}[a + l] = \\\\frac{33}{2}[102 + 198] = \\\\frac{33}{2}[300]$.\n$S_{33} = 33 \\\\times 150 = 4950$."
+              "solution": "First number $>100$ divisible by 3 is $102$. Last number $<200$ divisible by 3 is $198$.\nThis is an AP: $102, 105, \\dots, 198$ with $a=102, l=198, d=3$.\nFind $n$ using formula: $n = \\frac{l-a}{d} + 1 = \\frac{198-102}{3} + 1 = \\frac{96}{3} + 1 = 32 + 1 = 33$.\nSum $S_{33} = \\frac{n}{2}[a + l] = \\frac{33}{2}[102 + 198] = \\frac{33}{2}[300]$.\n$S_{33} = 33 \\times 150 = 4950$."
             },
             {
               "id": "q2",
-              "text": "How many terms of the AP $24, 21, 18, \\\\dots$ must be taken so that their sum is 78?",
+              "text": "How many terms of the AP $24, 21, 18, \\dots$ must be taken so that their sum is 78?",
               "options": [
                 "$4$ or $13$",
                 "$5$ or $12$",
@@ -687,7 +687,7 @@ export const sequencesChapter: Chapter = {
                 "$13$ only"
               ],
               "correctIndex": 0,
-              "solution": "Given $a=24, d=-3, S_n=78$.\nFormula: $S_n = \\\\frac{n}{2}[2a + (n-1)d]$.\n$78 = \\\\frac{n}{2}[48 + (n-1)(-3)]$.\n$156 = n[48 - 3n + 3] = n[51 - 3n] = 51n - 3n^2$.\nRearrange to quadratic: $3n^2 - 51n + 156 = 0$.\nDivide by 3: $n^2 - 17n + 52 = 0$.\nFactorize: $(n-4)(n-13) = 0$. Thus $n = 4$ or $n = 13$. Both are valid (terms from 5th to 13th sum to 0)."
+              "solution": "Given $a=24, d=-3, S_n=78$.\nFormula: $S_n = \\frac{n}{2}[2a + (n-1)d]$.\n$78 = \\frac{n}{2}[48 + (n-1)(-3)]$.\n$156 = n[48 - 3n + 3] = n[51 - 3n] = 51n - 3n^2$.\nRearrange to quadratic: $3n^2 - 51n + 156 = 0$.\nDivide by 3: $n^2 - 17n + 52 = 0$.\nFactorize: $(n-4)(n-13) = 0$. Thus $n = 4$ or $n = 13$. Both are valid (terms from 5th to 13th sum to 0)."
             },
             {
               "id": "q3",
@@ -735,7 +735,7 @@ export const sequencesChapter: Chapter = {
                 "$21$"
               ],
               "correctIndex": 2,
-              "solution": "We need $a_5 - a_2$.\nFrom quadratic sum property, common diff $d = 2 \\\\times A = 2 \\\\times 3 = 6$.\nIn any AP, $a_5 - a_2 = (a + 4d) - (a + d) = 3d$.\nSubstitute $d$: $3(6) = 18$.\n(No need to calculate individual terms!)"
+              "solution": "We need $a_5 - a_2$.\nFrom quadratic sum property, common diff $d = 2 \\times A = 2 \\times 3 = 6$.\nIn any AP, $a_5 - a_2 = (a + 4d) - (a + d) = 3d$.\nSubstitute $d$: $3(6) = 18$.\n(No need to calculate individual terms!)"
             }
           ]
         }
@@ -753,7 +753,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c10-f1",
           "name": "Arithmetic Mean (AM) - Inserti...",
           "expression": {
-            "lhs": "Sub-formula 1: Single AM between $a$ and $b$ is $m = \\\\frac{a+b}{2}$.\nSub-formula 2: Inserting $n$ AMs between $a$ and $b$: The new sequence has $(n+2)$ terms. The common difference $d = \\\\frac{b-a}{n+1}$.\nSub-formula 3: Sum of $n$ AMs inserted between $a$ and $b$ is $n \\\\times \\\\frac{a+b}{2}$ (which is $n$ times the single AM).",
+            "lhs": "Sub-formula 1: Single AM between $a$ and $b$ is $m = \\frac{a+b}{2}$.\nSub-formula 2: Inserting $n$ AMs between $a$ and $b$: The new sequence has $(n+2)$ terms. The common difference $d = \\frac{b-a}{n+1}$.\nSub-formula 3: Sum of $n$ AMs inserted between $a$ and $b$ is $n \\times \\frac{a+b}{2}$ (which is $n$ times the single AM).",
             "num": "",
             "den": "",
             "color": "info"
@@ -771,7 +771,7 @@ export const sequencesChapter: Chapter = {
                 "$12$"
               ],
               "correctIndex": 0,
-              "solution": "Let numbers be $a$ and $b$. Assume $b=24$.\nFormula: $m = \\\\frac{a+b}{2}$.\nSubstitute: $15 = \\\\frac{a+24}{2}$.\n$30 = a + 24 \\\\implies a = 6$."
+              "solution": "Let numbers be $a$ and $b$. Assume $b=24$.\nFormula: $m = \\frac{a+b}{2}$.\nSubstitute: $15 = \\frac{a+24}{2}$.\n$30 = a + 24 \\implies a = 6$."
             },
             {
               "id": "q2",
@@ -783,7 +783,7 @@ export const sequencesChapter: Chapter = {
                 "$6$"
               ],
               "correctIndex": 0,
-              "solution": "$AM = \\\\frac{(3x - 4) + (5x + 6)}{2} = 13$.\n$8x + 2 = 26$.\n$8x = 24 \\\\implies x = 3$."
+              "solution": "$AM = \\frac{(3x - 4) + (5x + 6)}{2} = 13$.\n$8x + 2 = 26$.\n$8x = 24 \\implies x = 3$."
             },
             {
               "id": "q3",
@@ -795,7 +795,7 @@ export const sequencesChapter: Chapter = {
                 "$7.5$"
               ],
               "correctIndex": 0,
-              "solution": "Given $a=5, b=30$. Number of means $n = 4$.\nFormula for common difference when inserting means: $d = \\\\frac{b-a}{n+1}$.\nSubstitute: $d = \\\\frac{30 - 5}{4 + 1} = \\\\frac{25}{5} = 5$."
+              "solution": "Given $a=5, b=30$. Number of means $n = 4$.\nFormula for common difference when inserting means: $d = \\frac{b-a}{n+1}$.\nSubstitute: $d = \\frac{30 - 5}{4 + 1} = \\frac{25}{5} = 5$."
             },
             {
               "id": "q4",
@@ -807,7 +807,7 @@ export const sequencesChapter: Chapter = {
                 "$40$"
               ],
               "correctIndex": 1,
-              "solution": "$a=10, b=46, n=5$.\n$d = \\\\frac{46 - 10}{5 + 1} = \\\\frac{36}{6} = 6$.\nThe inserted means are $A_1, A_2, A_3 \\\\dots$ The 3rd inserted mean $A_3$ corresponds to the 4th term of the entire AP ($a + 3d$).\nFormula for $k^{th}$ mean: $A_k = a + kd$.\n$A_3 = 10 + 3(6) = 10 + 18 = 28$."
+              "solution": "$a=10, b=46, n=5$.\n$d = \\frac{46 - 10}{5 + 1} = \\frac{36}{6} = 6$.\nThe inserted means are $A_1, A_2, A_3 \\dots$ The 3rd inserted mean $A_3$ corresponds to the 4th term of the entire AP ($a + 3d$).\nFormula for $k^{th}$ mean: $A_k = a + kd$.\n$A_3 = 10 + 3(6) = 10 + 18 = 28$."
             },
             {
               "id": "q5",
@@ -819,7 +819,7 @@ export const sequencesChapter: Chapter = {
                 "$480$"
               ],
               "correctIndex": 0,
-              "solution": "Let $a=12, b=48, n=10$.\nFormula: Sum of $n$ AMs $= n \\\\times \\\\frac{a+b}{2}$.\nSubstitute: $10 \\\\times \\\\frac{12 + 48}{2} = 10 \\\\times \\\\frac{60}{2}$.\n$10 \\\\times 30 = 300$.\n(Notice how we didn't even need to find the common difference!)"
+              "solution": "Let $a=12, b=48, n=10$.\nFormula: Sum of $n$ AMs $= n \\times \\frac{a+b}{2}$.\nSubstitute: $10 \\times \\frac{12 + 48}{2} = 10 \\times \\frac{60}{2}$.\n$10 \\times 30 = 300$.\n(Notice how we didn't even need to find the common difference!)"
             },
             {
               "id": "q6",
@@ -831,7 +831,7 @@ export const sequencesChapter: Chapter = {
                 "$30$"
               ],
               "correctIndex": 1,
-              "solution": "Given Sum $= 1000$, $a=5, b=95$.\nFormula: $n \\\\times \\\\frac{a+b}{2} = \\\\text{Sum}$.\nSubstitute: $n \\\\times \\\\frac{5 + 95}{2} = 1000$.\n$n \\\\times \\\\frac{100}{2} = 1000 \\\\implies n \\\\times 50 = 1000$.\n$n = \\\\frac{1000}{50} = 20$."
+              "solution": "Given Sum $= 1000$, $a=5, b=95$.\nFormula: $n \\times \\frac{a+b}{2} = \\text{Sum}$.\nSubstitute: $n \\times \\frac{5 + 95}{2} = 1000$.\n$n \\times \\frac{100}{2} = 1000 \\implies n \\times 50 = 1000$.\n$n = \\frac{1000}{50} = 20$."
             }
           ]
         }
@@ -849,7 +849,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c11-f1",
           "name": "Important Results on AP - Term...",
           "expression": {
-            "lhs": "Result (i): If $p^{th}$ term is $q$, and $q^{th}$ term is $p$, then $(p+q)^{th}$ term is $0$, and $r^{th}$ term is $p + q - r$.\nResult (ii): If $p \\\\times a_p = q \\\\times a_q$, then $a_{p+q} = 0$.\nResult (iii): If $a_p = \\\\frac{1}{q}$ and $a_q = \\\\frac{1}{p}$, then $a_{pq} = 1$.",
+            "lhs": "Result (i): If $p^{th}$ term is $q$, and $q^{th}$ term is $p$, then $(p+q)^{th}$ term is $0$, and $r^{th}$ term is $p + q - r$.\nResult (ii): If $p \\times a_p = q \\times a_q$, then $a_{p+q} = 0$.\nResult (iii): If $a_p = \\frac{1}{q}$ and $a_q = \\frac{1}{p}$, then $a_{pq} = 1$.",
             "num": "",
             "den": "",
             "color": "info"
@@ -891,11 +891,11 @@ export const sequencesChapter: Chapter = {
                 "$0$"
               ],
               "correctIndex": 3,
-              "solution": "Identify the pattern: $p \\\\cdot a_p = q \\\\cdot a_q$.\nHere, $p=8, q=13$.\nRule states $a_{p+q} = 0$.\nWe are asked for $a_{21}$, and $8 + 13 = 21$.\nTherefore, $a_{21} = 0$."
+              "solution": "Identify the pattern: $p \\cdot a_p = q \\cdot a_q$.\nHere, $p=8, q=13$.\nRule states $a_{p+q} = 0$.\nWe are asked for $a_{21}$, and $8 + 13 = 21$.\nTherefore, $a_{21} = 0$."
             },
             {
               "id": "q4",
-              "text": "If $m$ times the $m^{th}$ term of an AP is equal to $n$ times its $n^{th}$ term (where $m \\\\neq n$), what is the value of the $(m+n)^{th}$ term?",
+              "text": "If $m$ times the $m^{th}$ term of an AP is equal to $n$ times its $n^{th}$ term (where $m \\neq n$), what is the value of the $(m+n)^{th}$ term?",
               "options": [
                 "$m+n$",
                 "$m-n$",
@@ -903,31 +903,31 @@ export const sequencesChapter: Chapter = {
                 "$mn$"
               ],
               "correctIndex": 2,
-              "solution": "This is the direct theoretical expression of Result (ii).\nGiven $m \\\\cdot a_m = n \\\\cdot a_n$.\nBy expanding: $m[a + (m-1)d] = n[a + (n-1)d] \\\\implies am - an + d(m^2 - m - n^2 + n) = 0$.\n$a(m-n) + d[(m-n)(m+n) - (m-n)] = 0 \\\\implies (m-n)[a + (m+n-1)d] = 0$.\nSince $m \\\\neq n$, $a + (m+n-1)d = 0$, which is the formula for the $(m+n)^{th}$ term.\nThus, $a_{m+n} = 0$."
+              "solution": "This is the direct theoretical expression of Result (ii).\nGiven $m \\cdot a_m = n \\cdot a_n$.\nBy expanding: $m[a + (m-1)d] = n[a + (n-1)d] \\implies am - an + d(m^2 - m - n^2 + n) = 0$.\n$a(m-n) + d[(m-n)(m+n) - (m-n)] = 0 \\implies (m-n)[a + (m+n-1)d] = 0$.\nSince $m \\neq n$, $a + (m+n-1)d = 0$, which is the formula for the $(m+n)^{th}$ term.\nThus, $a_{m+n} = 0$."
             },
             {
               "id": "q5",
-              "text": "If the 4th term of an AP is $\\\\frac{1}{5}$ and the 5th term is $\\\\frac{1}{4}$, find the 20th term.",
+              "text": "If the 4th term of an AP is $\\frac{1}{5}$ and the 5th term is $\\frac{1}{4}$, find the 20th term.",
               "options": [
                 "$0$",
                 "$1$",
                 "$20$",
-                "$\\\\frac{1}{20}$"
+                "$\\frac{1}{20}$"
               ],
               "correctIndex": 1,
-              "solution": "Pattern: $a_p = \\\\frac{1}{q}$ and $a_q = \\\\frac{1}{p}$. Here $p=4, q=5$.\nRule states $a_{pq} = 1$.\nWe are asked for the 20th term, which is $p \\\\times q$ ($4 \\\\times 5 = 20$).\nTherefore, $a_{20} = 1$."
+              "solution": "Pattern: $a_p = \\frac{1}{q}$ and $a_q = \\frac{1}{p}$. Here $p=4, q=5$.\nRule states $a_{pq} = 1$.\nWe are asked for the 20th term, which is $p \\times q$ ($4 \\times 5 = 20$).\nTherefore, $a_{20} = 1$."
             },
             {
               "id": "q6",
-              "text": "If $a_p = \\\\frac{1}{q}$ and $a_q = \\\\frac{1}{p}$, what is the first term $a$ of this AP?",
+              "text": "If $a_p = \\frac{1}{q}$ and $a_q = \\frac{1}{p}$, what is the first term $a$ of this AP?",
               "options": [
-                "$\\\\frac{1}{pq}$",
+                "$\\frac{1}{pq}$",
                 "$1$",
-                "$\\\\frac{p+q}{pq}$",
+                "$\\frac{p+q}{pq}$",
                 "$0$"
               ],
               "correctIndex": 0,
-              "solution": "Given $a + (p-1)d = \\\\frac{1}{q}$ and $a + (q-1)d = \\\\frac{1}{p}$.\nSubtract the two: $(p-q)d = \\\\frac{1}{q} - \\\\frac{1}{p} = \\\\frac{p-q}{pq}$.\nThus, $d = \\\\frac{1}{pq}$.\nSubstitute $d$ in first equation: $a + (p-1)(\\\\frac{1}{pq}) = \\\\frac{1}{q}$.\n$a + \\\\frac{1}{q} - \\\\frac{1}{pq} = \\\\frac{1}{q} \\\\implies a = \\\\frac{1}{pq}$.\n(Bonus fact: In this specific AP, both the first term $a$ and common difference $d$ equal $\\\\frac{1}{pq}$.)"
+              "solution": "Given $a + (p-1)d = \\frac{1}{q}$ and $a + (q-1)d = \\frac{1}{p}$.\nSubtract the two: $(p-q)d = \\frac{1}{q} - \\frac{1}{p} = \\frac{p-q}{pq}$.\nThus, $d = \\frac{1}{pq}$.\nSubstitute $d$ in first equation: $a + (p-1)(\\frac{1}{pq}) = \\frac{1}{q}$.\n$a + \\frac{1}{q} - \\frac{1}{pq} = \\frac{1}{q} \\implies a = \\frac{1}{pq}$.\n(Bonus fact: In this specific AP, both the first term $a$ and common difference $d$ equal $\\frac{1}{pq}$.)"
             }
           ]
         }
@@ -945,7 +945,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c12-f1",
           "name": "Special Sum Interchanges and R...",
           "expression": {
-            "lhs": "Result (iv): If $S_p = q$ and $S_q = p$, then $S_{p+q} = -(p+q)$.\nResult (v): If $S_p = S_q$, then $S_{p+q} = 0$.\nResult (vi): If $a^2, b^2, c^2$ are in AP $\\\\implies \\\\frac{1}{b+c}, \\\\frac{1}{c+a}, \\\\frac{1}{a+b}$ are in AP and $\\\\frac{a}{b+c}, \\\\frac{b}{c+a}, \\\\frac{c}{a+b}$ are in AP.\nResult (vii): If $a_1, a_2 \\\\dots a_n$ are in AP, then $\\\\frac{1}{a_1a_2} + \\\\frac{1}{a_2a_3} + \\\\dots + \\\\frac{1}{a_{n-1}a_n} = \\\\frac{n-1}{a_1a_n}$.",
+            "lhs": "Result (iv): If $S_p = q$ and $S_q = p$, then $S_{p+q} = -(p+q)$.\nResult (v): If $S_p = S_q$, then $S_{p+q} = 0$.\nResult (vi): If $a^2, b^2, c^2$ are in AP $\\implies \\frac{1}{b+c}, \\frac{1}{c+a}, \\frac{1}{a+b}$ are in AP and $\\frac{a}{b+c}, \\frac{b}{c+a}, \\frac{c}{a+b}$ are in AP.\nResult (vii): If $a_1, a_2 \\dots a_n$ are in AP, then $\\frac{1}{a_1a_2} + \\frac{1}{a_2a_3} + \\dots + \\frac{1}{a_{n-1}a_n} = \\frac{n-1}{a_1a_n}$.",
             "num": "",
             "den": "",
             "color": "info"
@@ -981,49 +981,49 @@ export const sequencesChapter: Chapter = {
               "id": "q3",
               "text": "If $1, 25, 49$ are three terms in an Arithmetic Progression, which of the following sequences must also be in Arithmetic Progression?",
               "options": [
-                "$\\\\frac{1}{12}, \\\\frac{1}{8}, \\\\frac{1}{6}$",
-                "$\\\\frac{1}{13}, \\\\frac{1}{9}, \\\\frac{1}{5}$",
-                "$\\\\frac{1}{6}, \\\\frac{1}{8}, \\\\frac{1}{12}$",
-                "$\\\\frac{1}{5}, \\\\frac{1}{9}, \\\\frac{1}{13}$"
+                "$\\frac{1}{12}, \\frac{1}{8}, \\frac{1}{6}$",
+                "$\\frac{1}{13}, \\frac{1}{9}, \\frac{1}{5}$",
+                "$\\frac{1}{6}, \\frac{1}{8}, \\frac{1}{12}$",
+                "$\\frac{1}{5}, \\frac{1}{9}, \\frac{1}{13}$"
               ],
               "correctIndex": 0,
-              "solution": "Observe the terms $1, 25, 49$. These are $1^2, 5^2, 7^2$.\nSo $a^2 = 1, b^2 = 25, c^2 = 49$. This means $a=1, b=5, c=7$.\nRule states if $a^2, b^2, c^2$ in AP, then $\\\\frac{1}{b+c}, \\\\frac{1}{c+a}, \\\\frac{1}{a+b}$ are in AP.\nCalculate terms: $\\\\frac{1}{5+7}, \\\\frac{1}{7+1}, \\\\frac{1}{1+5}$.\nThis is $\\\\frac{1}{12}, \\\\frac{1}{8}, \\\\frac{1}{6}$."
+              "solution": "Observe the terms $1, 25, 49$. These are $1^2, 5^2, 7^2$.\nSo $a^2 = 1, b^2 = 25, c^2 = 49$. This means $a=1, b=5, c=7$.\nRule states if $a^2, b^2, c^2$ in AP, then $\\frac{1}{b+c}, \\frac{1}{c+a}, \\frac{1}{a+b}$ are in AP.\nCalculate terms: $\\frac{1}{5+7}, \\frac{1}{7+1}, \\frac{1}{1+5}$.\nThis is $\\frac{1}{12}, \\frac{1}{8}, \\frac{1}{6}$."
             },
             {
               "id": "q4",
-              "text": "If $\\\\frac{a}{b+c}, \\\\frac{b}{c+a}, \\\\frac{c}{a+b}$ are in AP, which of the following is true?",
+              "text": "If $\\frac{a}{b+c}, \\frac{b}{c+a}, \\frac{c}{a+b}$ are in AP, which of the following is true?",
               "options": [
                 "$a, b, c$ are in AP",
                 "$a^2, b^2, c^2$ are in AP",
-                "$\\\\sqrt{a}, \\\\sqrt{b}, \\\\sqrt{c}$ are in AP",
-                "$\\\\frac{1}{a}, \\\\frac{1}{b}, \\\\frac{1}{c}$ are in AP"
+                "$\\sqrt{a}, \\sqrt{b}, \\sqrt{c}$ are in AP",
+                "$\\frac{1}{a}, \\frac{1}{b}, \\frac{1}{c}$ are in AP"
               ],
               "correctIndex": 1,
-              "solution": "This is the exact definition of Result (vi).\nTo prove it manually: add $1$ to each term. $\\\\frac{a}{b+c}+1 = \\\\frac{a+b+c}{b+c}$.\nSequence becomes $\\\\frac{a+b+c}{b+c}, \\\\frac{a+b+c}{c+a}, \\\\frac{a+b+c}{a+b}$ in AP.\nDivide by $a+b+c$: $\\\\frac{1}{b+c}, \\\\frac{1}{c+a}, \\\\frac{1}{a+b}$ in AP.\nThis condition mathematically leads to $a^2, b^2, c^2$ being in AP."
+              "solution": "This is the exact definition of Result (vi).\nTo prove it manually: add $1$ to each term. $\\frac{a}{b+c}+1 = \\frac{a+b+c}{b+c}$.\nSequence becomes $\\frac{a+b+c}{b+c}, \\frac{a+b+c}{c+a}, \\frac{a+b+c}{a+b}$ in AP.\nDivide by $a+b+c$: $\\frac{1}{b+c}, \\frac{1}{c+a}, \\frac{1}{a+b}$ in AP.\nThis condition mathematically leads to $a^2, b^2, c^2$ being in AP."
             },
             {
               "id": "q5",
-              "text": "If $a_1, a_2, \\\\dots a_n$ are in AP with common difference $d$, what is the sum of $\\\\frac{1}{a_1a_2} + \\\\frac{1}{a_2a_3} + \\\\dots + \\\\frac{1}{a_9a_{10}}$?",
+              "text": "If $a_1, a_2, \\dots a_n$ are in AP with common difference $d$, what is the sum of $\\frac{1}{a_1a_2} + \\frac{1}{a_2a_3} + \\dots + \\frac{1}{a_9a_{10}}$?",
               "options": [
-                "$\\\\frac{9}{a_1a_{10}}$",
-                "$\\\\frac{10}{a_1a_{10}}$",
-                "$\\\\frac{9d}{a_1a_{10}}$",
-                "$\\\\frac{1}{a_1a_{10}}$"
+                "$\\frac{9}{a_1a_{10}}$",
+                "$\\frac{10}{a_1a_{10}}$",
+                "$\\frac{9d}{a_1a_{10}}$",
+                "$\\frac{1}{a_1a_{10}}$"
               ],
               "correctIndex": 0,
-              "solution": "Formula: $\\\\frac{1}{a_1a_2} + \\\\dots = \\\\frac{n-1}{a_1a_n}$.\nThe number of terms $n$ in the denominator of the last fraction is $10$.\nSubstitute $n=10$: $\\\\frac{10-1}{a_1a_{10}} = \\\\frac{9}{a_1a_{10}}$."
+              "solution": "Formula: $\\frac{1}{a_1a_2} + \\dots = \\frac{n-1}{a_1a_n}$.\nThe number of terms $n$ in the denominator of the last fraction is $10$.\nSubstitute $n=10$: $\\frac{10-1}{a_1a_{10}} = \\frac{9}{a_1a_{10}}$."
             },
             {
               "id": "q6",
-              "text": "Given an AP: $2, 5, 8, 11 \\\\dots$ Find the value of $\\\\frac{1}{2 \\\\times 5} + \\\\frac{1}{5 \\\\times 8} + \\\\frac{1}{8 \\\\times 11} + \\\\frac{1}{11 \\\\times 14}$.",
+              "text": "Given an AP: $2, 5, 8, 11 \\dots$ Find the value of $\\frac{1}{2 \\times 5} + \\frac{1}{5 \\times 8} + \\frac{1}{8 \\times 11} + \\frac{1}{11 \\times 14}$.",
               "options": [
-                "$\\\\frac{1}{7}$",
-                "$\\\\frac{2}{7}$",
-                "$\\\\frac{3}{14}$",
-                "$\\\\frac{5}{28}$"
+                "$\\frac{1}{7}$",
+                "$\\frac{2}{7}$",
+                "$\\frac{3}{14}$",
+                "$\\frac{5}{28}$"
               ],
               "correctIndex": 0,
-              "solution": "Here $a_1 = 2, a_2 = 5, a_3 = 8, a_4 = 11, a_5 = 14$.\nThe sequence of fractions ends at $\\\\frac{1}{a_4a_5}$. So total $n$ in the formula is $5$.\nFormula: $\\\\frac{n-1}{a_1a_n} = \\\\frac{5-1}{a_1a_5}$.\n$a_1 = 2$, $a_5 = 14$.\n$\\\\frac{4}{2 \\\\times 14} = \\\\frac{4}{28} = \\\\frac{1}{7}$.\n(Verification via Telescoping formula: Diff = 3. $\\\\frac{1}{3}(\\\\frac{1}{2} - \\\\frac{1}{14}) = \\\\frac{1}{3}(\\\\frac{6}{14}) = \\\\frac{2}{14} = \\\\frac{1}{7}$. Both methods perfectly yield the same result)."
+              "solution": "Here $a_1 = 2, a_2 = 5, a_3 = 8, a_4 = 11, a_5 = 14$.\nThe sequence of fractions ends at $\\frac{1}{a_4a_5}$. So total $n$ in the formula is $5$.\nFormula: $\\frac{n-1}{a_1a_n} = \\frac{5-1}{a_1a_5}$.\n$a_1 = 2$, $a_5 = 14$.\n$\\frac{4}{2 \\times 14} = \\frac{4}{28} = \\frac{1}{7}$.\n(Verification via Telescoping formula: Diff = 3. $\\frac{1}{3}(\\frac{1}{2} - \\frac{1}{14}) = \\frac{1}{3}(\\frac{6}{14}) = \\frac{2}{14} = \\frac{1}{7}$. Both methods perfectly yield the same result)."
             }
           ]
         }
@@ -1041,7 +1041,7 @@ export const sequencesChapter: Chapter = {
           "id": "seq-c13-f1",
           "name": "Geometric Progression (GP) - G...",
           "expression": {
-            "lhs": "Sub-formula 1: A sequence is a GP if the ratio of any term to its preceding term is constant (Common Ratio $r = \\\\frac{a_{n+1}}{a_n}$).\nSub-formula 2: The $n^{th}$ Term (General Term) of a GP is $a_n = ar^{n-1}$ (where $a$ is the first term, $r$ is common ratio).\nSub-formula 3: General format of GP sequence: $a, ar, ar^2, ar^3, \\\\dots, ar^{n-1}, \\\\dots, l$.",
+            "lhs": "Sub-formula 1: A sequence is a GP if the ratio of any term to its preceding term is constant (Common Ratio $r = \\frac{a_{n+1}}{a_n}$).\nSub-formula 2: The $n^{th}$ Term (General Term) of a GP is $a_n = ar^{n-1}$ (where $a$ is the first term, $r$ is common ratio).\nSub-formula 3: General format of GP sequence: $a, ar, ar^2, ar^3, \\dots, ar^{n-1}, \\dots, l$.",
             "num": "",
             "den": "",
             "color": "info"
@@ -1053,13 +1053,13 @@ export const sequencesChapter: Chapter = {
               "id": "q1",
               "text": "Which of the following sequences represents a valid Geometric Progression?",
               "options": [
-                "$2, 4, 6, 8, \\\\dots$",
-                "$3, 9, 18, 36, \\\\dots$",
-                "$4, -8, 16, -32, \\\\dots$",
-                "$1, 4, 9, 16, \\\\dots$"
+                "$2, 4, 6, 8, \\dots$",
+                "$3, 9, 18, 36, \\dots$",
+                "$4, -8, 16, -32, \\dots$",
+                "$1, 4, 9, 16, \\dots$"
               ],
               "correctIndex": 2,
-              "solution": "A GP must have a constant ratio $r = \\\\frac{a_2}{a_1} = \\\\frac{a_3}{a_2}$.\nOption A: $4/2 = 2$, but $6/4 = 1.5$. (This is an AP).\nOption B: $9/3 = 3$, but $18/9 = 2$.\nOption C: $-8/4 = -2$, and $16/-8 = -2$, and $-32/16 = -2$. Ratio is constant.\nOption D: Squares, not a constant multiplier."
+              "solution": "A GP must have a constant ratio $r = \\frac{a_2}{a_1} = \\frac{a_3}{a_2}$.\nOption A: $4/2 = 2$, but $6/4 = 1.5$. (This is an AP).\nOption B: $9/3 = 3$, but $18/9 = 2$.\nOption C: $-8/4 = -2$, and $16/-8 = -2$, and $-32/16 = -2$. Ratio is constant.\nOption D: Squares, not a constant multiplier."
             },
             {
               "id": "q2",
@@ -1071,7 +1071,7 @@ export const sequencesChapter: Chapter = {
                 "$384$"
               ],
               "correctIndex": 1,
-              "solution": "Given $a = 3$, $r = 2$, $n = 6$.\nFormula: $a_n = ar^{n-1}$.\nSubstitute: $a_6 = 3(2^{6-1})$.\n$a_6 = 3(2^5) = 3(32)$.\nCalculate: $3 \\\\times 32 = 96$."
+              "solution": "Given $a = 3$, $r = 2$, $n = 6$.\nFormula: $a_n = ar^{n-1}$.\nSubstitute: $a_6 = 3(2^{6-1})$.\n$a_6 = 3(2^5) = 3(32)$.\nCalculate: $3 \\times 32 = 96$."
             },
             {
               "id": "q3",
@@ -1083,7 +1083,7 @@ export const sequencesChapter: Chapter = {
                 "$6$"
               ],
               "correctIndex": 1,
-              "solution": "Using formula $a_n = ar^{n-1}$:\n$a_3 = ar^2 = 12$  --- (Eq 1)\n$a_6 = ar^5 = 96$  --- (Eq 2)\nDivide Eq 2 by Eq 1:\n$\\\\frac{ar^5}{ar^2} = \\\\frac{96}{12}$\n$r^3 = 8 \\\\implies r = 2$.\nSubstitute $r=2$ into Eq 1:\n$a(2^2) = 12 \\\\implies 4a = 12 \\\\implies a = 3$."
+              "solution": "Using formula $a_n = ar^{n-1}$:\n$a_3 = ar^2 = 12$  --- (Eq 1)\n$a_6 = ar^5 = 96$  --- (Eq 2)\nDivide Eq 2 by Eq 1:\n$\\frac{ar^5}{ar^2} = \\frac{96}{12}$\n$r^3 = 8 \\implies r = 2$.\nSubstitute $r=2$ into Eq 1:\n$a(2^2) = 12 \\implies 4a = 12 \\implies a = 3$."
             }
           ]
         }
