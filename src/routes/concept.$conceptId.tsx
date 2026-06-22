@@ -50,16 +50,16 @@ function ConceptPage() {
           <>
             <FormulaCard formula={formula} />
 
-            <div className="rounded-xl bg-[oklch(0.98_0.06_85)] border border-[oklch(0.9_0.1_85)] px-4 py-3 mt-4 mb-2 self-start inline-block">
-              <p className="text-sm font-bold text-[oklch(0.5_0.16_85)] flex items-center gap-1.5">
-                <span className="text-base leading-none">💡</span> Memory Tip
-              </p>
-              {formula.mnemonic ? (
-                <p className="italic mt-1 text-sm">{formula.mnemonic}</p>
-              ) : (
-                <p className="italic mt-1 text-sm text-muted-foreground/60">No specific tip for this formula.</p>
-              )}
-            </div>
+            {formula.mnemonic && formula.mnemonic.trim() !== "" && (
+              <div className="flex justify-center w-full mt-4 mb-2">
+                <div className="rounded-xl bg-[oklch(0.98_0.06_85)] border border-[oklch(0.9_0.1_85)] px-4 py-3 inline-block">
+                  <p className="text-sm font-bold text-[oklch(0.5_0.16_85)] flex items-center justify-center gap-1.5">
+                    <span className="text-base leading-none">💡</span> Memory Tip
+                  </p>
+                  <p className="italic mt-1 text-sm text-center">{formula.mnemonic}</p>
+                </div>
+              </div>
+            )}
 
             <div className="mt-4 text-sm leading-relaxed"><MathText>{formula.explanation}</MathText></div>
             {data.chapter.id === "trigonometry" && (
