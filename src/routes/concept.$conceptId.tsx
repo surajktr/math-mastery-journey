@@ -1,0 +1,86 @@
+import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { getConcept } from "@/lib/data";
+import { OwlMascot } from "@/components/OwlMascot";
+import { FormulaCard } from "@/components/FormulaCard";
+import { TriangleDiagram } from "@/components/TriangleDiagram";
+import { BottomNav } from "@/components/BottomNav";
+
+export const Route = createFileRoute("/concept/$conceptId")({
+  component: ConceptPage,
+  notFoundComponent: () => <div className="p-10">Not found</div>,
+  errorComponent: ({ error }) => <div className="p-10">{error.message}</div>,
+});
+
+function ConceptPage() {
+  const { conceptId } = Route.useParams();
+  const data = getConcept(conceptId);
+  const router = useRouter();
+  const nav = useNavigate();
+  const [idx, setIdx] = useState(0);
+  if (!data) return <div className="p-10">Not found</div>;
+  const { concept } = data;
+  const total = concept.formulas.length || 6;
+  const formula = concept.formulas[idx];
+  const isLast = idx === concept.formulas.length - 1;
+
+  return (
+    <div className="min-h-screen pb-32">
+      <div className="mx-auto max-w-md px-5 pt-6">
+        <div className="flex items-center gap-3 mb-4">
+          <button onClick={() => router.history.back()} className="size-11 rounded-full bg-card border border-border flex items-center justify-center shadow-soft">
+            <ArrowLeft className="size-5 text-[oklch(0.55_0.22_295)]" />
+          </button>
+          <h1 className="flex-1 text-center text-xl font-extrabold">{concept.title}: {concept.subtitle.split("(")[0].trim()}</h1>
+          <OwlMascot size={48} />
+        </div>
+
+        <div className="flex items-center gap-2 mb-6">
+          <div className="flex-1 flex gap-1.5">
+            {Array.from({ length: total }).map((_, i) => (
+              <div key={i} className={`h-2 flex-1 rounded-full ${i <= idx ? "bg-[oklch(0.55_0.22_295)]" : "bg-muted"}`} />
+            ))}
+          </div>
+          <span className="text-sm font-bold text-[oklch(0.55_0.22_295)]">{idx + 1} of {total}</span>
+        </div>
+
+        {formula ? (
+          <>
+            <FormulaCard formula={formula} />
+            <p className="mt-6 text-base leading-relaxed">{formula.explanation}</p>
+            <p className="mt-2 text-base leading-relaxed">They are the foundation of trigonometry!</p>
+
+            <div className="my-8"><TriangleDiagram /></div>
+
+            <div className="rounded-2xl bg-[oklch(0.98_0.06_85)] border border-[oklch(0.9_0.1_85)] p-4 mb-6">
+              <p className="text-sm font-bold text-[oklch(0.5_0.16_85)]">💡 Memory Tip</p>
+              <p className="italic mt-1">{formula.mnemonic}</p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button onClick={() => setIdx((i) => Math.max(0, i - 1))} disabled={idx === 0}
+                className="size-12 rounded-full bg-card border border-border flex items-center justify-center shadow-soft disabled:opacity-40">
+                <ArrowLeft className="size-5" />
+              </button>
+              {isLast ? (
+                <button onClick={() => nav({ to: "/quiz/$conceptId", params: { conceptId } })}
+                  className="flex-1 h-14 rounded-2xl gradient-algebra text-white font-extrabold text-lg shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
+                  Start Practice Questions <ArrowRight className="size-5" />
+                </button>
+              ) : (
+                <button onClick={() => setIdx((i) => Math.min(concept.formulas.length - 1, i + 1))}
+                  className="flex-1 h-14 rounded-2xl bg-primary text-primary-foreground font-extrabold text-lg shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
+                  Next <ArrowRight className="size-5" />
+                </button>
+              )}
+            </div>
+          </>
+        ) : (
+          <p className="text-center text-muted-foreground py-10">Formulas coming soon!</p>
+        )}
+      </div>
+      <BottomNav />
+    </div>
+  );
+}
