@@ -9,38 +9,134 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ResultConceptIdRouteImport } from './routes/result.$conceptId'
+import { Route as QuizConceptIdRouteImport } from './routes/quiz.$conceptId'
+import { Route as ConceptConceptIdRouteImport } from './routes/concept.$conceptId'
+import { Route as ChapterChapterIdRouteImport } from './routes/chapter.$chapterId'
 
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResultConceptIdRoute = ResultConceptIdRouteImport.update({
+  id: '/result/$conceptId',
+  path: '/result/$conceptId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizConceptIdRoute = QuizConceptIdRouteImport.update({
+  id: '/quiz/$conceptId',
+  path: '/quiz/$conceptId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConceptConceptIdRoute = ConceptConceptIdRouteImport.update({
+  id: '/concept/$conceptId',
+  path: '/concept/$conceptId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChapterChapterIdRoute = ChapterChapterIdRouteImport.update({
+  id: '/chapter/$chapterId',
+  path: '/chapter/$chapterId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
+  '/settings': typeof SettingsRoute
+  '/chapter/$chapterId': typeof ChapterChapterIdRoute
+  '/concept/$conceptId': typeof ConceptConceptIdRoute
+  '/quiz/$conceptId': typeof QuizConceptIdRoute
+  '/result/$conceptId': typeof ResultConceptIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
+  '/settings': typeof SettingsRoute
+  '/chapter/$chapterId': typeof ChapterChapterIdRoute
+  '/concept/$conceptId': typeof ConceptConceptIdRoute
+  '/quiz/$conceptId': typeof QuizConceptIdRoute
+  '/result/$conceptId': typeof ResultConceptIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
+  '/settings': typeof SettingsRoute
+  '/chapter/$chapterId': typeof ChapterChapterIdRoute
+  '/concept/$conceptId': typeof ConceptConceptIdRoute
+  '/quiz/$conceptId': typeof QuizConceptIdRoute
+  '/result/$conceptId': typeof ResultConceptIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/progress'
+    | '/settings'
+    | '/chapter/$chapterId'
+    | '/concept/$conceptId'
+    | '/quiz/$conceptId'
+    | '/result/$conceptId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/progress'
+    | '/settings'
+    | '/chapter/$chapterId'
+    | '/concept/$conceptId'
+    | '/quiz/$conceptId'
+    | '/result/$conceptId'
+  id:
+    | '__root__'
+    | '/'
+    | '/progress'
+    | '/settings'
+    | '/chapter/$chapterId'
+    | '/concept/$conceptId'
+    | '/quiz/$conceptId'
+    | '/result/$conceptId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProgressRoute: typeof ProgressRoute
+  SettingsRoute: typeof SettingsRoute
+  ChapterChapterIdRoute: typeof ChapterChapterIdRoute
+  ConceptConceptIdRoute: typeof ConceptConceptIdRoute
+  QuizConceptIdRoute: typeof QuizConceptIdRoute
+  ResultConceptIdRoute: typeof ResultConceptIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +144,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/result/$conceptId': {
+      id: '/result/$conceptId'
+      path: '/result/$conceptId'
+      fullPath: '/result/$conceptId'
+      preLoaderRoute: typeof ResultConceptIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz/$conceptId': {
+      id: '/quiz/$conceptId'
+      path: '/quiz/$conceptId'
+      fullPath: '/quiz/$conceptId'
+      preLoaderRoute: typeof QuizConceptIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/concept/$conceptId': {
+      id: '/concept/$conceptId'
+      path: '/concept/$conceptId'
+      fullPath: '/concept/$conceptId'
+      preLoaderRoute: typeof ConceptConceptIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chapter/$chapterId': {
+      id: '/chapter/$chapterId'
+      path: '/chapter/$chapterId'
+      fullPath: '/chapter/$chapterId'
+      preLoaderRoute: typeof ChapterChapterIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProgressRoute: ProgressRoute,
+  SettingsRoute: SettingsRoute,
+  ChapterChapterIdRoute: ChapterChapterIdRoute,
+  ConceptConceptIdRoute: ConceptConceptIdRoute,
+  QuizConceptIdRoute: QuizConceptIdRoute,
+  ResultConceptIdRoute: ResultConceptIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
