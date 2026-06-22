@@ -49,18 +49,21 @@ function ConceptPage() {
         {formula ? (
           <>
             <FormulaCard formula={formula} />
-            <p className="mt-6 text-base leading-relaxed"><MathText>{formula.explanation}</MathText></p>
+
+            {formula.mnemonic && formula.mnemonic.trim() !== "" && (
+              <div className="rounded-xl bg-[oklch(0.98_0.06_85)] border border-[oklch(0.9_0.1_85)] px-3 py-2 mt-4 mb-2 self-start inline-block">
+                <p className="text-xs font-bold text-[oklch(0.5_0.16_85)] flex items-center gap-1.5"><span className="text-base leading-none">💡</span> Memory Tip</p>
+                <p className="italic mt-1 text-sm">{formula.mnemonic}</p>
+              </div>
+            )}
+
+            <div className="mt-4 text-sm leading-relaxed"><MathText>{formula.explanation}</MathText></div>
             {data.chapter.id === "trigonometry" && (
               <>
-                <p className="mt-2 text-base leading-relaxed">They are the foundation of trigonometry!</p>
+                <p className="mt-2 text-sm leading-relaxed">They are the foundation of trigonometry!</p>
                 <div className="my-8"><TriangleDiagram /></div>
               </>
             )}
-
-            <div className="rounded-2xl bg-[oklch(0.98_0.06_85)] border border-[oklch(0.9_0.1_85)] p-4 mb-6">
-              <p className="text-sm font-bold text-[oklch(0.5_0.16_85)]">💡 Memory Tip</p>
-              <p className="italic mt-1">{formula.mnemonic}</p>
-            </div>
 
             <div className="flex items-center gap-3">
               {idx > 0 && (

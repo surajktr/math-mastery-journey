@@ -13,9 +13,9 @@ export function FormulaCard({ formula, compact = false }: { formula: Formula; co
   const isTextMode = lhs.length > 50 && !num && !den;
 
   return (
-    <div className={`rounded-2xl border border-border bg-[oklch(0.98_0.01_240)] overflow-hidden ${compact ? "p-4" : "p-6"}`}>
+    <div className={`rounded-2xl border border-border bg-[oklch(0.98_0.01_240)] overflow-x-auto ${compact ? "p-3" : "p-4"}`}>
       {isTextMode ? (
-        <div className={`${c} ${compact ? "text-base" : "text-lg"} font-medium whitespace-pre-wrap leading-relaxed`}><MathText>{lhs}</MathText></div>
+        <div className={`${c} text-sm font-medium whitespace-pre-wrap leading-relaxed`}><MathText>{lhs}</MathText></div>
       ) : (
         <div className="flex items-center justify-center gap-4 sm:gap-6">
           <span className={`${c} ${compact ? "text-2xl" : "text-4xl"} font-bold italic`}><MathText>{lhs}</MathText></span>
