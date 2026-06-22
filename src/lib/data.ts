@@ -1,8 +1,11 @@
+import { sequencesChapter } from "./sequences-data";
+
 export type Question = {
   id: string;
   text: string;
   options: string[];
   correctIndex: number;
+  solution?: string;
   diagram?: { opp?: number; adj?: number; hyp?: number };
 };
 export type Formula = {
@@ -158,6 +161,7 @@ export const chapters: Chapter[] = [
     comingSoon: true,
     concepts: [],
   },
+  sequencesChapter,
 ];
 
 export const getChapter = (id: string) => chapters.find((c) => c.id === id);

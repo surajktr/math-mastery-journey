@@ -92,3 +92,26 @@
   .shadow-card { box-shadow: 0 4px 16px -4px oklch(0 0 0 / 0.08); }
   .shadow-soft { box-shadow: 0 2px 8px -2px oklch(0 0 0 / 0.06); }
 }
+
+/* KaTeX display math: wrap inside cards, no overflow */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  margin: 0.5em 0;
+}
+
+/* Inline KaTeX: add breathing room around fractions */
+.katex {
+  font-size: 1.05em;
+}
+
+/* Add small horizontal gap around inline katex with fractions */
+.katex .mfrac {
+  margin: 0 0.15em;
+}
+
+/* Give inline math a bit of line-height breathing room */
+p .katex, span .katex, div .katex {
+  line-height: 1.8;
+}

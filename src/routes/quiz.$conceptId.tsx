@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
-import { ArrowLeft, Check, Lightbulb, X } from "lucide-react";
+import { Home, Check, Lightbulb, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { getConcept } from "@/lib/data";
@@ -7,7 +7,7 @@ import { useStore } from "@/lib/store";
 import { OwlMascot } from "@/components/OwlMascot";
 import { HintSheet } from "@/components/HintSheet";
 import { TriangleDiagram } from "@/components/TriangleDiagram";
-import { BottomNav } from "@/components/BottomNav";
+import { MathText } from "@/components/MathText";
 
 export const Route = createFileRoute("/quiz/$conceptId")({
   component: QuizPage,
@@ -73,9 +73,9 @@ function QuizPage() {
     <div className="min-h-screen pb-32">
       <div className="mx-auto max-w-md px-5 pt-6">
         <div className="flex items-center gap-3 mb-3">
-          <button onClick={() => { if (confirm("Quit quiz? Progress for this concept will not be saved.")) router.history.back(); }}
+          <button onClick={() => { if (confirm("Quit quiz? Progress for this concept will not be saved.")) nav({ to: "/" }); }}
             className="size-11 rounded-full bg-card border border-border flex items-center justify-center shadow-soft">
-            <ArrowLeft className="size-5 text-[oklch(0.62_0.2_55)]" />
+            <Home className="size-5 text-[oklch(0.62_0.2_55)]" />
           </button>
           <h1 className="flex-1 text-center text-2xl font-extrabold">Math<span className="text-primary">Dojo</span></h1>
           <OwlMascot size={48} />
@@ -105,7 +105,7 @@ function QuizPage() {
         </p>
 
         <motion.div key={pos} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} className="rounded-2xl bg-card border border-border p-5 shadow-soft mb-5">
-          <p className="text-center font-bold text-lg leading-relaxed">{q.text}</p>
+          <p className="text-center font-bold text-lg leading-relaxed"><MathText>{q.text}</MathText></p>
           {q.diagram && (
             <div className="mt-3">
               <TriangleDiagram hyp={q.diagram.hyp} opp={q.diagram.opp} adj={q.diagram.adj} />
@@ -131,16 +131,27 @@ function QuizPage() {
                 }`}>
                   {isCorrect ? <Check className="size-5" /> : isWrong ? <X className="size-5" /> : String.fromCharCode(65 + i)}
                 </div>
-                <span className="font-bold flex-1">{opt}</span>
+                <span className="font-bold flex-1"><MathText>{opt}</MathText></span>
               </button>
             );
           })}
         </div>
 
         {checked && (
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`mt-4 text-center font-bold ${selected === q.correctIndex ? "text-primary" : "text-destructive"}`}>
-            {selected === q.correctIndex ? "✓ Correct!" : `✗ Not quite. Correct answer: ${q.options[q.correctIndex]}`}
-          </motion.p>
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4">
+            <p className={`text-center font-bold ${selected === q.correctIndex ? "text-primary" : "text-destructive"}`}>
+              {selected === q.correctIndex ? "✓ Correct!" : <span>✗ Not quite. Correct answer: <MathText>{q.options[q.correctIndex]}</MathText></span>}
+            </p>
+
+            <div className="mt-3 rounded-2xl border border-[oklch(0.85_0.08_145)] bg-[oklch(0.97_0.02_145)] p-4">
+              <p className="text-sm font-bold text-[oklch(0.4_0.15_145)] mb-2 flex items-center gap-1.5">
+                <Lightbulb className="size-4" /> Solution
+              </p>
+              <div className="text-sm leading-relaxed text-foreground/80">
+                <MathText>{q.solution || formula.explanation}</MathText>
+              </div>
+            </div>
+          </motion.div>
         )}
 
         <div className="mt-5 flex items-center gap-3">
@@ -159,7 +170,6 @@ function QuizPage() {
       </div>
 
       <HintSheet open={hintOpen} onClose={() => setHintOpen(false)} formula={formula} />
-      <BottomNav />
     </div>
   );
 }
