@@ -50,13 +50,6 @@ function ConceptPage() {
           <>
             <FormulaCard formula={formula} />
 
-            {formula.mnemonic && formula.mnemonic.trim() !== "" && (
-              <div className="rounded-xl bg-[oklch(0.98_0.06_85)] border border-[oklch(0.9_0.1_85)] px-3 py-2 mt-4 mb-2 self-start inline-block">
-                <p className="text-xs font-bold text-[oklch(0.5_0.16_85)] flex items-center gap-1.5"><span className="text-base leading-none">💡</span> Memory Tip</p>
-                <p className="italic mt-1 text-sm">{formula.mnemonic}</p>
-              </div>
-            )}
-
             <div className="mt-4 text-sm leading-relaxed"><MathText>{formula.explanation}</MathText></div>
             {data.chapter.id === "trigonometry" && (
               <>
@@ -65,22 +58,22 @@ function ConceptPage() {
               </>
             )}
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center gap-3 mt-8">
               {idx > 0 && (
                 <button onClick={() => setIdx((i) => Math.max(0, i - 1))}
-                  className="size-12 rounded-full bg-card border border-border shrink-0 flex items-center justify-center shadow-soft">
-                  <ArrowLeft className="size-5" />
+                  className="size-11 rounded-full bg-card border border-border shrink-0 flex items-center justify-center shadow-soft">
+                  <ArrowLeft className="size-4" />
                 </button>
               )}
               {isLast ? (
                 <button onClick={() => nav({ to: "/quiz/$conceptId", params: { conceptId } })}
-                  className="flex-1 h-14 rounded-2xl gradient-algebra text-white font-extrabold text-lg shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
-                  Start Practice Questions <ArrowRight className="size-5" />
+                  className="px-6 h-12 rounded-xl gradient-algebra text-white font-bold text-base shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
+                  Start Practice Questions <ArrowRight className="size-4" />
                 </button>
               ) : (
                 <button onClick={() => setIdx((i) => Math.min(concept.formulas.length - 1, i + 1))}
-                  className="flex-1 h-14 rounded-2xl bg-primary text-primary-foreground font-extrabold text-lg shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
-                  Next <ArrowRight className="size-5" />
+                  className="px-6 h-12 rounded-xl bg-primary text-primary-foreground font-bold text-base shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
+                  Next <ArrowRight className="size-4" />
                 </button>
               )}
             </div>
