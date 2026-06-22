@@ -23,7 +23,7 @@ export const sequencesChapter: Chapter = {
             "den": "",
             "color": "info"
           },
-          "explanation": "While SSC CGL rarely asks for direct definitions, understanding the terminology is crucial for interpreting word problems. Knowing whether a question asks for a \"term in a progression\" or the \"sum of a series\" determines your entire approach.",
+          "explanation": "Key Terminology:\n• Sequence: Numbers arranged in a defined order\n• Progression: A sequence following a strict mathematical pattern\n• Series: The sum of terms in a sequence",
           "mnemonic": "",
           "questions": [
             {
@@ -80,7 +80,7 @@ export const sequencesChapter: Chapter = {
             "den": "",
             "color": "info"
           },
-          "explanation": "This is a high-frequency SSC CGL time-saver. When you see $999 \\frac{991}{999} \\times 999$, expanding it traditionally as $(\\frac{999 \\times 999 + 991}{999}) \\times 999$ wastes precious minutes. Use this trick to solve it in 5 seconds.",
+          "explanation": "Shortcut for expanding $999 \\frac{991}{999} \\times 999$.\nInstead of calculating $(\\frac{999 \\times 999 + 991}{999}) \\times 999$, use the 3-step multiplier trick to solve instantly.",
           "mnemonic": "",
           "questions": [
             {
