@@ -120,18 +120,18 @@ function QuizPage() {
             const selectedState = selected === i && !checked;
             return (
               <button key={i} disabled={checked} onClick={() => setSelected(i)}
-                className={`w-full rounded-2xl border-2 bg-card p-4 flex items-center gap-4 text-left transition-all shadow-soft ${
+                className={`w-full rounded-2xl border-2 bg-card p-2.5 flex items-center gap-3 text-left transition-all shadow-soft ${
                   isCorrect ? "border-primary bg-[oklch(0.96_0.08_145)]"
                     : isWrong ? "border-destructive bg-[oklch(0.97_0.06_28)]"
                     : selectedState ? "border-[oklch(0.62_0.2_55)] scale-[1.01]"
                     : "border-border"
                 }`}>
-                <div className={`size-11 rounded-full flex items-center justify-center font-extrabold text-lg shrink-0 ${
+                <div className={`size-8 rounded-full flex items-center justify-center font-extrabold text-sm shrink-0 ${
                   isCorrect ? "bg-primary text-white" : isWrong ? "bg-destructive text-white" : "bg-[oklch(0.97_0.05_60)] text-[oklch(0.62_0.2_55)]"
                 }`}>
-                  {isCorrect ? <Check className="size-5" /> : isWrong ? <X className="size-5" /> : String.fromCharCode(65 + i)}
+                  {isCorrect ? <Check className="size-4" /> : isWrong ? <X className="size-4" /> : String.fromCharCode(65 + i)}
                 </div>
-                <span className="font-bold flex-1"><MathText>{opt}</MathText></span>
+                <span className="font-medium text-sm flex-1"><MathText>{opt}</MathText></span>
               </button>
             );
           })}

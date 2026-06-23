@@ -48,7 +48,13 @@ function ConceptPage() {
 
         {formula ? (
           <>
+            {formula.descriptionAbove && (
+              <div className="mb-4 text-sm leading-relaxed whitespace-pre-wrap"><MathText>{formula.descriptionAbove}</MathText></div>
+            )}
             <FormulaCard formula={formula} />
+            {formula.descriptionBelow && (
+              <div className="mt-4 text-sm leading-relaxed whitespace-pre-wrap"><MathText>{formula.descriptionBelow}</MathText></div>
+            )}
 
             {formula.mnemonic && formula.mnemonic.trim() !== "" && (
               <div className="flex justify-center w-full mt-4 mb-2">

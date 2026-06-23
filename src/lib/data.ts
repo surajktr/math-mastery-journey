@@ -11,7 +11,9 @@ export type Question = {
 export type Formula = {
   id: string;
   name: string;
+  descriptionAbove?: string;
   expression: { lhs: string; num: string; den: string; color: string };
+  descriptionBelow?: string;
   explanation: string;
   mnemonic: string;
   questions: Question[];

@@ -58,20 +58,22 @@ function ChapterCard({ chapter, pct }: { chapter: typeof chapters[number]; pct: 
   const gradient = `gradient-${chapter.color === "trig" ? "trig" : chapter.color === "geometry" ? "geometry" : chapter.color === "algebra" ? "algebra" : "stats"}`;
   return (
     <Link to="/chapter/$chapterId" params={{ chapterId: chapter.id }} onClick={onClick}
-      className={`block ${gradient} rounded-2xl p-4 shadow-card active:scale-[0.98] transition`}>
-      <div className="flex items-center gap-4">
-        <div className="size-20 rounded-2xl bg-white/15 flex items-center justify-center shrink-0">{iconFor[chapter.id]}</div>
+      className={`block ${gradient} rounded-2xl p-3 shadow-card active:scale-[0.98] transition`}>
+      <div className="flex items-center gap-3">
+        <div className="size-12 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+          <div className="scale-75 origin-center">{iconFor[chapter.id]}</div>
+        </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-2xl font-extrabold text-white truncate">{chapter.title}</h3>
-          <div className="mt-2 flex items-center gap-2">
-            <div className="flex-1 h-2.5 rounded-full bg-white/30 overflow-hidden">
+          <h3 className="text-lg font-extrabold text-white truncate">{chapter.title}</h3>
+          <div className="mt-1.5 flex items-center gap-2">
+            <div className="flex-1 h-1.5 rounded-full bg-white/30 overflow-hidden">
               <div className="h-full bg-white rounded-full transition-all" style={{ width: `${pct}%` }} />
             </div>
-            <span className="text-white font-bold text-sm">{pct}%</span>
+            <span className="text-white font-bold text-xs">{pct}%</span>
           </div>
         </div>
-        <div className="size-11 rounded-full bg-white flex items-center justify-center shrink-0">
-          <ArrowRight className="size-5" style={{ color: `var(--${chapter.color === "trig" ? "trig" : chapter.color})` }} />
+        <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
+          <ArrowRight className="size-4" style={{ color: `var(--${chapter.color === "trig" ? "trig" : chapter.color})` }} />
         </div>
       </div>
     </Link>

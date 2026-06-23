@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-DVpe7PXp.js";var t=`/assets/owl-CCnB_w5J.png`,n=e();function r({size:e=96,className:r=``}){return(0,n.jsx)(`img`,{src:t,alt:`MathDojo owl`,width:e,height:e,className:r,style:{width:e,height:e},loading:`lazy`})}export{r as t};
