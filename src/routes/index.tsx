@@ -26,13 +26,12 @@ function Home() {
       <div className="mx-auto max-w-md px-5 pt-8">
         <div className="flex justify-end mb-2"><StreakBadge streak={streak} /></div>
         <div className="flex flex-col items-center gap-2 mb-8">
-          <OwlMascot size={140} />
-          <h1 className="text-4xl font-extrabold tracking-tight">
+          <h1 className="text-3xl font-extrabold tracking-tight mt-4">
             Math<span className="text-primary">Dojo</span>
           </h1>
         </div>
-        <h2 className="text-3xl font-extrabold mb-5">Pick a Chapter</h2>
-        <div className="space-y-4">
+        <h2 className="text-2xl font-extrabold mb-4">Pick a Chapter</h2>
+        <div className="space-y-3">
           {chapters.map((ch) => {
             const done = ch.concepts.filter((c) => progress[c.id]?.completed).length;
             const total = ch.totalConcepts;
@@ -58,22 +57,22 @@ function ChapterCard({ chapter, pct }: { chapter: typeof chapters[number]; pct: 
   const gradient = `gradient-${chapter.color === "trig" ? "trig" : chapter.color === "geometry" ? "geometry" : chapter.color === "algebra" ? "algebra" : "stats"}`;
   return (
     <Link to="/chapter/$chapterId" params={{ chapterId: chapter.id }} onClick={onClick}
-      className={`block ${gradient} rounded-2xl p-3 shadow-card active:scale-[0.98] transition`}>
-      <div className="flex items-center gap-3">
-        <div className="size-12 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
-          <div className="scale-75 origin-center">{iconFor[chapter.id]}</div>
+      className={`block ${gradient} rounded-2xl p-2 shadow-card active:scale-[0.98] transition`}>
+      <div className="flex items-center gap-2">
+        <div className="size-8 rounded-lg bg-white/15 flex items-center justify-center shrink-0">
+          <div className="scale-50 origin-center">{iconFor[chapter.id]}</div>
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-extrabold text-white truncate">{chapter.title}</h3>
-          <div className="mt-1.5 flex items-center gap-2">
-            <div className="flex-1 h-1.5 rounded-full bg-white/30 overflow-hidden">
+          <h3 className="text-sm font-extrabold text-white truncate">{chapter.title}</h3>
+          <div className="mt-1 flex items-center gap-1.5">
+            <div className="flex-1 h-1 rounded-full bg-white/30 overflow-hidden">
               <div className="h-full bg-white rounded-full transition-all" style={{ width: `${pct}%` }} />
             </div>
-            <span className="text-white font-bold text-xs">{pct}%</span>
+            <span className="text-white font-bold text-[10px]">{pct}%</span>
           </div>
         </div>
-        <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
-          <ArrowRight className="size-4" style={{ color: `var(--${chapter.color === "trig" ? "trig" : chapter.color})` }} />
+        <div className="size-6 rounded-full bg-white flex items-center justify-center shrink-0">
+          <ArrowRight className="size-3" style={{ color: `var(--${chapter.color === "trig" ? "trig" : chapter.color})` }} />
         </div>
       </div>
     </Link>
