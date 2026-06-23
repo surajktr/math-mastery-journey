@@ -1,12 +1,11 @@
-import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
+import { r as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
 import { g as Link } from "../_libs/@tanstack/react-router+[...].mjs";
-import { t as chapters } from "./data-ksrgKvCn.mjs";
+import { t as chapters } from "./data-4QvEhkiz.mjs";
 import { t as useStore } from "./store-uL3UMXi9.mjs";
-import { f as Flame, v as ArrowRight } from "../_libs/lucide-react.mjs";
+import { _ as ArrowRight, d as Flame } from "../_libs/lucide-react.mjs";
 import { t as BottomNav } from "./BottomNav-DGxyn_5j.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
-import { t as OwlMascot } from "./OwlMascot-BeISd_2X.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-Cy29JZhr.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-Bsa-uj9B.js
 var import_jsx_runtime = require_jsx_runtime();
 function StreakBadge({ streak }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -119,22 +118,22 @@ function Home() {
 					className: "flex justify-end mb-2",
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StreakBadge, { streak })
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "flex flex-col items-center gap-2 mb-8",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(OwlMascot, { size: 140 }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
-						className: "text-4xl font-extrabold tracking-tight",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
+						className: "text-3xl font-extrabold tracking-tight mt-4",
 						children: ["Math", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 							className: "text-primary",
 							children: "Dojo"
 						})]
-					})]
+					})
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-					className: "text-3xl font-extrabold mb-5",
+					className: "text-2xl font-extrabold mb-4",
 					children: "Pick a Chapter"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "space-y-4",
+					className: "space-y-3",
 					children: chapters.map((ch) => {
 						const done = ch.concepts.filter((c) => progress[c.id]?.completed).length;
 						const total = ch.totalConcepts;
@@ -170,37 +169,40 @@ function ChapterCard({ chapter, pct }) {
 		to: "/chapter/$chapterId",
 		params: { chapterId: chapter.id },
 		onClick,
-		className: `block ${gradient} rounded-2xl p-4 shadow-card active:scale-[0.98] transition`,
+		className: `block ${gradient} rounded-2xl p-2 shadow-card active:scale-[0.98] transition`,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "flex items-center gap-4",
+			className: "flex items-center gap-2",
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "size-20 rounded-2xl bg-white/15 flex items-center justify-center shrink-0",
-					children: iconFor[chapter.id]
+					className: "size-8 rounded-lg bg-white/15 flex items-center justify-center shrink-0",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "scale-50 origin-center",
+						children: iconFor[chapter.id]
+					})
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "flex-1 min-w-0",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-						className: "text-2xl font-extrabold text-white truncate",
+						className: "text-sm font-extrabold text-white truncate",
 						children: chapter.title
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "mt-2 flex items-center gap-2",
+						className: "mt-1 flex items-center gap-1.5",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "flex-1 h-2.5 rounded-full bg-white/30 overflow-hidden",
+							className: "flex-1 h-1 rounded-full bg-white/30 overflow-hidden",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 								className: "h-full bg-white rounded-full transition-all",
 								style: { width: `${pct}%` }
 							})
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-							className: "text-white font-bold text-sm",
+							className: "text-white font-bold text-[10px]",
 							children: [pct, "%"]
 						})]
 					})]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "size-11 rounded-full bg-white flex items-center justify-center shrink-0",
+					className: "size-6 rounded-full bg-white flex items-center justify-center shrink-0",
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, {
-						className: "size-5",
+						className: "size-3",
 						style: { color: `var(--${chapter.color === "trig" ? "trig" : chapter.color})` }
 					})
 				})

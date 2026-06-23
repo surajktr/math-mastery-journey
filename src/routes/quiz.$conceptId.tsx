@@ -147,7 +147,7 @@ function QuizPage() {
               <p className="text-sm font-bold text-[oklch(0.4_0.15_145)] mb-2 flex items-center gap-1.5">
                 <Lightbulb className="size-4" /> Solution
               </p>
-              <div className="text-sm leading-relaxed text-foreground/80">
+              <div className="text-sm leading-relaxed text-foreground/80 whitespace-pre-wrap">
                 <MathText>{q.solution || formula.explanation}</MathText>
               </div>
             </div>

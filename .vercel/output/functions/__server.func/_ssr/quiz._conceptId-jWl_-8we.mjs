@@ -1,62 +1,16 @@
 import { o as __toESM } from "../_runtime.mjs";
-import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
+import { n as require_react, r as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
 import { v as useNavigate, y as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
-import { r as getConcept } from "./data-ksrgKvCn.mjs";
+import { r as getConcept } from "./data-4QvEhkiz.mjs";
 import { t as useStore } from "./store-uL3UMXi9.mjs";
-import { d as House, m as Check, t as X, u as Lightbulb } from "../_libs/lucide-react.mjs";
+import { l as Lightbulb, p as Check, t as X, u as House } from "../_libs/lucide-react.mjs";
 import { t as OwlMascot } from "./OwlMascot-BeISd_2X.mjs";
-import { n as TriangleDiagram, t as MathText } from "./TriangleDiagram-C3dZJ4bB.mjs";
-import { t as Route } from "./quiz._conceptId-BIwY9pSb.mjs";
+import { n as MathText, r as TriangleDiagram, t as FormulaCard } from "./TriangleDiagram-D1lekt4N.mjs";
+import { t as Route } from "./quiz._conceptId-DdRotbLt.mjs";
 import { n as AnimatePresence, t as motion } from "../_libs/framer-motion.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/quiz._conceptId-DlKpK_8I.js
+//#region node_modules/.nitro/vite/services/ssr/assets/quiz._conceptId-jWl_-8we.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
-var colorMap = {
-	info: "text-[oklch(0.55_0.2_250)]",
-	success: "text-[oklch(0.55_0.18_145)]",
-	warning: "text-[oklch(0.62_0.2_55)]"
-};
-function FormulaCard({ formula, compact = false }) {
-	const c = colorMap[formula.expression.color] ?? "text-foreground";
-	const { lhs, num, den } = formula.expression;
-	const isTextMode = lhs.length > 50 && !num && !den;
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-		className: `rounded-2xl border border-border bg-[oklch(0.98_0.01_240)] overflow-x-auto ${compact ? "p-3" : "p-4"}`,
-		children: isTextMode ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: `${c} text-sm font-medium whitespace-pre-wrap leading-relaxed`,
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: lhs })
-		}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "flex items-center justify-center gap-4 sm:gap-6",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-					className: `${c} ${compact ? "text-2xl" : "text-4xl"} font-bold italic`,
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: lhs })
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-					className: `${compact ? "text-2xl" : "text-4xl"} text-muted-foreground`,
-					children: "="
-				}),
-				num ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex flex-col items-center",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: `${c} ${compact ? "text-lg" : "text-2xl"} font-bold`,
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: num })
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "block w-full border-t-2 border-foreground/40 my-1" }),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: `${c} ${compact ? "text-lg" : "text-2xl"} font-bold`,
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: den })
-						})
-					]
-				}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-					className: `${c} ${compact ? "text-2xl" : "text-3xl"} font-bold`,
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: den })
-				})
-			]
-		})
-	});
-}
 function HintSheet({ open, onClose, formula }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AnimatePresence, { children: open && formula && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
 		className: "fixed inset-0 z-50 flex items-end justify-center",
@@ -258,12 +212,12 @@ function QuizPage() {
 						return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 							disabled: checked,
 							onClick: () => setSelected(i),
-							className: `w-full rounded-2xl border-2 bg-card p-4 flex items-center gap-4 text-left transition-all shadow-soft ${isCorrect ? "border-primary bg-[oklch(0.96_0.08_145)]" : isWrong ? "border-destructive bg-[oklch(0.97_0.06_28)]" : selected === i && !checked ? "border-[oklch(0.62_0.2_55)] scale-[1.01]" : "border-border"}`,
+							className: `w-full rounded-2xl border-2 bg-card p-2.5 flex items-center gap-3 text-left transition-all shadow-soft ${isCorrect ? "border-primary bg-[oklch(0.96_0.08_145)]" : isWrong ? "border-destructive bg-[oklch(0.97_0.06_28)]" : selected === i && !checked ? "border-[oklch(0.62_0.2_55)] scale-[1.01]" : "border-border"}`,
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: `size-11 rounded-full flex items-center justify-center font-extrabold text-lg shrink-0 ${isCorrect ? "bg-primary text-white" : isWrong ? "bg-destructive text-white" : "bg-[oklch(0.97_0.05_60)] text-[oklch(0.62_0.2_55)]"}`,
-								children: isCorrect ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { className: "size-5" }) : isWrong ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "size-5" }) : String.fromCharCode(65 + i)
+								className: `size-8 rounded-full flex items-center justify-center font-extrabold text-sm shrink-0 ${isCorrect ? "bg-primary text-white" : isWrong ? "bg-destructive text-white" : "bg-[oklch(0.97_0.05_60)] text-[oklch(0.62_0.2_55)]"}`,
+								children: isCorrect ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { className: "size-4" }) : isWrong ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "size-4" }) : String.fromCharCode(65 + i)
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "font-bold flex-1",
+								className: "font-medium text-sm flex-1",
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: opt })
 							})]
 						}, i);
@@ -288,7 +242,7 @@ function QuizPage() {
 							className: "text-sm font-bold text-[oklch(0.4_0.15_145)] mb-2 flex items-center gap-1.5",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Lightbulb, { className: "size-4" }), " Solution"]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "text-sm leading-relaxed text-foreground/80",
+							className: "text-sm leading-relaxed text-foreground/80 whitespace-pre-wrap",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: q.solution || formula.explanation })
 						})]
 					})]

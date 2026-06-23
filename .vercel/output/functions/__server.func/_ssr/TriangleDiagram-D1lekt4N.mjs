@@ -1,6 +1,6 @@
-import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
+import { r as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
 import { t as katex } from "../_libs/katex.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/TriangleDiagram-C3dZJ4bB.js
+//#region node_modules/.nitro/vite/services/ssr/assets/TriangleDiagram-D1lekt4N.js
 var import_jsx_runtime = require_jsx_runtime();
 /**
 * Renders a string containing LaTeX math delimiters ($...$, $$...$$)
@@ -60,6 +60,66 @@ function renderMathInText(text) {
 }
 function escapeHtml(str) {
 	return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+var colorMap = {
+	info: "text-[oklch(0.55_0.2_250)]",
+	success: "text-[oklch(0.55_0.18_145)]",
+	warning: "text-[oklch(0.62_0.2_55)]"
+};
+function FormulaCard({ formula, compact = false }) {
+	const c = colorMap[formula.expression.color] ?? "text-foreground";
+	const { lhs, num, den } = formula.expression;
+	const totalLen = lhs.length + (num?.length || 0) + (den?.length || 0);
+	const isTextMode = lhs.length > 50 && !num && !den && !lhs.includes("\\");
+	let baseSize = compact ? "text-lg" : "text-3xl";
+	let numDenSize = compact ? "text-base" : "text-xl";
+	let denOnlySize = compact ? "text-lg" : "text-2xl";
+	if (totalLen >= 50) {
+		baseSize = compact ? "text-xs" : "text-base";
+		numDenSize = compact ? "text-[10px]" : "text-xs";
+		denOnlySize = compact ? "text-xs" : "text-sm";
+	} else if (totalLen >= 30) {
+		baseSize = compact ? "text-sm" : "text-xl";
+		numDenSize = compact ? "text-xs" : "text-base";
+		denOnlySize = compact ? "text-sm" : "text-lg";
+	} else if (totalLen >= 15) {
+		baseSize = compact ? "text-base" : "text-2xl";
+		numDenSize = compact ? "text-sm" : "text-lg";
+		denOnlySize = compact ? "text-base" : "text-xl";
+	}
+	const renderedLhs = `$${lhs}$`;
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: `rounded-2xl border border-border bg-[oklch(0.98_0.01_240)] overflow-x-auto ${compact ? "p-1.5" : "p-2.5"} flex justify-center text-center`,
+		children: isTextMode ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: `${c} ${baseSize} font-medium whitespace-pre-wrap leading-relaxed`,
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: renderedLhs })
+		}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "flex items-center justify-center gap-2 sm:gap-3 w-max mx-auto",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: `${c} ${baseSize} font-bold italic`,
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: renderedLhs })
+			}), (num || den) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: `${baseSize} text-muted-foreground`,
+				children: "="
+			}), num ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex flex-col items-center",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+						className: `${c} ${numDenSize} font-bold`,
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: `$${num}$` })
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "block w-full border-t-2 border-foreground/40 my-0.5" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+						className: `${c} ${numDenSize} font-bold`,
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: `$${den}$` })
+					})
+				]
+			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: `${c} ${denOnlySize} font-bold`,
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MathText, { children: `$${den}$` })
+			})] })]
+		})
+	});
 }
 function TriangleDiagram({ labels = true, opp, adj, hyp }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
@@ -149,4 +209,4 @@ function TriangleDiagram({ labels = true, opp, adj, hyp }) {
 	});
 }
 //#endregion
-export { TriangleDiagram as n, MathText as t };
+export { MathText as n, TriangleDiagram as r, FormulaCard as t };

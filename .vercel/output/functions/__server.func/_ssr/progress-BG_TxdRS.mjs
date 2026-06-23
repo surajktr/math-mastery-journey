@@ -1,11 +1,11 @@
-import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
+import { r as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
 import { g as Link } from "../_libs/@tanstack/react-router+[...].mjs";
-import { t as chapters } from "./data-ksrgKvCn.mjs";
+import { t as chapters } from "./data-4QvEhkiz.mjs";
 import { t as useStore } from "./store-uL3UMXi9.mjs";
-import { _ as BookOpen, c as Lock, g as Calendar, n as TrendingUp, r as Target } from "../_libs/lucide-react.mjs";
+import { g as BookOpen, h as Calendar, n as TrendingUp, r as Target, s as Lock } from "../_libs/lucide-react.mjs";
 import { t as BottomNav } from "./BottomNav-DGxyn_5j.mjs";
 import { t as OwlMascot } from "./OwlMascot-BeISd_2X.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/progress-DuC_E4Dq.js
+//#region node_modules/.nitro/vite/services/ssr/assets/progress-BG_TxdRS.js
 var import_jsx_runtime = require_jsx_runtime();
 function ProgressPage() {
 	const { progress, heatmap, weakTopics } = useStore();

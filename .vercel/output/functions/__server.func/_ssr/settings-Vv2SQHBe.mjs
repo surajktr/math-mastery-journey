@@ -1,4 +1,4 @@
-import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
+import { r as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
 import { t as BottomNav } from "./BottomNav-DGxyn_5j.mjs";
 import { t as OwlMascot } from "./OwlMascot-BeISd_2X.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/settings-Vv2SQHBe.js

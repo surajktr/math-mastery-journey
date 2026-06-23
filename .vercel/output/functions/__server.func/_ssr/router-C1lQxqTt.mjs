@@ -1,16 +1,16 @@
 import { o as __toESM } from "../_runtime.mjs";
-import { n as require_jsx_runtime, r as require_react, t as QueryClientProvider } from "../_libs/react+tanstack__react-query.mjs";
+import { n as require_react, r as require_jsx_runtime, t as QueryClientProvider } from "../_libs/react+tanstack__react-query.mjs";
 import { c as HeadContent, d as createRouter, f as Outlet, g as Link, h as createRootRouteWithContext, m as createFileRoute, p as lazyRouteComponent, s as Scripts, y as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
-import { t as Route$4 } from "./chapter._chapterId-CANh58Sw.mjs";
+import { t as Route$4 } from "./chapter._chapterId-BYdeAHIH.mjs";
 import { t as Toaster } from "../_libs/sonner.mjs";
-import { t as Route$5 } from "./concept._conceptId-Be2A7dN_.mjs";
-import { t as Route$6 } from "./quiz._conceptId-BIwY9pSb.mjs";
-import { t as Route$7 } from "./result._conceptId-CiHJRM6P.mjs";
+import { t as Route$5 } from "./concept._conceptId-DkFnwgLX.mjs";
+import { t as Route$6 } from "./quiz._conceptId-DdRotbLt.mjs";
+import { t as Route$7 } from "./result._conceptId-C7q5T8Dk.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-BnMuavkF.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-C1lQxqTt.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-DTPrHn_b.css";
+var styles_default = "/assets/styles-Y3KZcMkH.css";
 function reportLovableError(error, context = {}) {
 	if (typeof window === "undefined") return;
 	window.__lovableEvents?.captureException?.(error, {
@@ -179,12 +179,12 @@ var Route$2 = createFileRoute("/settings")({
 	head: () => ({ meta: [{ title: "Settings — MathDojo" }] }),
 	component: lazyRouteComponent($$splitComponentImporter$2, "component")
 });
-var $$splitComponentImporter$1 = () => import("./progress-DuC_E4Dq.mjs");
+var $$splitComponentImporter$1 = () => import("./progress-BG_TxdRS.mjs");
 var Route$1 = createFileRoute("/progress")({
 	head: () => ({ meta: [{ title: "My Progress — MathDojo" }] }),
 	component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-var $$splitComponentImporter = () => import("./routes-Cy29JZhr.mjs");
+var $$splitComponentImporter = () => import("./routes-Bsa-uj9B.mjs");
 var Route = createFileRoute("/")({
 	head: () => ({ meta: [{ title: "MathDojo — Practice Math Daily" }, {
 		name: "description",

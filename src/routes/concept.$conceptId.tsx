@@ -56,6 +56,15 @@ function ConceptPage() {
               <div className="mt-4 text-sm leading-relaxed whitespace-pre-wrap"><MathText>{formula.descriptionBelow}</MathText></div>
             )}
 
+            {formula.example && formula.example.trim() !== "" && (
+              <div className="mt-5 rounded-2xl border-2 border-[oklch(0.85_0.1_200)] bg-[oklch(0.97_0.02_200)] p-4 shadow-soft">
+                <p className="text-sm font-extrabold text-[oklch(0.4_0.15_200)] mb-2 flex items-center gap-1.5">
+                  <span className="text-base leading-none">📝</span> Example
+                </p>
+                <div className="text-sm leading-relaxed text-foreground/80 whitespace-pre-wrap"><MathText>{formula.example}</MathText></div>
+              </div>
+            )}
+
             {formula.mnemonic && formula.mnemonic.trim() !== "" && (
               <div className="flex justify-center w-full mt-4 mb-2">
                 <div className="rounded-xl bg-[oklch(0.98_0.06_85)] border border-[oklch(0.9_0.1_85)] px-4 py-3 inline-block">

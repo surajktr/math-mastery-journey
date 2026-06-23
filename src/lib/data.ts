@@ -15,6 +15,7 @@ export type Formula = {
   expression: { lhs: string; num: string; den: string; color: string };
   descriptionBelow?: string;
   explanation: string;
+  example?: string;
   mnemonic: string;
   questions: Question[];
 };

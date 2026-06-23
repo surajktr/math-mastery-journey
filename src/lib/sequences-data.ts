@@ -27,6 +27,7 @@ export const sequencesChapter: Chapter = {
           },
           descriptionBelow: "A series can be finite (ends at n) or infinite (continues forever).",
           explanation: "While direct definitions are rarely tested, knowing the terminology is crucial for interpreting word problems accurately.",
+          example: "Example: Sequence vs Series\nSequence: $1, 3, 5, 7$\nSeries: $1 + 3 + 5 + 7$",
           mnemonic: "",
           questions: [
             {
@@ -89,8 +90,9 @@ export const sequencesChapter: Chapter = {
             den: "",
             color: "success"
           },
-          descriptionBelow: "Where $a$ is the first term, $d$ is the common difference, and $n$ is the position of the term.\n\nTo find the Nth term from the end:\n$a_n \\text{ (from end)} = l - (n-1)d$\nwhere $l$ is the last term.",
+          descriptionBelow: "Where $a$ is the first term, $d$ is the common difference, and $n$ is the position of the term.",
           explanation: "These are the foundational formulas of AP. Always identify your a, d, and n before solving.",
+          example: "Example: Find the 5th term of $2, 5, 8, \\dots$\nGiven: $a = 2$, $d = 3$, $n = 5$\nFormula: $a_n = a + (n-1)d$\n$a_5 = 2 + (5-1)3$\n$a_5 = 2 + 12 = 14$",
           mnemonic: "",
           questions: [
             {
@@ -98,28 +100,45 @@ export const sequencesChapter: Chapter = {
               text: "In an AP, the first term is $7$ and common difference is $-3$. What is the 15th term?",
               options: ["$35$", "$-35$", "$-38$", "$-42$"],
               correctIndex: 1,
-              solution: "$a = 7$, $d = -3$, $n = 15$. $a_{15} = 7 + (14)(-3) = 7 - 42 = -35$."
+              solution: "Given: $a = 7$, $d = -3$, $n = 15$\n$a_{15} = 7 + (14)(-3)$\n$a_{15} = 7 - 42$\n$a_{15} = -35$"
             },
             {
               id: "q2",
               text: "Which term of the AP $5, 9, 13, 17, \\dots$ is $81$?",
               options: ["$19^{th}$", "$20^{th}$", "$21^{st}$", "$22^{nd}$"],
               correctIndex: 1,
-              solution: "$81 = 5 + (n-1)4 \\implies 76 = 4(n-1) \\implies n-1 = 19 \\implies n = 20$."
-            },
+              solution: "$81 = 5 + (n-1)4$\n$76 = 4(n-1)$\n$n-1 = 19$\n$n = 20$"
+            }
+          ]
+        },
+        {
+          id: "seq-c2-f2",
+          name: "Nth Term From the End",
+          descriptionAbove: "To find the Nth term counting backwards from the end of an AP:",
+          expression: {
+            lhs: "a_n \\text{ (from end)} = l - (n-1)d",
+            num: "",
+            den: "",
+            color: "info"
+          },
+          descriptionBelow: "Where $l$ is the last term, $d$ is the common difference, and $n$ is the position counting backwards.",
+          explanation: "Use this directly instead of reversing the whole series. It saves significant time.",
+          example: "Example: Find the 3rd term from the end of $2, 5, \\dots, 20$\nGiven: $l = 20$, $d = 3$, $n = 3$\nFormula: $a_n = l - (n-1)d$\n$a_3 = 20 - (3-1)3$\n$a_3 = 20 - 6 = 14$",
+          mnemonic: "",
+          questions: [
             {
               id: "q3",
               text: "Find the 10th term from the end of the AP: $10, 15, 20, \\dots, 135$.",
               options: ["$85$", "$90$", "$95$", "$100$"],
               correctIndex: 1,
-              solution: "End term formula: $l - (n-1)d = 135 - (9)(5) = 135 - 45 = 90$."
+              solution: "Formula: $a_n = l - (n-1)d$\n$a_{10} = 135 - (9)(5)$\n$a_{10} = 135 - 45$\n$a_{10} = 90$"
             },
             {
               id: "q4",
               text: "The 4th term from the end of an AP is $22$. If the common difference is $-2$, what is the last term?",
               options: ["$16$", "$14$", "$28$", "$30$"],
               correctIndex: 0,
-              solution: "$22 = l - (3)(-2) \\implies 22 = l + 6 \\implies l = 16$."
+              solution: "$22 = l - (3)(-2)$\n$22 = l + 6$\n$l = 16$"
             }
           ]
         }
@@ -145,6 +164,7 @@ export const sequencesChapter: Chapter = {
           },
           descriptionBelow: "If the last term ($l$) is unknown, use the expanded form:\n$S_n = \\frac{n}{2}[2a + (n-1)d]$",
           explanation: "Use these formulas whenever asked to find the total sum. The first formula is much faster if you already know the last term.",
+          example: "Example: Sum of first 100 positive integers ($1, 2, \\dots, 100$)\nGiven: $a = 1$, $l = 100$, $n = 100$\nFormula: $S_n = \\frac{n}{2}[a + l]$\n$S_{100} = \\frac{100}{2}(1 + 100)$\n$S_{100} = 50(101) = 5050$",
           mnemonic: "",
           questions: [
             {
@@ -152,28 +172,28 @@ export const sequencesChapter: Chapter = {
               text: "Find the sum of all natural numbers between 100 and 200 which are divisible by 3.",
               options: ["$4950$", "$5000$", "$4851$", "$4900$"],
               correctIndex: 0,
-              solution: "First $= 102$, Last $= 198$. $n = (198-102)/3 + 1 = 33$. Sum $= (33/2)(102 + 198) = 4950$."
+              solution: "First $= 102$, Last $= 198$\n$n = \\frac{198-102}{3} + 1 = 33$\nSum $= \\frac{33}{2}(102 + 198)$\nSum $= 4950$"
             },
             {
               id: "q2",
               text: "How many terms of the AP $24, 21, 18, \\dots$ must be taken so that their sum is 78?",
               options: ["$4$ or $13$", "$5$ or $12$", "$4$ only", "$13$ only"],
               correctIndex: 0,
-              solution: "$78 = (n/2)[48 + (n-1)(-3)] \\implies 156 = 51n - 3n^2 \\implies n^2 - 17n + 52 = 0$. $n=4$ or $13$."
+              solution: "$78 = \\frac{n}{2}[48 + (n-1)(-3)]$\n$156 = 51n - 3n^2$\n$n^2 - 17n + 52 = 0$\n$n = 4$ or $13$"
             },
             {
               id: "q3",
               text: "The sum of the first $n$ terms of an AP is $S_n = 4n^2 - n$. What is the common difference?",
               options: ["$3$", "$4$", "$8$", "$7$"],
               correctIndex: 2,
-              solution: "If $S_n = An^2 + Bn$, the common difference is $2A$. Here $2(4) = 8$."
+              solution: "If $S_n = An^2 + Bn$, then $d = 2A$\nHere, $A = 4$\n$d = 2(4) = 8$"
             },
             {
               id: "q4",
               text: "If $S_n = 2n^2 + 3n$, find the 10th term.",
               options: ["$41$", "$43$", "$38$", "$45$"],
               correctIndex: 0,
-              solution: "$a_{10} = S_{10} - S_9 = [2(100)+30] - [2(81)+27] = 230 - 189 = 41$."
+              solution: "$a_{10} = S_{10} - S_9$\n$S_{10} = 2(10^2) + 3(10) = 230$\n$S_9 = 2(9^2) + 3(9) = 189$\n$a_{10} = 230 - 189 = 41$"
             }
           ]
         }
@@ -199,6 +219,7 @@ export const sequencesChapter: Chapter = {
           },
           descriptionBelow: "The general format of a GP sequence is:\n$a, ar, ar^2, ar^3, \\dots$",
           explanation: "AP relies on addition; GP relies on multiplication. Use GP for compounding values.",
+          example: "Example: Find the 4th term of $2, 6, 18, \\dots$\nGiven: $a = 2$, $r = 3$, $n = 4$\nFormula: $a_n = a \\cdot r^{n-1}$\n$a_4 = 2 \\cdot 3^{4-1}$\n$a_4 = 2(27) = 54$",
           mnemonic: "",
           questions: [
             {
@@ -211,28 +232,28 @@ export const sequencesChapter: Chapter = {
                 "$1, 4, 9, 16, \\dots$"
               ],
               correctIndex: 2,
-              solution: "Option C has a constant ratio: $-8/4 = -2$, and $16/-8 = -2$."
+              solution: "Check constant ratio $r$:\n$-8/4 = -2$\n$16/-8 = -2$\nOption C is a GP."
             },
             {
               id: "q2",
               text: "In a GP, the first term is $3$ and the common ratio is $2$. What is the 6th term?",
               options: ["$192$", "$96$", "$48$", "$384$"],
               correctIndex: 1,
-              solution: "$a_6 = a(r^5) = 3(2^5) = 3(32) = 96$."
+              solution: "$a_6 = a \\cdot r^5$\n$a_6 = 3 \\cdot (2^5)$\n$a_6 = 3(32)$\n$a_6 = 96$"
             },
             {
               id: "q3",
               text: "The 3rd term of a GP is $12$ and the 6th term is $96$. What is the first term $a$?",
               options: ["$2$", "$3$", "$4$", "$6$"],
               correctIndex: 1,
-              solution: "$ar^2 = 12$ and $ar^5 = 96$. Divide: $r^3 = 8 \\implies r = 2$. $a(4) = 12 \\implies a = 3$."
+              solution: "Given: $ar^2 = 12$ and $ar^5 = 96$\nDivide the equations:\n$\\frac{ar^5}{ar^2} = \\frac{96}{12}$\n$r^3 = 8 \\implies r = 2$\nSubstitute $r=2$:\n$a(2^2) = 12 \\implies a(4) = 12 \\implies a = 3$"
             },
             {
               id: "q4",
               text: "What is the common ratio of the GP $5, 15, 45, 135, \\dots$?",
               options: ["$2$", "$3$", "$4$", "$5$"],
               correctIndex: 1,
-              solution: "Ratio $r = 15 / 5 = 3$."
+              solution: "Ratio $r = \\frac{15}{5} = 3$"
             }
           ]
         }
@@ -258,6 +279,7 @@ export const sequencesChapter: Chapter = {
           },
           descriptionBelow: "Where \"First\" is the smallest factor of the first denominator, and \"Last\" is the largest factor of the last denominator.",
           explanation: "Use this to instantly evaluate long fraction sums without finding a common denominator.",
+          example: "Example: Sum of $\\frac{1}{2\\times3} + \\frac{1}{3\\times4}$\nGiven: $d = 1$, First $= 2$, Last $= 4$\nFormula: Sum $= \\frac{1}{d} [\\frac{1}{\\text{First}} - \\frac{1}{\\text{Last}}]$\nSum $= \\frac{1}{1} [\\frac{1}{2} - \\frac{1}{4}] = \\frac{1}{4}$",
           mnemonic: "",
           questions: [
             {
@@ -265,28 +287,28 @@ export const sequencesChapter: Chapter = {
               text: "Find the sum: $\\frac{1}{3 \\times 5} + \\frac{1}{5 \\times 7} + \\dots + \\frac{1}{21 \\times 23}$.",
               options: ["$\\frac{20}{69}$", "$\\frac{10}{69}$", "$\\frac{2}{23}$", "$\\frac{5}{69}$"],
               correctIndex: 1,
-              solution: "$d = 2$. Sum $= \\frac{1}{2} [\\frac{1}{3} - \\frac{1}{23}] = \\frac{1}{2} [\\frac{20}{69}] = \\frac{10}{69}$."
+              solution: "$d = 2$\nSum $= \\frac{1}{2} [\\frac{1}{3} - \\frac{1}{23}]$\nSum $= \\frac{1}{2} [\\frac{20}{69}]$\nSum $= \\frac{10}{69}$"
             },
             {
               id: "q2",
               text: "Evaluate: $\\frac{1}{2 \\times 5} + \\frac{1}{5 \\times 8} + \\dots + \\frac{1}{29 \\times 32}$.",
               options: ["$\\frac{5}{32}$", "$\\frac{15}{64}$", "$\\frac{15}{32}$", "$\\frac{5}{64}$"],
               correctIndex: 0,
-              solution: "$d = 3$. Sum $= \\frac{1}{3} [\\frac{1}{2} - \\frac{1}{32}] = \\frac{1}{3} [\\frac{15}{32}] = \\frac{5}{32}$."
+              solution: "$d = 3$\nSum $= \\frac{1}{3} [\\frac{1}{2} - \\frac{1}{32}]$\nSum $= \\frac{1}{3} [\\frac{15}{32}]$\nSum $= \\frac{5}{32}$"
             },
             {
               id: "q3",
               text: "Sum of: $\\frac{1}{1 \\times 2} + \\frac{1}{2 \\times 3} + \\dots + \\frac{1}{99 \\times 100}$",
               options: ["$\\frac{99}{100}$", "$\\frac{1}{100}$", "$\\frac{100}{99}$", "$1$"],
               correctIndex: 0,
-              solution: "$d = 1$. Sum $= 1 [1/1 - 1/100] = 99/100$."
+              solution: "$d = 1$\nSum $= 1 [\\frac{1}{1} - \\frac{1}{100}]$\nSum $= \\frac{99}{100}$"
             },
             {
               id: "q4",
               text: "Evaluate $\\frac{1}{4 \\times 7} + \\frac{1}{7 \\times 10} + \\frac{1}{10 \\times 13}$",
               options: ["$\\frac{3}{52}$", "$\\frac{9}{52}$", "$\\frac{1}{52}$", "$\\frac{3}{13}$"],
               correctIndex: 0,
-              solution: "$d = 3$. Sum $= \\frac{1}{3} [\\frac{1}{4} - \\frac{1}{13}] = \\frac{1}{3} [\\frac{9}{52}] = \\frac{3}{52}$."
+              solution: "$d = 3$\nSum $= \\frac{1}{3} [\\frac{1}{4} - \\frac{1}{13}]$\nSum $= \\frac{1}{3} [\\frac{9}{52}]$\nSum $= \\frac{3}{52}$"
             }
           ]
         }
