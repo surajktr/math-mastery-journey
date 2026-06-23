@@ -3,14 +3,14 @@ import { n as require_react, r as require_jsx_runtime, t as QueryClientProvider 
 import { c as HeadContent, d as createRouter, f as Outlet, g as Link, h as createRootRouteWithContext, m as createFileRoute, p as lazyRouteComponent, s as Scripts, y as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
 import { t as Route$4 } from "./chapter._chapterId-BYdeAHIH.mjs";
 import { t as Toaster } from "../_libs/sonner.mjs";
-import { t as Route$5 } from "./concept._conceptId-DkFnwgLX.mjs";
-import { t as Route$6 } from "./quiz._conceptId-DdRotbLt.mjs";
+import { t as Route$5 } from "./concept._conceptId-PzgsNMWB.mjs";
+import { t as Route$6 } from "./quiz._conceptId-bVhABQVb.mjs";
 import { t as Route$7 } from "./result._conceptId-C7q5T8Dk.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-C1lQxqTt.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-C6sAMlEK.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-Y3KZcMkH.css";
+var styles_default = "/assets/styles-wsOHIatC.css";
 function reportLovableError(error, context = {}) {
 	if (typeof window === "undefined") return;
 	window.__lovableEvents?.captureException?.(error, {

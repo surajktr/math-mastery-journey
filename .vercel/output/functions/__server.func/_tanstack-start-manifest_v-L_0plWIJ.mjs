@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-CbEJOA20.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-L_0plWIJ.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "C:/Users/Suraj/.gemini/antigravity/scratch/math-mastery-journey/src/routes/__root.tsx",
@@ -12,21 +12,21 @@ var tsrStartManifest = () => ({ routes: {
 			"/result/$conceptId"
 		],
 		preloads: [
-			"/assets/index-CmsM-MBB.js",
+			"/assets/index-aOTDcHKb.js",
 			"/assets/jsx-runtime-DVpe7PXp.js",
 			"/assets/link-DT8qA2ul.js"
 		],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-CmsM-MBB.js"
+			src: "/assets/index-aOTDcHKb.js"
 		} }]
 	},
 	"/": {
 		filePath: "C:/Users/Suraj/.gemini/antigravity/scratch/math-mastery-journey/src/routes/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/routes-RDf21rdL.js",
+			"/assets/routes-BgEZZ5sg.js",
 			"/assets/BottomNav-BNOHBdQe.js",
 			"/assets/arrow-right-BC-_quOf.js",
 			"/assets/flame-DalVzTAE.js",
@@ -62,7 +62,7 @@ var tsrStartManifest = () => ({ routes: {
 		preloads: [
 			"/assets/chapter._chapterId-79zjCSOE.js",
 			"/assets/chapter._chapterId-B9Xr991c.js",
-			"/assets/chapter._chapterId-KVI5Zz0x.js",
+			"/assets/chapter._chapterId-K2PZbhNb.js",
 			"/assets/BottomNav-BNOHBdQe.js",
 			"/assets/createLucideIcon-Bo4n7oe1.js",
 			"/assets/arrow-left-CazUBbxn.js",
@@ -74,43 +74,43 @@ var tsrStartManifest = () => ({ routes: {
 	"/concept/$conceptId": {
 		filePath: "C:/Users/Suraj/.gemini/antigravity/scratch/math-mastery-journey/src/routes/concept.$conceptId.tsx",
 		children: void 0,
-		css: ["/assets/TriangleDiagram-CYlHEDRF.css"],
 		preloads: [
-			"/assets/concept._conceptId-B2ngW8bz.js",
+			"/assets/concept._conceptId-BuOup3Ag.js",
+			"/assets/concept._conceptId-CQKPm0bj.js",
 			"/assets/BottomNav-BNOHBdQe.js",
-			"/assets/TriangleDiagram-D-h5qi7Z.js",
+			"/assets/TriangleDiagram-Cb4J8cpg.js",
 			"/assets/arrow-left-CazUBbxn.js",
 			"/assets/arrow-right-BC-_quOf.js",
 			"/assets/house-DoM_ivHj.js",
 			"/assets/OwlMascot-Be9AEqDC.js",
 			"/assets/data-COZBpuLl.js",
-			"/assets/concept._conceptId-BuOup3Ag.js",
 			"/assets/concept._conceptId-CuP-byK9.js"
-		]
+		],
+		css: ["/assets/TriangleDiagram-CYlHEDRF.css"]
 	},
 	"/quiz/$conceptId": {
 		filePath: "C:/Users/Suraj/.gemini/antigravity/scratch/math-mastery-journey/src/routes/quiz.$conceptId.tsx",
 		children: void 0,
+		css: ["/assets/TriangleDiagram-CYlHEDRF.css"],
 		preloads: [
-			"/assets/quiz._conceptId-BuOup3Ag.js",
-			"/assets/quiz._conceptId-CEItfRx3.js",
+			"/assets/quiz._conceptId-Bo1V84yF.js",
 			"/assets/proxy-UO4uyAuy.js",
-			"/assets/TriangleDiagram-D-h5qi7Z.js",
+			"/assets/TriangleDiagram-Cb4J8cpg.js",
 			"/assets/createLucideIcon-Bo4n7oe1.js",
 			"/assets/house-DoM_ivHj.js",
 			"/assets/store-Cn8SYOYE.js",
 			"/assets/OwlMascot-Be9AEqDC.js",
 			"/assets/data-COZBpuLl.js",
+			"/assets/quiz._conceptId-BuOup3Ag.js",
 			"/assets/quiz._conceptId-CuP-byK9.js"
-		],
-		css: ["/assets/TriangleDiagram-CYlHEDRF.css"]
+		]
 	},
 	"/result/$conceptId": {
 		filePath: "C:/Users/Suraj/.gemini/antigravity/scratch/math-mastery-journey/src/routes/result.$conceptId.tsx",
 		children: void 0,
 		preloads: [
 			"/assets/result._conceptId-BuOup3Ag.js",
-			"/assets/result._conceptId-CX_8tnU3.js",
+			"/assets/result._conceptId-CuIL2-2d.js",
 			"/assets/proxy-UO4uyAuy.js",
 			"/assets/createLucideIcon-Bo4n7oe1.js",
 			"/assets/arrow-right-BC-_quOf.js",

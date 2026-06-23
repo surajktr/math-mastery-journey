@@ -4,10 +4,10 @@ import { v as useNavigate, y as useRouter } from "../_libs/@tanstack/react-route
 import { r as getConcept } from "./data-4QvEhkiz.mjs";
 import { _ as ArrowRight, u as House, v as ArrowLeft } from "../_libs/lucide-react.mjs";
 import { t as BottomNav } from "./BottomNav-DGxyn_5j.mjs";
-import { t as Route } from "./concept._conceptId-DkFnwgLX.mjs";
+import { t as Route } from "./concept._conceptId-PzgsNMWB.mjs";
 import { t as OwlMascot } from "./OwlMascot-BeISd_2X.mjs";
-import { n as MathText, r as TriangleDiagram, t as FormulaCard } from "./TriangleDiagram-D1lekt4N.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/concept._conceptId-D7wcAhez.js
+import { n as MathText, r as TriangleDiagram, t as FormulaCard } from "./TriangleDiagram-RDvglDmK.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/concept._conceptId-onQDhAW2.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function ConceptPage() {
