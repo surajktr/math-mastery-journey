@@ -8,7 +8,15 @@ import { MathText } from "@/components/MathText";
 import { TriangleDiagram } from "@/components/TriangleDiagram";
 import { BottomNav } from "@/components/BottomNav";
 
+type Search = { f?: number; score?: number; hints?: number; xp?: number };
+
 export const Route = createFileRoute("/concept/$conceptId")({
+  validateSearch: (s: Record<string, unknown>): Search => ({
+    f: Number(s.f) || 0,
+    score: Number(s.score) || 0,
+    hints: Number(s.hints) || 0,
+    xp: Number(s.xp) || 0,
+  }),
   component: ConceptPage,
   notFoundComponent: () => <div className="p-10">Not found</div>,
   errorComponent: ({ error }) => <div className="p-10">{error.message}</div>,
@@ -19,12 +27,12 @@ function ConceptPage() {
   const data = getConcept(conceptId);
   const router = useRouter();
   const nav = useNavigate();
-  const [idx, setIdx] = useState(0);
+  const { f = 0, score = 0, hints = 0, xp = 0 } = Route.useSearch();
   if (!data) return <div className="p-10">Not found</div>;
   const { concept } = data;
   const total = concept.formulas.length || 6;
-  const formula = concept.formulas[idx];
-  const isLast = idx === concept.formulas.length - 1;
+  const formula = concept.formulas[f];
+  const isLast = f === concept.formulas.length - 1;
 
   return (
     <div className="min-h-screen pb-32">
@@ -40,10 +48,10 @@ function ConceptPage() {
         <div className="flex items-center gap-2 mb-6">
           <div className="flex-1 flex gap-1.5">
             {Array.from({ length: total }).map((_, i) => (
-              <div key={i} className={`h-2 flex-1 rounded-full ${i <= idx ? "bg-[oklch(0.55_0.22_295)]" : "bg-muted"}`} />
+              <div key={i} className={`h-2 flex-1 rounded-full ${i <= f ? "bg-[oklch(0.55_0.22_295)]" : "bg-muted"}`} />
             ))}
           </div>
-          <span className="text-sm font-bold text-[oklch(0.55_0.22_295)]">{idx + 1} of {total}</span>
+          <span className="text-sm font-bold text-[oklch(0.55_0.22_295)]">{f + 1} of {total}</span>
         </div>
 
         {formula ? (
@@ -71,7 +79,7 @@ function ConceptPage() {
                   <p className="text-sm font-bold text-[oklch(0.5_0.16_85)] flex items-center justify-center gap-1.5">
                     <span className="text-base leading-none">💡</span> Memory Tip
                   </p>
-                  <p className="italic mt-1 text-sm text-center">{formula.mnemonic}</p>
+                  <div className="italic mt-1 text-sm text-center"><MathText>{formula.mnemonic}</MathText></div>
                 </div>
               </div>
             )}
@@ -85,23 +93,10 @@ function ConceptPage() {
             )}
 
             <div className="flex items-center justify-center gap-3 mt-8">
-              {idx > 0 && (
-                <button onClick={() => setIdx((i) => Math.max(0, i - 1))}
-                  className="size-11 rounded-full bg-card border border-border shrink-0 flex items-center justify-center shadow-soft">
-                  <ArrowLeft className="size-4" />
-                </button>
-              )}
-              {isLast ? (
-                <button onClick={() => nav({ to: "/quiz/$conceptId", params: { conceptId } })}
-                  className="px-6 h-12 rounded-xl gradient-algebra text-white font-bold text-base shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
-                  Start Practice Questions <ArrowRight className="size-4" />
-                </button>
-              ) : (
-                <button onClick={() => setIdx((i) => Math.min(concept.formulas.length - 1, i + 1))}
-                  className="px-6 h-12 rounded-xl bg-primary text-primary-foreground font-bold text-base shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
-                  Next <ArrowRight className="size-4" />
-                </button>
-              )}
+              <button onClick={() => nav({ to: "/quiz/$conceptId", params: { conceptId }, search: { f, score, hints, xp } as any })}
+                className="w-full h-14 rounded-xl gradient-algebra text-white font-bold text-lg shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
+                Practice This Formula <ArrowRight className="size-5" />
+              </button>
             </div>
           </>
         ) : (

@@ -42,47 +42,47 @@ function ResultPage() {
     <div className="min-h-screen relative overflow-hidden">
       <Confetti />
       <div className="mx-auto max-w-md px-5 pt-8 pb-12 relative">
-        <h1 className="text-center text-2xl font-extrabold mb-2">Math<span className="text-primary">Dojo</span></h1>
+        <h1 className="text-center text-xl font-extrabold mb-2">Math<span className="text-primary">Dojo</span></h1>
 
         <motion.div initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", damping: 12 }}
           className="relative flex items-end justify-center my-4">
-          <img src={trophy} alt="Trophy" className="w-56 h-56 object-contain" width={512} height={512} loading="lazy" />
-          <div className="absolute -right-2 bottom-4"><OwlMascot size={110} /></div>
+          <img src={trophy} alt="Trophy" className="w-40 h-40 object-contain" width={512} height={512} loading="lazy" />
+          <div className="absolute -right-2 bottom-4"><OwlMascot size={75} /></div>
         </motion.div>
 
-        <h2 className="text-center text-4xl font-extrabold mb-6">
+        <h2 className="text-center text-3xl font-extrabold mb-6">
           {score} / {total} — {perfect ? "Perfect!" : score >= total * 0.66 ? "Great job!" : "Keep practicing!"}
         </h2>
 
         <div className="grid grid-cols-3 gap-3 mb-6">
-          <Stat color="oklch(0.96 0.06 145)" textColor="oklch(0.45 0.18 145)" value={formulasCovered} label={"formulas\ncovered"} icon={<Check className="size-5" />} />
-          <Stat color="oklch(0.98 0.08 85)" textColor="oklch(0.55 0.18 85)" value={hints} label={"hints\nused"} icon={<Lightbulb className="size-5" />} />
-          <Stat color="oklch(0.96 0.05 295)" textColor="oklch(0.5 0.22 295)" value={`+1`} label="Streak" icon={<Flame className="size-5" />} />
+          <Stat color="oklch(0.96 0.06 145)" textColor="oklch(0.45 0.18 145)" value={formulasCovered} label={"formulas\ncovered"} icon={<Check className="size-4" />} />
+          <Stat color="oklch(0.98 0.08 85)" textColor="oklch(0.55 0.18 85)" value={hints} label={"hints\nused"} icon={<Lightbulb className="size-4" />} />
+          <Stat color="oklch(0.96 0.05 295)" textColor="oklch(0.5 0.22 295)" value={`+1`} label="Streak" icon={<Flame className="size-4" />} />
         </div>
 
-        <p className="text-center text-2xl font-extrabold mb-5">You crushed {data?.concept.title}! 🎉</p>
+        <p className="text-center text-lg font-extrabold mb-5">You crushed {data?.concept.title}! 🎉</p>
 
         <div className="space-y-3">
           {next ? (
             <button onClick={() => nav({ to: "/concept/$conceptId", params: { conceptId: next.id } })}
-              className="w-full h-14 rounded-2xl bg-primary text-primary-foreground font-extrabold text-lg shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
-              Next Concept <ArrowRight className="size-5" />
+              className="w-full h-12 rounded-2xl bg-primary text-primary-foreground font-extrabold text-base shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
+              Next Concept <ArrowRight className="size-4" />
             </button>
           ) : (
             <Link to="/chapter/$chapterId" params={{ chapterId: data?.chapter.id ?? "" }}
-              className="w-full h-14 rounded-2xl bg-primary text-primary-foreground font-extrabold text-lg shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
+              className="w-full h-12 rounded-2xl bg-primary text-primary-foreground font-extrabold text-base shadow-card flex items-center justify-center gap-2 active:scale-[0.98]">
               Back to Chapter
             </Link>
           )}
           <button onClick={() => nav({ to: "/quiz/$conceptId", params: { conceptId } })}
-            className="w-full h-14 rounded-2xl bg-card border-2 border-primary text-primary font-extrabold text-lg active:scale-[0.98]">
+            className="w-full h-12 rounded-2xl bg-card border-2 border-primary text-primary font-extrabold text-base active:scale-[0.98]">
             Review Mistakes
           </button>
         </div>
 
         <div className="mt-6 flex justify-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.97_0.1_85)] border border-[oklch(0.88_0.14_85)] px-5 py-2.5 text-[oklch(0.45_0.16_85)] font-extrabold">
-            <Star className="size-5" fill="oklch(0.78 0.18 85)" /> +{xp} XP
+          <div className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.97_0.1_85)] border border-[oklch(0.88_0.14_85)] px-4 py-2 text-[oklch(0.45_0.16_85)] font-extrabold text-sm">
+            <Star className="size-4" fill="oklch(0.78 0.18 85)" /> +{xp} XP
           </div>
         </div>
       </div>
@@ -93,9 +93,9 @@ function ResultPage() {
 function Stat({ color, textColor, value, label, icon }: any) {
   return (
     <div className="rounded-2xl p-4 text-center flex flex-col items-center gap-1" style={{ backgroundColor: color, color: textColor }}>
-      <div className="size-9 rounded-full bg-white/70 flex items-center justify-center">{icon}</div>
-      <div className="text-3xl font-extrabold">{value}</div>
-      <div className="text-xs font-bold whitespace-pre-line leading-tight">{label}</div>
+      <div className="size-7 rounded-full bg-white/70 flex items-center justify-center">{icon}</div>
+      <div className="text-2xl font-extrabold">{value}</div>
+      <div className="text-[10px] font-bold whitespace-pre-line leading-tight">{label}</div>
     </div>
   );
 }

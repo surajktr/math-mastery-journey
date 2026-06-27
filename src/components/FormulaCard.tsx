@@ -35,7 +35,7 @@ function AutoFitText({ children, className, maxSize = 24, minSize = 9 }: {
   }, [children, maxSize, minSize]);
 
   return (
-    <div ref={containerRef} className="w-full overflow-hidden flex items-center justify-center">
+    <div ref={containerRef} className="max-w-full overflow-hidden flex items-center justify-center shrink min-w-0">
       <div
         ref={contentRef}
         style={{ fontSize: `${fontSize}px`, whiteSpace: "nowrap" }}

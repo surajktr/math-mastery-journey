@@ -9,7 +9,15 @@ import { HintSheet } from "@/components/HintSheet";
 import { TriangleDiagram } from "@/components/TriangleDiagram";
 import { MathText } from "@/components/MathText";
 
+type Search = { f?: number; score?: number; hints?: number; xp?: number };
+
 export const Route = createFileRoute("/quiz/$conceptId")({
+  validateSearch: (s: Record<string, unknown>): Search => ({
+    f: Number(s.f) || 0,
+    score: Number(s.score) || 0,
+    hints: Number(s.hints) || 0,
+    xp: Number(s.xp) || 0,
+  }),
   component: QuizPage,
   notFoundComponent: () => <div className="p-10">Not found</div>,
   errorComponent: ({ error }) => <div className="p-10">{error.message}</div>,
@@ -25,40 +33,56 @@ function QuizPage() {
   const markWrong = useStore((s) => s.markWrong);
   const completeConcept = useStore((s) => s.completeConcept);
 
+  const { f = 0, score: initialScore = 0, hints: initialHints = 0, xp: initialXp = 0 } = Route.useSearch();
+  
   const flat: Flat[] = useMemo(() => {
-    if (!data) return [];
-    const arr: Flat[] = [];
-    data.concept.formulas.forEach((f, fi) => f.questions.forEach((_, qi) => arr.push({ formulaIdx: fi, questionIdx: qi })));
-    return arr;
-  }, [data]);
+    if (!data || !data.concept.formulas[f]) return [];
+    return data.concept.formulas[f].questions.map((_, qi) => ({ formulaIdx: f, questionIdx: qi }));
+  }, [data, f]);
 
   const [pos, setPos] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [checked, setChecked] = useState(false);
   const [hintOpen, setHintOpen] = useState(false);
-  const [hintsUsed, setHintsUsed] = useState(0);
-  const [score, setScore] = useState(0);
+  const [hintsUsed, setHintsUsed] = useState(initialHints);
+  const [score, setScore] = useState(initialScore);
 
-  if (!data || flat.length === 0) return <div className="p-10">No questions yet.</div>;
+  if (!data || flat.length === 0) return <div className="p-10">No questions for this formula yet.</div>;
 
   const cur = flat[pos];
-  const formula = data.concept.formulas[cur.formulaIdx];
+  const formula = data.concept.formulas[f];
   const q = formula.questions[cur.questionIdx];
-  const totalQ = formula.questions.length;
-  const overallPct = Math.round(((pos + (checked ? 1 : 0)) / flat.length) * 100);
+  const totalQ = flat.length;
+  const overallPct = Math.round(((pos + (checked ? 1 : 0)) / totalQ) * 100);
 
-  const check = () => {
-    if (selected == null) return;
+  const handleOptionSelect = (i: number) => {
+    if (checked) return;
+    setSelected(i);
     setChecked(true);
-    if (selected === q.correctIndex) setScore((s) => s + 1);
+    if (i === q.correctIndex) setScore((s) => s + 1);
     else markWrong(formula.id);
   };
 
   const next = () => {
     if (pos + 1 >= flat.length) {
-      const xp = score * 10 + (score === flat.length ? 10 : 0) + (hintsUsed === 0 ? 10 : 0);
-      completeConcept(conceptId, score, hintsUsed, xp);
-      nav({ to: "/result/$conceptId", params: { conceptId }, search: { score, total: flat.length, hints: hintsUsed, xp } as any });
+      // Finished this formula's questions
+      const formulaScore = score - initialScore;
+      const formulaHints = hintsUsed - initialHints;
+      const formulaXp = formulaScore * 10 + (formulaScore === flat.length ? 10 : 0) + (formulaHints === 0 ? 10 : 0);
+      const newXp = initialXp + formulaXp;
+      
+      const isLastFormula = f === data.concept.formulas.length - 1;
+      
+      if (isLastFormula) {
+        completeConcept(conceptId, score, hintsUsed, newXp);
+        
+        // Count total questions across all formulas for the final result screen
+        const totalQuestions = data.concept.formulas.reduce((sum, form) => sum + form.questions.length, 0);
+        
+        nav({ to: "/result/$conceptId", params: { conceptId }, search: { score, total: totalQuestions, hints: hintsUsed, xp: newXp } as any });
+      } else {
+        nav({ to: "/concept/$conceptId", params: { conceptId }, search: { f: f + 1, score, hints: hintsUsed, xp: newXp } as any });
+      }
       return;
     }
     setPos((p) => p + 1);
@@ -104,55 +128,75 @@ function QuizPage() {
           Question {cur.questionIdx + 1} of {totalQ} — Formula: <span className="text-[oklch(0.62_0.2_55)] font-bold italic">{formula.name}</span>
         </p>
 
-        <motion.div key={pos} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} className="w-full rounded-2xl bg-card border border-border p-5 shadow-soft mb-5 overflow-x-auto">
-          <div className="w-full text-left font-bold text-sm leading-relaxed"><MathText>{q.text}</MathText></div>
-          {q.diagram && (
-            <div className="mt-3">
-              <TriangleDiagram hyp={q.diagram.hyp} opp={q.diagram.opp} adj={q.diagram.adj} />
-            </div>
+        <motion.div 
+          key={pos} 
+          initial={{ opacity: 0, x: 50 }} 
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -50 }}
+          drag={checked ? "x" : false}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.2}
+          onDragEnd={(e, info) => {
+            if (checked && info.offset.x < -50) {
+              next();
+            }
+          }}
+          className="w-full touch-pan-y"
+        >
+          <div className="w-full rounded-2xl bg-card border border-border p-5 shadow-soft mb-5 overflow-x-auto">
+            <div className="w-full text-left font-bold text-sm leading-relaxed"><MathText>{q.text}</MathText></div>
+            {q.diagram && (
+              <div className="mt-3">
+                <TriangleDiagram hyp={q.diagram.hyp} opp={q.diagram.opp} adj={q.diagram.adj} />
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-3">
+            {q.options.map((opt, i) => {
+              const isCorrect = checked && i === q.correctIndex;
+              const isWrong = checked && i === selected && i !== q.correctIndex;
+              const selectedState = selected === i && !checked;
+              return (
+                <button key={i} disabled={checked} onClick={() => handleOptionSelect(i)}
+                  className={`w-full rounded-2xl border-2 bg-card p-2.5 flex items-center gap-3 text-left transition-all shadow-soft ${
+                    isCorrect ? "border-primary bg-[oklch(0.96_0.08_145)]"
+                      : isWrong ? "border-destructive bg-[oklch(0.97_0.06_28)]"
+                      : selectedState ? "border-[oklch(0.62_0.2_55)] scale-[1.01]"
+                      : "border-border"
+                  }`}>
+                  <div className={`size-8 rounded-full flex items-center justify-center font-extrabold text-sm shrink-0 ${
+                    isCorrect ? "bg-primary text-white" : isWrong ? "bg-destructive text-white" : "bg-[oklch(0.97_0.05_60)] text-[oklch(0.62_0.2_55)]"
+                  }`}>
+                    {isCorrect ? <Check className="size-4" /> : isWrong ? <X className="size-4" /> : String.fromCharCode(65 + i)}
+                  </div>
+                  <span className="font-medium text-sm flex-1"><MathText>{opt}</MathText></span>
+                </button>
+              );
+            })}
+          </div>
+
+          {checked && (
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4">
+              <p className={`text-center font-bold ${selected === q.correctIndex ? "text-primary" : "text-destructive"}`}>
+                {selected === q.correctIndex ? "✓ Correct!" : <span>✗ Not quite. Correct answer: <MathText>{q.options[q.correctIndex]}</MathText></span>}
+              </p>
+
+              <div className="mt-3 rounded-2xl border border-[oklch(0.85_0.08_145)] bg-[oklch(0.97_0.02_145)] p-4">
+                <p className="text-sm font-bold text-[oklch(0.4_0.15_145)] mb-2 flex items-center gap-1.5">
+                  <Lightbulb className="size-4" /> Solution
+                </p>
+                <div className="text-sm leading-relaxed text-foreground/80 whitespace-pre-wrap">
+                  <MathText>{q.solution || formula.explanation}</MathText>
+                </div>
+              </div>
+              
+              <div className="mt-4 text-center text-sm font-bold text-muted-foreground animate-pulse flex items-center justify-center gap-2">
+                 👈 Swipe left to continue
+              </div>
+            </motion.div>
           )}
         </motion.div>
-
-        <div className="space-y-3">
-          {q.options.map((opt, i) => {
-            const isCorrect = checked && i === q.correctIndex;
-            const isWrong = checked && i === selected && i !== q.correctIndex;
-            const selectedState = selected === i && !checked;
-            return (
-              <button key={i} disabled={checked} onClick={() => setSelected(i)}
-                className={`w-full rounded-2xl border-2 bg-card p-2.5 flex items-center gap-3 text-left transition-all shadow-soft ${
-                  isCorrect ? "border-primary bg-[oklch(0.96_0.08_145)]"
-                    : isWrong ? "border-destructive bg-[oklch(0.97_0.06_28)]"
-                    : selectedState ? "border-[oklch(0.62_0.2_55)] scale-[1.01]"
-                    : "border-border"
-                }`}>
-                <div className={`size-8 rounded-full flex items-center justify-center font-extrabold text-sm shrink-0 ${
-                  isCorrect ? "bg-primary text-white" : isWrong ? "bg-destructive text-white" : "bg-[oklch(0.97_0.05_60)] text-[oklch(0.62_0.2_55)]"
-                }`}>
-                  {isCorrect ? <Check className="size-4" /> : isWrong ? <X className="size-4" /> : String.fromCharCode(65 + i)}
-                </div>
-                <span className="font-medium text-sm flex-1"><MathText>{opt}</MathText></span>
-              </button>
-            );
-          })}
-        </div>
-
-        {checked && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4">
-            <p className={`text-center font-bold ${selected === q.correctIndex ? "text-primary" : "text-destructive"}`}>
-              {selected === q.correctIndex ? "✓ Correct!" : <span>✗ Not quite. Correct answer: <MathText>{q.options[q.correctIndex]}</MathText></span>}
-            </p>
-
-            <div className="mt-3 rounded-2xl border border-[oklch(0.85_0.08_145)] bg-[oklch(0.97_0.02_145)] p-4">
-              <p className="text-sm font-bold text-[oklch(0.4_0.15_145)] mb-2 flex items-center gap-1.5">
-                <Lightbulb className="size-4" /> Solution
-              </p>
-              <div className="text-sm leading-relaxed text-foreground/80 whitespace-pre-wrap">
-                <MathText>{q.solution || formula.explanation}</MathText>
-              </div>
-            </div>
-          </motion.div>
-        )}
 
         <div className="mt-5 flex items-center gap-3">
           <button onClick={() => { setHintOpen(true); setHintsUsed((h) => h + 1); }}
@@ -160,10 +204,7 @@ function QuizPage() {
             Hint <Lightbulb className="size-4" fill="oklch(0.82_0.16_85)" />
           </button>
           <div className="flex-1" />
-          {!checked ? (
-            <button onClick={check} disabled={selected == null}
-              className="h-12 px-6 rounded-2xl bg-primary text-primary-foreground font-extrabold shadow-card disabled:opacity-40">Check</button>
-          ) : (
+          {checked && (
             <button onClick={next} className="h-12 px-6 rounded-2xl bg-primary text-primary-foreground font-extrabold shadow-card">Next →</button>
           )}
         </div>

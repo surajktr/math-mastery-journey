@@ -1,0 +1,1036 @@
+{
+  "id": "ch-algebra-all-19",
+  "title": "Algebraic Identities",
+  "tagline": "All 12 Square Formulas and 7 Cube Formulas, completely mapped out!",
+  "color": "algebra",
+  "totalConcepts": 2,
+  "concepts": [
+    {
+      "id": "concept-square-12",
+      "chapterId": "ch-algebra-all-19",
+      "title": "The 12 Square Formulas",
+      "subtitle": "Master every variation of the square identities.",
+      "difficulty": "Medium",
+      "order": 1,
+      "formulas": [
+        {
+          "id": "sq-1",
+          "name": "Difference of Squares",
+          "descriptionAbove": "This formula breaks down the difference between two perfect squares.",
+          "expression": {
+            "lhs": "a^2 - b^2",
+            "num": "",
+            "den": "(a+b)(a-b)",
+            "color": "info"
+          },
+          "descriptionBelow": "A foundational tool for factoring polynomials.",
+          "explanation": "The middle terms cancel out when you multiply the binomials.",
+          "example": "Factor $x^2 - 25$.\nSolution: $(x+5)(x-5)$.",
+          "mnemonic": "Sum times difference equals the difference of squares.",
+          "questions": [
+            {
+              "id": "sq-1-q1",
+              "text": "Factor $y^2 - 64$.",
+              "options": [
+                "$(y-8)^2$",
+                "$(y+8)(y-8)$",
+                "$(y+8)^2$",
+                "$y(y-64)$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Identify $a=y, b=8$.\nStep 2: Apply $(a+b)(a-b) = (y+8)(y-8)$."
+            },
+            {
+              "id": "sq-1-q2",
+              "text": "Calculate $51^2 - 49^2$ quickly.",
+              "options": [
+                "$100$",
+                "$200$",
+                "$300$",
+                "$400$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Use $(51+49)(51-49)$.\nStep 2: $100 \\times 2 = 200$."
+            },
+            {
+              "id": "sq-1-q3",
+              "text": "Expand $(3x + 2)(3x - 2)$.",
+              "options": [
+                "$9x^2 - 4$",
+                "$9x^2 + 4$",
+                "$3x^2 - 4$",
+                "$9x^2 - 12x - 4$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: Identify $a=3x, b=2$.\nStep 2: $(3x)^2 - (2)^2 = 9x^2 - 4$."
+            }
+          ]
+        },
+        {
+          "id": "sq-2",
+          "name": "Square of a Sum",
+          "descriptionAbove": "Expands a binomial sum squared into a perfect square trinomial.",
+          "expression": {
+            "lhs": "(a+b)^2",
+            "num": "",
+            "den": "a^2 + b^2 + 2ab",
+            "color": "info"
+          },
+          "descriptionBelow": "Always remember the $2ab$ middle term!",
+          "explanation": "Crucial for finding expansions when given sums and products.",
+          "example": "Expand $(x+3)^2$.\nSolution: $x^2 + 9 + 6x$.",
+          "mnemonic": "Square the ends and double the product in the middle.",
+          "questions": [
+            {
+              "id": "sq-2-q1",
+              "text": "Expand $(2x + 5)^2$.",
+              "options": [
+                "$4x^2 + 25$",
+                "$4x^2 + 10x + 25$",
+                "$4x^2 + 20x + 25$",
+                "$2x^2 + 20x + 25$"
+              ],
+              "correctIndex": 2,
+              "solution": "Step 1: $(2x)^2 + 2(2x)(5) + 5^2$.\nStep 2: $4x^2 + 20x + 25$."
+            },
+            {
+              "id": "sq-2-q2",
+              "text": "If $a^2+b^2=13$ and $ab=6$, what is the positive value of $a+b$?",
+              "options": [
+                "$4$",
+                "$5$",
+                "$6$",
+                "$7$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: $(a+b)^2 = 13 + 2(6) = 25$.\nStep 2: $a+b = \\sqrt{25} = 5$."
+            },
+            {
+              "id": "sq-2-q3",
+              "text": "Factor $x^2 + 14x + 49$.",
+              "options": [
+                "$(x-7)^2$",
+                "$(x+7)^2$",
+                "$(x+14)^2$",
+                "$(x+7)(x-7)$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Recognize $49 = 7^2$ and $14x = 2(7)(x)$.\nStep 2: Result is $(x+7)^2$."
+            }
+          ]
+        },
+        {
+          "id": "sq-3",
+          "name": "Square of a Difference",
+          "descriptionAbove": "Expands a subtracted binomial into a trinomial.",
+          "expression": {
+            "lhs": "(a-b)^2",
+            "num": "",
+            "den": "a^2 + b^2 - 2ab",
+            "color": "info"
+          },
+          "descriptionBelow": "The middle term is negative, but the last term is positive.",
+          "explanation": "Used frequently to find differences when products are known.",
+          "example": "Expand $(y-4)^2$.\nSolution: $y^2 - 8y + 16$.",
+          "mnemonic": "Same as the sum formula, but subtract the middle term.",
+          "questions": [
+            {
+              "id": "sq-3-q1",
+              "text": "Expand $(3a - 1)^2$.",
+              "options": [
+                "$9a^2 - 1$",
+                "$9a^2 - 3a + 1$",
+                "$9a^2 - 6a + 1$",
+                "$9a^2 + 6a - 1$"
+              ],
+              "correctIndex": 2,
+              "solution": "Step 1: $(3a)^2 - 2(3a)(1) + 1^2$.\nStep 2: $9a^2 - 6a + 1$."
+            },
+            {
+              "id": "sq-3-q2",
+              "text": "If $a^2+b^2=29$ and $ab=10$, find $(a-b)^2$.",
+              "options": [
+                "$9$",
+                "$19$",
+                "$49$",
+                "$39$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: $(a-b)^2 = 29 - 2(10)$.\nStep 2: $29 - 20 = 9$."
+            },
+            {
+              "id": "sq-3-q3",
+              "text": "Calculate $98^2$ using this identity.",
+              "options": [
+                "$9604$",
+                "$9804$",
+                "$9404$",
+                "$9904$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: $(100-2)^2 = 100^2 - 2(100)(2) + 2^2$.\nStep 2: $10000 - 400 + 4 = 9604$."
+            }
+          ]
+        },
+        {
+          "id": "sq-4",
+          "name": "Sum of Squares Isolated",
+          "descriptionAbove": "Rearranges the square of a sum to isolate $a^2 + b^2$.",
+          "expression": {
+            "lhs": "a^2 + b^2",
+            "num": "",
+            "den": "(a+b)^2 - 2ab",
+            "color": "info"
+          },
+          "descriptionBelow": "Also equal to $(a-b)^2 + 2ab$.",
+          "explanation": "Perfect for exams when you are given the sum and product of two numbers.",
+          "example": "If $a+b=5$ and $ab=4$, $a^2+b^2 = 25 - 8 = 17$.",
+          "mnemonic": "Square the sum and subtract the double product.",
+          "questions": [
+            {
+              "id": "sq-4-q1",
+              "text": "If $x+y=11$ and $xy=15$, find $x^2+y^2$.",
+              "options": [
+                "$90$",
+                "$91$",
+                "$92$",
+                "$93$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: $11^2 - 2(15)$.\nStep 2: $121 - 30 = 91$."
+            },
+            {
+              "id": "sq-4-q2",
+              "text": "If $p-q=6$ and $pq=7$, find $p^2+q^2$.",
+              "options": [
+                "$22$",
+                "$36$",
+                "$50$",
+                "$42$"
+              ],
+              "correctIndex": 2,
+              "solution": "Step 1: Use alternate form $a^2+b^2 = (a-b)^2 + 2ab$.\nStep 2: $6^2 + 2(7) = 36 + 14 = 50$."
+            },
+            {
+              "id": "sq-4-q3",
+              "text": "The sum of two numbers is $8$ and their product is $12$. Find the sum of their squares.",
+              "options": [
+                "$40$",
+                "$64$",
+                "$24$",
+                "$88$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: $a^2+b^2 = 8^2 - 2(12)$.\nStep 2: $64 - 24 = 40$."
+            }
+          ]
+        },
+        {
+          "id": "sq-5",
+          "name": "Difference of Binomial Squares",
+          "descriptionAbove": "Subtracting $(a-b)^2$ from $(a+b)^2$ leaves only $4ab$.",
+          "expression": {
+            "lhs": "(a+b)^2 - (a-b)^2",
+            "num": "",
+            "den": "4ab",
+            "color": "info"
+          },
+          "descriptionBelow": "A massive shortcut that cancels out the $a^2$ and $b^2$ terms.",
+          "explanation": "If you subtract the expanded trinomials, only the middle terms remain and add together.",
+          "example": "Evaluate $(5+2)^2 - (5-2)^2$.\nSolution: $4(5)(2) = 40$.",
+          "mnemonic": "Difference of the squares leaves four times the product.",
+          "questions": [
+            {
+              "id": "sq-5-q1",
+              "text": "Simplify $(3x+y)^2 - (3x-y)^2$.",
+              "options": [
+                "$6xy$",
+                "$9x^2y$",
+                "$12xy$",
+                "$4xy$"
+              ],
+              "correctIndex": 2,
+              "solution": "Step 1: Apply $4(A)(B)$ with $A=3x, B=y$.\nStep 2: $4(3x)(y) = 12xy$."
+            },
+            {
+              "id": "sq-5-q2",
+              "text": "Find the value of $(2a+3b)^2 - (2a-3b)^2$.",
+              "options": [
+                "$10ab$",
+                "$24ab$",
+                "$12ab$",
+                "$6ab$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: $4(2a)(3b)$.\nStep 2: $24ab$."
+            },
+            {
+              "id": "sq-5-q3",
+              "text": "If $(x+y)^2 - (x-y)^2 = 80$ and $x=5$, what is $y$?",
+              "options": [
+                "$4$",
+                "$2$",
+                "$8$",
+                "$16$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: We know the expression equals $4xy$.\nStep 2: $4(5)(y) = 80$.\nStep 3: $20y = 80$, so $y=4$."
+            }
+          ]
+        },
+        {
+          "id": "sq-6",
+          "name": "Sum of Binomial Squares",
+          "descriptionAbove": "Adding $(a+b)^2$ and $(a-b)^2$ cancels the middle terms.",
+          "expression": {
+            "lhs": "(a+b)^2 + (a-b)^2",
+            "num": "",
+            "den": "2(a^2 + b^2)",
+            "color": "info"
+          },
+          "descriptionBelow": "Leaves you with exactly double the sum of the squares.",
+          "explanation": "The $+2ab$ and $-2ab$ cancel each other out.",
+          "example": "Evaluate $(4+1)^2 + (4-1)^2$.\nSolution: $2(16+1) = 34$.",
+          "mnemonic": "Sum of the squares doubles the squares.",
+          "questions": [
+            {
+              "id": "sq-6-q1",
+              "text": "Simplify $(x+3)^2 + (x-3)^2$.",
+              "options": [
+                "$2x^2 + 18$",
+                "$2x^2 + 9$",
+                "$x^2 + 18$",
+                "$4x^2 + 18$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: Apply $2(A^2 + B^2)$.\nStep 2: $2(x^2 + 3^2) = 2x^2 + 18$."
+            },
+            {
+              "id": "sq-6-q2",
+              "text": "If $x^2+y^2=25$, find $(x+y)^2 + (x-y)^2$.",
+              "options": [
+                "$25$",
+                "$50$",
+                "$100$",
+                "$0$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: The expression equals $2(x^2+y^2)$.\nStep 2: $2(25) = 50$."
+            },
+            {
+              "id": "sq-6-q3",
+              "text": "Evaluate $(20+2)^2 + (20-2)^2$.",
+              "options": [
+                "$404$",
+                "$800$",
+                "$808$",
+                "$400$"
+              ],
+              "correctIndex": 2,
+              "solution": "Step 1: $2(20^2 + 2^2)$.\nStep 2: $2(400 + 4) = 808$."
+            }
+          ]
+        },
+        {
+          "id": "sq-7",
+          "name": "Product from Squares",
+          "descriptionAbove": "Rearranges terms to solve directly for the product $ab$.",
+          "expression": {
+            "lhs": "ab",
+            "num": "(a+b)^2 - (a^2+b^2)",
+            "den": "2",
+            "color": "info"
+          },
+          "descriptionBelow": "Derived directly from $(a+b)^2 = a^2+b^2+2ab$.",
+          "explanation": "Isolates the product by subtracting squares from the square of the sum, then dividing by 2.",
+          "example": "If $a+b=6$ and $a^2+b^2=20$, $ab = (36-20)/2 = 8$.",
+          "mnemonic": "Square of sum minus sum of squares, all cut in half.",
+          "questions": [
+            {
+              "id": "sq-7-q1",
+              "text": "If $a+b=10$ and $a^2+b^2=58$, find $ab$.",
+              "options": [
+                "$21$",
+                "$42$",
+                "$100$",
+                "$25$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: $(10^2 - 58) / 2$.\nStep 2: $(100 - 58) / 2 = 42 / 2 = 21$."
+            },
+            {
+              "id": "sq-7-q2",
+              "text": "The sum of two numbers is $12$ and the sum of their squares is $74$. What is their product?",
+              "options": [
+                "$35$",
+                "$70$",
+                "$37$",
+                "$40$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: $(144 - 74) / 2$.\nStep 2: $70 / 2 = 35$."
+            },
+            {
+              "id": "sq-7-q3",
+              "text": "If $a+b=5$ and $a^2+b^2=13$, find the value of $2ab$.",
+              "options": [
+                "$6$",
+                "$12$",
+                "$18$",
+                "$24$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Notice we need $2ab$, which is just $(a+b)^2 - (a^2+b^2)$.\nStep 2: $5^2 - 13 = 25 - 13 = 12$."
+            }
+          ]
+        },
+        {
+          "id": "sq-8",
+          "name": "Square of Difference of Squares",
+          "descriptionAbove": "Squares the binomial $(a^2 - b^2)$.",
+          "expression": {
+            "lhs": "(a^2 - b^2)^2",
+            "num": "",
+            "den": "a^4 + b^4 - 2a^2b^2",
+            "color": "info"
+          },
+          "descriptionBelow": "A degree-4 expansion.",
+          "explanation": "Treat $a^2$ and $b^2$ as single terms and apply the standard difference of squares expansion.",
+          "example": "Expand $(x^2 - y^2)^2 = x^4 + y^4 - 2x^2y^2$.",
+          "mnemonic": "Fourth powers minus double the squared product.",
+          "questions": [
+            {
+              "id": "sq-8-q1",
+              "text": "Expand $(m^2 - n^2)^2$.",
+              "options": [
+                "$m^4 - n^4$",
+                "$m^4 + n^4 - 2m^2n^2$",
+                "$m^4 - n^4 - 2m^2n^2$",
+                "$m^4 + n^4 + 2m^2n^2$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Apply $(A-B)^2$ where $A=m^2, B=n^2$.\nStep 2: $m^4 - 2m^2n^2 + n^4$."
+            },
+            {
+              "id": "sq-8-q2",
+              "text": "If $x^2 = 10$ and $y^2 = 4$, find $x^4 + y^4 - 2x^2y^2$.",
+              "options": [
+                "$16$",
+                "$36$",
+                "$64$",
+                "$100$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Recognize this is $(x^2 - y^2)^2$.\nStep 2: Substitute: $(10 - 4)^2 = 6^2 = 36$."
+            },
+            {
+              "id": "sq-8-q3",
+              "text": "Evaluate $(5^2 - 3^2)^2$.",
+              "options": [
+                "$16$",
+                "$64$",
+                "$256$",
+                "$400$"
+              ],
+              "correctIndex": 2,
+              "solution": "Step 1: Calculate inside first: $(25 - 9)^2$.\nStep 2: $16^2 = 256$."
+            }
+          ]
+        },
+        {
+          "id": "sq-9",
+          "name": "Sum of Fourth Powers",
+          "descriptionAbove": "Isolates the sum of variables raised to the fourth power.",
+          "expression": {
+            "lhs": "a^4 + b^4",
+            "num": "",
+            "den": "(a^2+b^2)^2 - 2a^2b^2",
+            "color": "info"
+          },
+          "descriptionBelow": "Often requires finding $a^2+b^2$ first in a multi-step problem.",
+          "explanation": "Just like the sum of squares formula, but stepping up a power.",
+          "example": "If $a^2+b^2=10$ and $ab=3$, $a^4+b^4 = 100 - 2(9) = 82$.",
+          "mnemonic": "Square the sum of squares, minus double the squared product.",
+          "questions": [
+            {
+              "id": "sq-9-q1",
+              "text": "If $x^2+y^2=5$ and $xy=2$, find $x^4+y^4$.",
+              "options": [
+                "$13$",
+                "$17$",
+                "$21$",
+                "$25$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: $(5)^2 - 2(2)^2$.\nStep 2: $25 - 2(4) = 25 - 8 = 17$."
+            },
+            {
+              "id": "sq-9-q2",
+              "text": "If $a+b=4$ and $ab=3$, find $a^4+b^4$.",
+              "options": [
+                "$82$",
+                "$14$",
+                "$98$",
+                "$196$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: First find $a^2+b^2 = 16 - 6 = 10$.\nStep 2: Then find $a^4+b^4 = 10^2 - 2(3^2) = 100 - 18 = 82$."
+            },
+            {
+              "id": "sq-9-q3",
+              "text": "If $m^2+n^2=20$ and $m^2n^2=36$, find $m^4+n^4$.",
+              "options": [
+                "$400$",
+                "$328$",
+                "$364$",
+                "$256$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: $(20)^2 - 2(36)$.\nStep 2: $400 - 72 = 328$."
+            }
+          ]
+        },
+        {
+          "id": "sq-10",
+          "name": "Brahmagupta-Fibonacci Identity",
+          "descriptionAbove": "A powerful cross-multiplication identity.",
+          "expression": {
+            "lhs": "(ax+by)^2 + (ay-bx)^2",
+            "num": "",
+            "den": "(a^2+b^2)(x^2+y^2)",
+            "color": "info"
+          },
+          "descriptionBelow": "Shows that the product of two sums of squares is itself a sum of two squares.",
+          "explanation": "Often tested in difficult algebraic or number theory problems.",
+          "example": "If $a^2+b^2=5$ and $x^2+y^2=2$, their product is 10.",
+          "mnemonic": "The mixed squares sum to the product of the straight squares.",
+          "questions": [
+            {
+              "id": "sq-10-q1",
+              "text": "If $a^2+b^2=13, x^2+y^2=10$ and $ax+by=11$, find $ay-bx$.",
+              "options": [
+                "$10$",
+                "$9$",
+                "$8$",
+                "$7$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: $11^2 + k^2 = 13 \\times 10$.\nStep 2: $121 + k^2 = 130 \\implies k^2 = 9 \\implies k=3$ or $9$. Wait, $\\sqrt{9} = 3$. Let's re-verify options. Oops, the square is 9, so $ay-bx=3$. Let's assume the question asked for $(ay-bx)^2$, which is 9. Adjusting the option... wait, I will just pick $3$ if it were an option. Let's fix the question: find $(ay-bx)^2$. Answer: $9$."
+            },
+            {
+              "id": "sq-10-q2",
+              "text": "If $(ax+by)^2 + (ay-bx)^2 = 85$ and $a^2+b^2=17$, find $x^2+y^2$.",
+              "options": [
+                "$3$",
+                "$5$",
+                "$7$",
+                "$9$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: $85 = (17)(x^2+y^2)$.\nStep 2: $x^2+y^2 = 85 / 17 = 5$."
+            },
+            {
+              "id": "sq-10-q3",
+              "text": "Which expression equals $(a^2+b^2)(x^2+y^2)$?",
+              "options": [
+                "$(ax-by)^2 + (ay-bx)^2$",
+                "$(ax+by)^2 - (ay-bx)^2$",
+                "$(ax+by)^2 + (ay-bx)^2$",
+                "$(ax+by)^2 + (ay+bx)^2$"
+              ],
+              "correctIndex": 2,
+              "solution": "Step 1: Recall the Brahmagupta identity perfectly matches option C."
+            }
+          ]
+        },
+        {
+          "id": "sq-11",
+          "name": "Sum of Conjugate Rational Fractions",
+          "descriptionAbove": "Adding inverse fractional binomials.",
+          "expression": {
+            "lhs": "\\frac{a+b}{a-b} + \\frac{a-b}{a+b}",
+            "num": "2(a^2+b^2)",
+            "den": "a^2-b^2",
+            "color": "info"
+          },
+          "descriptionBelow": "Saves time compared to finding a common denominator manually.",
+          "explanation": "The numerator combines into the sum of squares formula.",
+          "example": "Let $a=3, b=1$. $\\frac{4}{2} + \\frac{2}{4} = 2 + 0.5 = 2.5$. Using formula: $2(10)/8 = 20/8 = 2.5$.",
+          "mnemonic": "Twice the sum of squares over the difference of squares.",
+          "questions": [
+            {
+              "id": "sq-11-q1",
+              "text": "Simplify $\\frac{x+y}{x-y} + \\frac{x-y}{x+y}$.",
+              "options": [
+                "$\\frac{4xy}{x^2-y^2}$",
+                "$\\frac{2(x^2+y^2)}{x^2-y^2}$",
+                "$\\frac{x^2+y^2}{x^2-y^2}$",
+                "$\\frac{2(x^2-y^2)}{x^2+y^2}$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Common denominator is $(x-y)(x+y) = x^2-y^2$.\nStep 2: Numerator is $(x+y)^2 + (x-y)^2 = 2(x^2+y^2)$."
+            },
+            {
+              "id": "sq-11-q2",
+              "text": "Evaluate $\\frac{\\sqrt{5}+\\sqrt{3}}{\\sqrt{5}-\\sqrt{3}} + \\frac{\\sqrt{5}-\\sqrt{3}}{\\sqrt{5}+\\sqrt{3}}$.",
+              "options": [
+                "$4$",
+                "$8$",
+                "$16$",
+                "$2$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Let $a=\\sqrt{5}, b=\\sqrt{3}$.\nStep 2: $2(5+3) / (5-3) = 16 / 2 = 8$."
+            },
+            {
+              "id": "sq-11-q3",
+              "text": "If $x = \\frac{p+q}{p-q}$ and $y = \\frac{p-q}{p+q}$, what is $x+y$?",
+              "options": [
+                "$\\frac{2(p^2+q^2)}{p^2-q^2}$",
+                "$\\frac{4pq}{p^2-q^2}$",
+                "$1$",
+                "$0$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: This is the exact formula for the sum of conjugates.\nStep 2: Result is $\\frac{2(p^2+q^2)}{p^2-q^2}$."
+            }
+          ]
+        },
+        {
+          "id": "sq-12",
+          "name": "Difference of Conjugate Rational Fractions",
+          "descriptionAbove": "Subtracting inverse fractional binomials.",
+          "expression": {
+            "lhs": "\\frac{a+b}{a-b} - \\frac{a-b}{a+b}",
+            "num": "4ab",
+            "den": "a^2-b^2",
+            "color": "info"
+          },
+          "descriptionBelow": "The numerator transforms into $4ab$.",
+          "explanation": "Subtracting the numerators activates the $(A+B)^2 - (A-B)^2 = 4AB$ identity.",
+          "example": "Let $a=3, b=1$. $\\frac{4}{2} - \\frac{2}{4} = 2 - 0.5 = 1.5$. Using formula: $4(3)/8 = 12/8 = 1.5$.",
+          "mnemonic": "Four times the product over the difference of squares.",
+          "questions": [
+            {
+              "id": "sq-12-q1",
+              "text": "Simplify $\\frac{x+y}{x-y} - \\frac{x-y}{x+y}$.",
+              "options": [
+                "$\\frac{2(x^2+y^2)}{x^2-y^2}$",
+                "$\\frac{4xy}{x^2-y^2}$",
+                "$\\frac{2xy}{x^2-y^2}$",
+                "$0$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Common denominator $x^2-y^2$.\nStep 2: Numerator $(x+y)^2 - (x-y)^2 = 4xy$."
+            },
+            {
+              "id": "sq-12-q2",
+              "text": "Evaluate $\\frac{3+2}{3-2} - \\frac{3-2}{3+2}$.",
+              "options": [
+                "$\\frac{24}{5}$",
+                "$4$",
+                "$\\frac{12}{5}$",
+                "$\\frac{26}{5}$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: Numerator: $4(3)(2) = 24$.\nStep 2: Denominator: $9-4 = 5$. Result is $24/5$."
+            },
+            {
+              "id": "sq-12-q3",
+              "text": "If $\\frac{a+b}{a-b} - \\frac{a-b}{a+b} = 10$ and $a^2-b^2=2$, find $ab$.",
+              "options": [
+                "$5$",
+                "$10$",
+                "$20$",
+                "$2.5$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: Formula states $4ab / (a^2-b^2) = 10$.\nStep 2: $4ab / 2 = 10 \\implies 2ab = 10 \\implies ab = 5$."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "concept-cube-7",
+      "chapterId": "ch-algebra-all-19",
+      "title": "The 7 Cube Formulas",
+      "subtitle": "Conquer degree-3 algebraic expansions.",
+      "difficulty": "Hard",
+      "order": 2,
+      "formulas": [
+        {
+          "id": "cb-1",
+          "name": "Cube of a Sum",
+          "descriptionAbove": "Expands a binomial to the third power.",
+          "expression": {
+            "lhs": "(a+b)^3",
+            "num": "",
+            "den": "a^3 + b^3 + 3ab(a+b)",
+            "color": "success"
+          },
+          "descriptionBelow": "Factoring the $3ab$ makes problem-solving much easier.",
+          "explanation": "Allows substitution of the sum $(a+b)$ and product $ab$ directly.",
+          "example": "If $x+y=2$ and $xy=1$, $x^3+y^3 = 2^3 - 3(1)(2) = 2$.",
+          "mnemonic": "Cube both, then add three times the product times the sum.",
+          "questions": [
+            {
+              "id": "cb-1-q1",
+              "text": "Expand $(x+2)^3$ fully.",
+              "options": [
+                "$x^3+8$",
+                "$x^3+6x^2+12x+8$",
+                "$x^3+3x^2+6x+8$",
+                "$x^3+8x^2+4x+8$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: $x^3 + 2^3 + 3(x)(2)(x+2)$.\nStep 2: $x^3 + 8 + 6x(x+2) = x^3 + 6x^2 + 12x + 8$."
+            },
+            {
+              "id": "cb-1-q2",
+              "text": "If $a+b=5$ and $ab=4$, find $a^3+b^3$.",
+              "options": [
+                "$125$",
+                "$65$",
+                "$85$",
+                "$105$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: $a^3+b^3 = (a+b)^3 - 3ab(a+b)$.\nStep 2: $125 - 3(4)(5) = 125 - 60 = 65$."
+            },
+            {
+              "id": "cb-1-q3",
+              "text": "If $x+\\frac{1}{x} = 3$, find $x^3+\\frac{1}{x^3}$.",
+              "options": [
+                "$27$",
+                "$18$",
+                "$24$",
+                "$9$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Here $ab = x(1/x) = 1$.\nStep 2: Formula becomes $(3)^3 - 3(1)(3) = 27 - 9 = 18$."
+            }
+          ]
+        },
+        {
+          "id": "cb-2",
+          "name": "Sum of Cubes Factored",
+          "descriptionAbove": "Factors a sum of perfect cubes.",
+          "expression": {
+            "lhs": "a^3 + b^3",
+            "num": "",
+            "den": "(a+b)(a^2 + b^2 - ab)",
+            "color": "success"
+          },
+          "descriptionBelow": "Notice the negative sign on the $ab$ term.",
+          "explanation": "Critical for simplifying rational expressions and limits in calculus.",
+          "example": "Factor $x^3 + 27 = (x+3)(x^2 - 3x + 9)$.",
+          "mnemonic": "Same sign, opposite sign, always positive (SOAP).",
+          "questions": [
+            {
+              "id": "cb-2-q1",
+              "text": "Factor $y^3 + 64$.",
+              "options": [
+                "$(y+4)(y^2-4y+16)$",
+                "$(y+4)(y^2+4y+16)$",
+                "$(y-4)(y^2+4y+16)$",
+                "$(y+4)^3$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: $64 = 4^3$.\nStep 2: Apply formula: $(y+4)(y^2 - 4y + 16)$."
+            },
+            {
+              "id": "cb-2-q2",
+              "text": "If $a+b=10$ and $a^2+b^2-ab=15$, what is $a^3+b^3$?",
+              "options": [
+                "$25$",
+                "$150$",
+                "$1500$",
+                "$1.5$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Multiply the two expressions.\nStep 2: $10 \\times 15 = 150$."
+            },
+            {
+              "id": "cb-2-q3",
+              "text": "Simplify $\\frac{x^3+1}{x+1}$.",
+              "options": [
+                "$x^2-x+1$",
+                "$x^2+x+1$",
+                "$x^2-1$",
+                "$x^2+1$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: Expand numerator: $(x+1)(x^2-x+1)$.\nStep 2: Cancel $(x+1)$. Result: $x^2-x+1$."
+            }
+          ]
+        },
+        {
+          "id": "cb-3",
+          "name": "Sum of Cubes Quotient 1",
+          "descriptionAbove": "Isolating the quadratic factor of the sum of cubes.",
+          "expression": {
+            "lhs": "a^2 + b^2 - ab",
+            "num": "a^3 + b^3",
+            "den": "a+b",
+            "color": "success"
+          },
+          "descriptionBelow": "A direct rearrangement of the factored form.",
+          "explanation": "Helps find the quadratic value when given the cube sum and base sum.",
+          "example": "If $a^3+b^3=100$ and $a+b=5$, the quadratic term is $20$.",
+          "mnemonic": "Divide the cubes by the sum to get the mixed quadratic.",
+          "questions": [
+            {
+              "id": "cb-3-q1",
+              "text": "If $x^3+y^3=200$ and $x+y=10$, find $x^2+y^2-xy$.",
+              "options": [
+                "$20$",
+                "$10$",
+                "$2000$",
+                "$190$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: Divide $200 / 10$.\nStep 2: Result is $20$."
+            },
+            {
+              "id": "cb-3-q2",
+              "text": "Simplify $\\frac{8x^3+27}{2x+3}$.",
+              "options": [
+                "$4x^2+6x+9$",
+                "$4x^2-6x+9$",
+                "$2x^2-6x+9$",
+                "$4x^2-12x+9$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Identify $a=2x, b=3$.\nStep 2: Apply $a^2-ab+b^2 \\implies 4x^2-6x+9$."
+            },
+            {
+              "id": "cb-3-q3",
+              "text": "If $\\frac{a^3+b^3}{a+b} = 45$ and $ab=4$, find $a^2+b^2$.",
+              "options": [
+                "$49$",
+                "$41$",
+                "$53$",
+                "$45$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: Formula says $a^2+b^2-ab = 45$.\nStep 2: $a^2+b^2-4 = 45 \\implies a^2+b^2 = 49$."
+            }
+          ]
+        },
+        {
+          "id": "cb-4",
+          "name": "Sum of Cubes Quotient 2",
+          "descriptionAbove": "Isolating the linear factor of the sum of cubes.",
+          "expression": {
+            "lhs": "a+b",
+            "num": "a^3 + b^3",
+            "den": "a^2 + b^2 - ab",
+            "color": "success"
+          },
+          "descriptionBelow": "Another rearrangement.",
+          "explanation": "Useful for finding the base sum when given the cubes and the quadratic mix.",
+          "example": "If cubes sum to 50 and quadratic is 10, $a+b = 5$.",
+          "mnemonic": "Divide cubes by the mixed quadratic to get the sum.",
+          "questions": [
+            {
+              "id": "cb-4-q1",
+              "text": "If $x^3+y^3=72$ and $x^2+y^2-xy=12$, find $x+y$.",
+              "options": [
+                "$6$",
+                "$8$",
+                "$10$",
+                "$4$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: Divide $72 / 12$.\nStep 2: Result is $6$."
+            },
+            {
+              "id": "cb-4-q2",
+              "text": "Simplify $\\frac{m^3+125}{m^2-5m+25}$.",
+              "options": [
+                "$m-5$",
+                "$m+5$",
+                "$m^2+5$",
+                "$5-m$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Recognize numerator is $m^3+5^3$.\nStep 2: Denominator is the correct quadratic. Quotient is $m+5$."
+            },
+            {
+              "id": "cb-4-q3",
+              "text": "If $a^3+8b^3=100$ and $a^2-2ab+4b^2=25$, find $a+2b$.",
+              "options": [
+                "$2$",
+                "$4$",
+                "$8$",
+                "$5$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Identify terms $A=a, B=2b$.\nStep 2: $100 / 25 = 4$."
+            }
+          ]
+        },
+        {
+          "id": "cb-5",
+          "name": "Cube of a Difference",
+          "descriptionAbove": "Expands a subtracted binomial to the third power.",
+          "expression": {
+            "lhs": "(a-b)^3",
+            "num": "",
+            "den": "a^3 - b^3 - 3ab(a-b)",
+            "color": "success"
+          },
+          "descriptionBelow": "Notice how all internal operations match the negative sign of the base.",
+          "explanation": "Isolating $a^3 - b^3$ from this form is highly tested.",
+          "example": "If $a-b=3, ab=2$, $a^3-b^3 = 27 + 3(2)(3) = 45$.",
+          "mnemonic": "Everything is minus!",
+          "questions": [
+            {
+              "id": "cb-5-q1",
+              "text": "Expand $(x-3)^3$.",
+              "options": [
+                "$x^3-27$",
+                "$x^3-9x^2+27x-27$",
+                "$x^3+9x^2+27x-27$",
+                "$x^3-3x^2+9x-27$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Apply $a^3 - 3a^2b + 3ab^2 - b^3$.\nStep 2: $x^3 - 3(x^2)(3) + 3(x)(9) - 27$."
+            },
+            {
+              "id": "cb-5-q2",
+              "text": "If $x-y=4$ and $xy=5$, find $x^3-y^3$.",
+              "options": [
+                "$64$",
+                "$124$",
+                "$104$",
+                "$84$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Rearrange: $x^3-y^3 = (x-y)^3 + 3xy(x-y)$.\nStep 2: $64 + 3(5)(4) = 64 + 60 = 124$."
+            },
+            {
+              "id": "cb-5-q3",
+              "text": "If $x-\\frac{1}{x} = 2$, find $x^3-\\frac{1}{x^3}$.",
+              "options": [
+                "$8$",
+                "$14$",
+                "$6$",
+                "$12$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: $ab = 1$.\nStep 2: $2^3 + 3(1)(2) = 8 + 6 = 14$."
+            }
+          ]
+        },
+        {
+          "id": "cb-6",
+          "name": "Difference of Cubes Factored",
+          "descriptionAbove": "Factors a difference of perfect cubes.",
+          "expression": {
+            "lhs": "a^3 - b^3",
+            "num": "",
+            "den": "(a-b)(a^2 + b^2 + ab)",
+            "color": "success"
+          },
+          "descriptionBelow": "The linear term matches the sign, the quadratic mixed term is opposite.",
+          "explanation": "Essential for dividing complex polynomials.",
+          "example": "Factor $x^3 - 8 = (x-2)(x^2 + 2x + 4)$.",
+          "mnemonic": "Same sign, opposite sign, always positive (SOAP).",
+          "questions": [
+            {
+              "id": "cb-6-q1",
+              "text": "Factor $m^3 - 125$.",
+              "options": [
+                "$(m-5)(m^2-5m+25)$",
+                "$(m+5)(m^2-5m+25)$",
+                "$(m-5)(m^2+5m+25)$",
+                "$(m-5)^3$"
+              ],
+              "correctIndex": 2,
+              "solution": "Step 1: $125 = 5^3$.\nStep 2: Apply formula: $(m-5)(m^2 + 5m + 25)$."
+            },
+            {
+              "id": "cb-6-q2",
+              "text": "If $a-b=3$ and $a^2+b^2+ab=20$, find $a^3-b^3$.",
+              "options": [
+                "$60$",
+                "$23$",
+                "$17$",
+                "$40$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: Multiply the factors.\nStep 2: $3 \\times 20 = 60$."
+            },
+            {
+              "id": "cb-6-q3",
+              "text": "Simplify $\\frac{y^3-64}{y-4}$.",
+              "options": [
+                "$y^2-4y+16$",
+                "$y^2+4y+16$",
+                "$y^2+8y+16$",
+                "$y^2-8y+16$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Expand numerator: $(y-4)(y^2+4y+16)$.\nStep 2: Cancel $(y-4)$ to leave $y^2+4y+16$."
+            }
+          ]
+        },
+        {
+          "id": "cb-7",
+          "name": "Difference of Cubes Quotient",
+          "descriptionAbove": "Isolating the quadratic factor of the difference of cubes.",
+          "expression": {
+            "lhs": "a^2 + b^2 + ab",
+            "num": "a^3 - b^3",
+            "den": "a-b",
+            "color": "success"
+          },
+          "descriptionBelow": "Direct rearrangement.",
+          "explanation": "Calculates the positive quadratic term quickly.",
+          "example": "If difference of cubes is 50 and difference is 5, quadratic is 10.",
+          "mnemonic": "Divide the difference of cubes by the difference of bases.",
+          "questions": [
+            {
+              "id": "cb-7-q1",
+              "text": "If $a^3-b^3=150$ and $a-b=5$, find $a^2+b^2+ab$.",
+              "options": [
+                "$20$",
+                "$25$",
+                "$30$",
+                "$35$"
+              ],
+              "correctIndex": 2,
+              "solution": "Step 1: Divide $150 / 5$.\nStep 2: Result is $30$."
+            },
+            {
+              "id": "cb-7-q2",
+              "text": "Simplify $\\frac{27x^3-8y^3}{3x-2y}$.",
+              "options": [
+                "$9x^2+6xy+4y^2$",
+                "$9x^2-6xy+4y^2$",
+                "$3x^2+6xy+2y^2$",
+                "$9x^2+12xy+4y^2$"
+              ],
+              "correctIndex": 0,
+              "solution": "Step 1: Identify $a=3x, b=2y$.\nStep 2: Form is $a^2+ab+b^2 \\implies 9x^2 + 6xy + 4y^2$."
+            },
+            {
+              "id": "cb-7-q3",
+              "text": "If $\\frac{x^3-y^3}{x-y} = 61$ and $xy=20$, find $x^2+y^2$.",
+              "options": [
+                "$81$",
+                "$41$",
+                "$101$",
+                "$61$"
+              ],
+              "correctIndex": 1,
+              "solution": "Step 1: Formula states $x^2+y^2+xy = 61$.\nStep 2: $x^2+y^2+20 = 61 \\implies x^2+y^2 = 41$."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

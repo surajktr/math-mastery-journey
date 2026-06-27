@@ -60,7 +60,19 @@ function renderMathInText(text: string): string {
       j++;
     }
     // Escape HTML in plain text parts
-    parts.push(escapeHtml(text.slice(i, j)));
+    let plainText = text.slice(i, j);
+    plainText = escapeHtml(plainText);
+    
+    // Convert markdown images: ![alt](url) -> <img>
+    plainText = plainText.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="max-w-full rounded-xl my-4 mx-auto block shadow-sm border" />');
+    
+    // Remove unreplaced [IMAGE] placeholders so they don't show to students
+    plainText = plainText.replace(/\[IMAGE\]/g, '');
+
+    // Convert markdown bold: **text** -> <strong>text</strong>
+    plainText = plainText.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    
+    parts.push(plainText);
     i = j;
   }
 

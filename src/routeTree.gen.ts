@@ -11,11 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ResultConceptIdRouteImport } from './routes/result.$conceptId'
 import { Route as QuizConceptIdRouteImport } from './routes/quiz.$conceptId'
 import { Route as ConceptConceptIdRouteImport } from './routes/concept.$conceptId'
 import { Route as ChapterChapterIdRouteImport } from './routes/chapter.$chapterId'
+import { Route as AdminChapterChapterIdRouteImport } from './routes/admin.chapter.$chapterId'
+import { Route as AdminConceptChapterIdConceptIdRouteImport } from './routes/admin.concept.$chapterId.$conceptId'
 
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
@@ -27,10 +31,20 @@ const ProgressRoute = ProgressRouteImport.update({
   path: '/progress',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const ResultConceptIdRoute = ResultConceptIdRouteImport.update({
   id: '/result/$conceptId',
@@ -52,15 +66,30 @@ const ChapterChapterIdRoute = ChapterChapterIdRouteImport.update({
   path: '/chapter/$chapterId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminChapterChapterIdRoute = AdminChapterChapterIdRouteImport.update({
+  id: '/chapter/$chapterId',
+  path: '/chapter/$chapterId',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminConceptChapterIdConceptIdRoute =
+  AdminConceptChapterIdConceptIdRouteImport.update({
+    id: '/concept/$chapterId/$conceptId',
+    path: '/concept/$chapterId/$conceptId',
+    getParentRoute: () => AdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/progress': typeof ProgressRoute
   '/settings': typeof SettingsRoute
   '/chapter/$chapterId': typeof ChapterChapterIdRoute
   '/concept/$conceptId': typeof ConceptConceptIdRoute
   '/quiz/$conceptId': typeof QuizConceptIdRoute
   '/result/$conceptId': typeof ResultConceptIdRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/chapter/$chapterId': typeof AdminChapterChapterIdRoute
+  '/admin/concept/$chapterId/$conceptId': typeof AdminConceptChapterIdConceptIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,27 +99,38 @@ export interface FileRoutesByTo {
   '/concept/$conceptId': typeof ConceptConceptIdRoute
   '/quiz/$conceptId': typeof QuizConceptIdRoute
   '/result/$conceptId': typeof ResultConceptIdRoute
+  '/admin': typeof AdminIndexRoute
+  '/admin/chapter/$chapterId': typeof AdminChapterChapterIdRoute
+  '/admin/concept/$chapterId/$conceptId': typeof AdminConceptChapterIdConceptIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/progress': typeof ProgressRoute
   '/settings': typeof SettingsRoute
   '/chapter/$chapterId': typeof ChapterChapterIdRoute
   '/concept/$conceptId': typeof ConceptConceptIdRoute
   '/quiz/$conceptId': typeof QuizConceptIdRoute
   '/result/$conceptId': typeof ResultConceptIdRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/chapter/$chapterId': typeof AdminChapterChapterIdRoute
+  '/admin/concept/$chapterId/$conceptId': typeof AdminConceptChapterIdConceptIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/progress'
     | '/settings'
     | '/chapter/$chapterId'
     | '/concept/$conceptId'
     | '/quiz/$conceptId'
     | '/result/$conceptId'
+    | '/admin/'
+    | '/admin/chapter/$chapterId'
+    | '/admin/concept/$chapterId/$conceptId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,19 +140,27 @@ export interface FileRouteTypes {
     | '/concept/$conceptId'
     | '/quiz/$conceptId'
     | '/result/$conceptId'
+    | '/admin'
+    | '/admin/chapter/$chapterId'
+    | '/admin/concept/$chapterId/$conceptId'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/progress'
     | '/settings'
     | '/chapter/$chapterId'
     | '/concept/$conceptId'
     | '/quiz/$conceptId'
     | '/result/$conceptId'
+    | '/admin/'
+    | '/admin/chapter/$chapterId'
+    | '/admin/concept/$chapterId/$conceptId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ProgressRoute: typeof ProgressRoute
   SettingsRoute: typeof SettingsRoute
   ChapterChapterIdRoute: typeof ChapterChapterIdRoute
@@ -137,12 +185,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgressRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/result/$conceptId': {
       id: '/result/$conceptId'
@@ -172,11 +234,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChapterChapterIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/chapter/$chapterId': {
+      id: '/admin/chapter/$chapterId'
+      path: '/chapter/$chapterId'
+      fullPath: '/admin/chapter/$chapterId'
+      preLoaderRoute: typeof AdminChapterChapterIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/concept/$chapterId/$conceptId': {
+      id: '/admin/concept/$chapterId/$conceptId'
+      path: '/concept/$chapterId/$conceptId'
+      fullPath: '/admin/concept/$chapterId/$conceptId'
+      preLoaderRoute: typeof AdminConceptChapterIdConceptIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminChapterChapterIdRoute: typeof AdminChapterChapterIdRoute
+  AdminConceptChapterIdConceptIdRoute: typeof AdminConceptChapterIdConceptIdRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+  AdminChapterChapterIdRoute: AdminChapterChapterIdRoute,
+  AdminConceptChapterIdConceptIdRoute: AdminConceptChapterIdConceptIdRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   ProgressRoute: ProgressRoute,
   SettingsRoute: SettingsRoute,
   ChapterChapterIdRoute: ChapterChapterIdRoute,
