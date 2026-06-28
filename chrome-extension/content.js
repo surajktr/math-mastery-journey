@@ -155,6 +155,116 @@ function logToStrategySync(strategy, message) {
   if (strategy.logs.length > 25) strategy.logs.pop();
 }
 
+function evaluateDualBotMaster(state, settings, latestDraw, betsToTrigger, updatedHistory) {
+  const now = Date.now();
+  if (state.pauseUntil > now) return;
+
+  const time = new Date().toLocaleTimeString();
+  const seq = parseCustomSequence(settings.dualBotSequence);
+  const sequence = seq.length > 0 ? seq : [10, 40, 160];
+  const maxSteps = sequence.length;
+
+  if (state.activeBet) {
+    if (BigInt(latestDraw.period) >= BigInt(state.activeBet.period)) {
+      const win = latestDraw.result === state.activeBet.target;
+      const amount = state.activeBet.quantity;
+      let seqWon = false, seqLost = false;
+
+      if (win) {
+        state.balance = Number((state.balance + (amount * 2)).toFixed(2));
+        seqWon = true;
+      } else {
+        if (state.activeBet.step >= maxSteps) {
+          seqLost = true;
+        }
+      }
+
+      state.logs.unshift(`[${time}] [Bot ${state.activeBot}] Bet ₹${amount} on ${state.activeBet.target} -> ${win ? 'WIN' : 'LOSS'}`);
+      if (state.logs.length > 30) state.logs.pop();
+
+      if (seqWon) {
+        state.activeBet = null;
+        state.consecutiveLosses = 0;
+      } else if (seqLost) {
+        state.activeBet = null;
+        state.consecutiveLosses += 1;
+        if (state.consecutiveLosses >= 2) {
+          state.activeBot = state.activeBot === 'A' ? 'B' : 'A';
+          state.consecutiveLosses = 0;
+          state.logs.unshift(`[${time}] 2 sequence losses. Swapping to Bot ${state.activeBot}.`);
+        }
+      } else {
+        // Next step in Martingale
+        const nextAmount = sequence[state.activeBet.step];
+        state.activeBet.step += 1;
+        state.activeBet.quantity = nextAmount;
+        state.activeBet.period = incrementPeriod(latestDraw.period);
+        state.balance = Number((state.balance - nextAmount).toFixed(2));
+        betsToTrigger.push({ target: state.activeBet.target, quantity: nextAmount, period: state.activeBet.period, strategyId: 'dual-bot' });
+        return; // Wait for next draw
+      }
+
+      // Check Target Balance FIRST (Highest Priority)
+      const targetBal = parseFloat(settings.dualTargetBalance) || 0;
+      if (targetBal > 0 && state.balance >= targetBal) {
+        state.logs.unshift(`[${time}] [TARGET REACHED] Hard Target Balance of ₹${targetBal} reached! Dual Bot disabled.`);
+        settings.dualBotEnabled = false;
+        state.activeBet = null;
+        chrome.storage.local.set({ dualBotEnabled: false });
+        if (settings.enableSound) playSound('win');
+        return; // STOP completely
+      }
+
+      // Check Stoppers AFTER sequence ends
+      const profit = state.balance - state.checkpoint;
+      const loss = state.checkpoint - state.balance;
+      
+      if (profit >= settings.dualProfitTarget) {
+        state.stats.profitHits++;
+        state.pauseUntil = now + (settings.dualProfitPause * 60000);
+        state.checkpoint = state.balance;
+        state.activeBot = 'A';
+        state.consecutiveLosses = 0;
+        state.logs.unshift(`[${time}] [PROFIT STOP] Hit +₹${profit.toFixed(2)}. Pausing ${settings.dualProfitPause}m.`);
+      } else if (loss >= settings.dualLossLimit) {
+        state.stats.lossHits++;
+        state.pauseUntil = now + (settings.dualLossPause * 60000);
+        state.checkpoint = state.balance;
+        state.activeBot = 'A';
+        state.consecutiveLosses = 0;
+        state.logs.unshift(`[${time}] [LOSS STOP] Hit -₹${loss.toFixed(2)}. Pausing ${settings.dualLossPause}m.`);
+      }
+    } else {
+      return; // Waiting for active bet outcome
+    }
+  }
+
+  // Determine if we should trigger a new bet
+  if (!state.activeBet && state.pauseUntil <= now) {
+    let streakCount = 0;
+    for (const draw of updatedHistory) {
+      if (draw.result === latestDraw.result) streakCount++;
+      else break;
+    }
+
+    let betTarget = null;
+    if (state.activeBot === 'A' && streakCount >= 1) {
+      betTarget = latestDraw.result === 'Big' ? 'Small' : 'Big';
+    } else if (state.activeBot === 'B' && streakCount >= 2) {
+      betTarget = latestDraw.result;
+    }
+
+    if (betTarget) {
+      const amount = sequence[0];
+      if (state.balance >= amount) {
+        state.balance = Number((state.balance - amount).toFixed(2));
+        state.activeBet = { target: betTarget, quantity: amount, period: incrementPeriod(latestDraw.period), step: 1 };
+        betsToTrigger.push({ target: betTarget, quantity: amount, period: state.activeBet.period, strategyId: 'dual-bot' });
+      }
+    }
+  }
+}
+
 // Evaluates the result and updates the state machine (Synchronous)
 function handleBetOutcome(win, settings, latestDraw, strategy, betsToTrigger) {
   const isDemo = settings.betMode === 'demo';
@@ -194,6 +304,102 @@ function handleBetOutcome(win, settings, latestDraw, strategy, betsToTrigger) {
     strategy.consecutiveLosses = 0;
   } else {
     strategy.consecutiveLosses += 1;
+  }
+  // Compute sequence outcome for Auto-Switch / Meta-Bot tracking
+  // Must happen BEFORE loss cooldown return, otherwise auto-switch never fires
+  let seqWon = false;
+  let seqLost = false;
+  
+  if (stakingSystem === 'martingale') {
+    if (win) seqWon = true;
+    else if (nextStep > maxSteps) seqLost = true;
+  } else {
+    // Paroli
+    if (win && nextStep > maxSteps) seqWon = true;
+    else if (!win) seqLost = true;
+  }
+
+  // Auto-Switch Strategy Tracker (moved to Profit/Loss Stoppers section based on cumulative loss)
+
+  // --- Strategy-Specific Profit/Loss Stoppers ---
+  if (!isShadow && isDemo && (seqWon || seqLost)) {
+    const takeProfitTarget = parseFloat(strategy.takeProfitTarget) || 0;
+    const takeProfitPause = parseFloat(strategy.takeProfitPause) || 0;
+    const stopLossLimit = parseFloat(strategy.stopLossLimit) || 0;
+    const stopLossPause = parseFloat(strategy.stopLossPause) || 0;
+    
+    const profit = strategy.demoBalance - strategy.checkpoint;
+    const loss = strategy.checkpoint - strategy.demoBalance;
+    
+    // 0. Auto-Switch (Loss Threshold)
+    if (strategy.autoSwitchEnabled && strategy.autoSwitchTargetId) {
+      const autoSwitchLossAmt = parseFloat(strategy.autoSwitchLossAmount) || 0;
+      if (autoSwitchLossAmt > 0 && loss >= autoSwitchLossAmt) {
+        strategy.autoSwitchJustActivated = true;
+        // Don't return here so it can process below or just let the main loop handle the swap
+      }
+    }
+    
+    // 1. HARD TARGET BALANCE STOP (Highest Priority)
+    const targetBal = parseFloat(strategy.targetBalance) || 0;
+    if (targetBal > 0 && strategy.demoBalance >= targetBal) {
+      logToStrategySync(strategy, `[TARGET REACHED] Hard Target Balance of ₹${targetBal} reached! Strategy permanently disabled.`);
+      strategy.enabled = false;
+      strategy.activeBet = null;
+      if (settings.enableSound) playSound('win');
+      
+      // Force sync immediately so UI catches the toggle off
+      chrome.storage.local.set({ strategies: settings.strategies });
+      return;
+    }
+
+    // 2. Local Profit / Loss Stoppers
+    if (takeProfitTarget > 0 && profit >= takeProfitTarget) {
+      logToStrategySync(strategy, `[PROFIT STOP] Hit +₹${profit.toFixed(2)}. Pausing ${takeProfitPause} mins.`);
+      strategy.cooldownUntil = Date.now() + takeProfitPause * 60000;
+      strategy.checkpoint = strategy.demoBalance;
+      strategy.activeBet = null;
+      if (settings.enableSound) playSound('win');
+      return;
+    } else if (stopLossLimit > 0 && loss >= stopLossLimit) {
+      logToStrategySync(strategy, `[LOSS STOP] Hit -₹${loss.toFixed(2)}. Pausing ${stopLossPause} mins.`);
+      strategy.cooldownUntil = Date.now() + stopLossPause * 60000;
+      strategy.checkpoint = strategy.demoBalance;
+      strategy.activeBet = null;
+      if (settings.enableSound) playSound('safety_stop');
+      return;
+    }
+  }
+
+  // --- Meta-Bot Manager Tracking & Auto-Switching ---
+  if (settings.metaBotEnabled) {
+    if (seqWon) {
+      strategy.metaSequenceWins = (strategy.metaSequenceWins || 0) + 1;
+      strategy.metaSequenceLosses = 0;
+    } else if (seqLost) {
+      strategy.metaSequenceLosses = (strategy.metaSequenceLosses || 0) + 1;
+      strategy.metaSequenceWins = 0;
+    }
+
+    const metaLossLimit = settings.metaBotLossLimit || 2;
+    const metaWinLimit = settings.metaBotWinLimit || 2;
+
+    if (!isShadow && seqLost && strategy.metaSequenceLosses >= metaLossLimit) {
+      strategy.enabled = false;
+      logToStrategySync(strategy, `[META-BOT] Disconnect limit reached (${strategy.metaSequenceLosses} sequence losses). Strategy disabled & entering Shadow Mode.`);
+      if (settings.enableSound) playSound('safety_stop');
+    } 
+    else if (isShadow && seqWon && strategy.metaSequenceWins >= metaWinLimit) {
+      strategy.enabled = true;
+      strategy.metaSequenceLosses = 0;
+      strategy.metaSequenceWins = 0;
+      strategy.activeBet = null;
+      logToStrategySync(strategy, `[META-BOT] Win target reached (${strategy.metaSequenceWins} sequence wins). Activating strategy!`);
+      if (settings.enableSound) playSound('win');
+      
+      // Tell evaluateDrawHistory loop to disable all other strategies
+      strategy.metaBotJustActivated = true;
+    }
   }
 
   // Check Loss Cooldown Trigger BEFORE continuing staking logic
@@ -314,61 +520,6 @@ function handleBetOutcome(win, settings, latestDraw, strategy, betsToTrigger) {
       strategy.safeModeStartPeriod = latestDraw.period;
     }
   }
-
-  let seqWon = false;
-  let seqLost = false;
-  
-  if (stakingSystem === 'martingale') {
-    if (win) seqWon = true;
-    else if (nextStep > maxSteps) seqLost = true;
-  } else {
-    // Paroli
-    if (win && nextStep > maxSteps) seqWon = true;
-    else if (!win) seqLost = true;
-  }
-
-  // Auto-Switch Strategy Tracker
-  if (seqWon) {
-    strategy.consecutiveSequenceLosses = 0;
-  } else if (seqLost) {
-    strategy.consecutiveSequenceLosses = (strategy.consecutiveSequenceLosses || 0) + 1;
-    
-    if (!isShadow && strategy.autoSwitchEnabled && strategy.autoSwitchTargetId && strategy.consecutiveSequenceLosses >= 2) {
-      strategy.autoSwitchJustActivated = true;
-      strategy.consecutiveSequenceLosses = 0;
-    }
-  }
-
-  // --- Meta-Bot Manager Tracking & Auto-Switching ---
-  if (settings.metaBotEnabled) {
-    if (seqWon) {
-      strategy.metaSequenceWins = (strategy.metaSequenceWins || 0) + 1;
-      strategy.metaSequenceLosses = 0;
-    } else if (seqLost) {
-      strategy.metaSequenceLosses = (strategy.metaSequenceLosses || 0) + 1;
-      strategy.metaSequenceWins = 0;
-    }
-
-    const metaLossLimit = settings.metaBotLossLimit || 2;
-    const metaWinLimit = settings.metaBotWinLimit || 2;
-
-    if (!isShadow && seqLost && strategy.metaSequenceLosses >= metaLossLimit) {
-      strategy.enabled = false;
-      logToStrategySync(strategy, `[META-BOT] Disconnect limit reached (${strategy.metaSequenceLosses} sequence losses). Strategy disabled & entering Shadow Mode.`);
-      if (settings.enableSound) playSound('safety_stop'); // Plays sound because it was active until now
-    } 
-    else if (isShadow && seqWon && strategy.metaSequenceWins >= metaWinLimit) {
-      strategy.enabled = true;
-      strategy.metaSequenceLosses = 0;
-      strategy.metaSequenceWins = 0;
-      strategy.activeBet = null;
-      logToStrategySync(strategy, `[META-BOT] Win target reached (${strategy.metaSequenceWins} sequence wins). Activating strategy!`);
-      if (settings.enableSound) playSound('win');
-      
-      // Tell evaluateDrawHistory loop to disable all other strategies
-      strategy.metaBotJustActivated = true;
-    }
-  }
 }
 
 // Evaluate strategy specific configurations (Synchronous)
@@ -379,19 +530,20 @@ function evaluateStrategy(strategy, settings, parsedRows, count, targetType, lat
   strategy.isShadow = isShadow;
   const isDemo = settings.betMode === 'demo';
 
-  // Check if currently waiting for streak to break (triggered when streak reaches 5+)
+  // Check if currently waiting for streak to break (triggered when streak reaches threshold)
   if (strategy.waitStreakBreak) {
-    if (!strategy.waitStreakType && count >= 5) {
+    const shieldLen = strategy.waitStreakLength || 5;
+    if (!strategy.waitStreakType && count >= shieldLen) {
       strategy.waitStreakType = targetType;
       strategy.activeBet = null;
-      logToStrategySync(strategy, `[WAIT STREAK BREAK] Streak of ${count}x ${targetType} reached. Pausing bot and waiting for streak to break.`);
+      logToStrategySync(strategy, `[WAIT STREAK SHIELD] Streak of ${count}x ${targetType} met. Pausing until streak breaks.`);
     }
 
     if (strategy.waitStreakType) {
       if (latestDraw.result !== strategy.waitStreakType) {
         logToStrategySync(strategy, `[WAIT STREAK BREAK] Streak of ${strategy.waitStreakType} broke with ${latestDraw.result}. Resuming normal operations.`);
         strategy.waitStreakType = null;
-        // Keep waitStreakBreak = true so the 5+ safety guard remains active
+        // Keep waitStreakBreak = true so the shield remains active for future streaks
       } else {
         return; // Still in wait state, block betting
       }
@@ -429,10 +581,26 @@ function evaluateStrategy(strategy, settings, parsedRows, count, targetType, lat
   }
 
   // 2. Idle State: Evaluate new triggers
+  const now = Date.now();
+  const runMins = parseFloat(strategy.runTime) || 0;
+  const pauseMins = parseFloat(strategy.pauseTime) || 0;
+  let inStratCyclePause = false;
+  if (runMins > 0 && pauseMins > 0) {
+    const runMs = runMins * 60 * 1000;
+    const pauseMs = pauseMins * 60 * 1000;
+    const cycleMs = runMs + pauseMs;
+    const cyclePos = now % cycleMs;
+    if (cyclePos >= runMs) {
+      inStratCyclePause = true;
+    }
+  }
+
   if (!strategy.activeBet && count >= strategy.streakLimit && latestDraw.period !== strategy.lastTriggeredPeriod) {
     
-
-
+    if (inStratCyclePause) {
+       // Silently block new bets if in cycle pause.
+       return;
+    }
     const customSequence = parseCustomSequence(strategy.customSequence);
     const quantity = customSequence.length > 0 ? customSequence[0] : strategy.baseQuantity;
 
@@ -442,6 +610,10 @@ function evaluateStrategy(strategy, settings, parsedRows, count, targetType, lat
       if (settings.enableSound) playSound('safety_stop');
       strategy.enabled = false;
       return;
+    }
+
+    if (!strategy.isShadow && isDemo && strategy.checkpoint === undefined) {
+      strategy.checkpoint = strategy.demoBalance;
     }
 
     // Determine bet direction (Same = follow streak trend; Opposite = bet against trend)
@@ -543,6 +715,16 @@ function evaluateDrawHistory(recordBody) {
     popBetSelector: '.lottery-container button.bet-amount',
     enableSound: true,
     globalCooldownUntil: 0,
+    dualBotEnabled: false,
+    dualBotSequence: '10, 40, 160',
+    dualBotInitialBalance: 100,
+    dualProfitTarget: 50,
+    dualProfitPause: 3,
+    dualLossLimit: 40,
+    dualLossPause: 2,
+    dualTargetBalance: 0,
+    dualBotState: null, // Fetched explicitly below or defaulted
+    dualBotResetRequested: false,
 
     // Strategies list with default bootstraps
     strategies: [
@@ -627,8 +809,39 @@ function evaluateDrawHistory(recordBody) {
     if (!strategies || strategies.length === 0) return;
 
     const now = Date.now();
+    
+    // Global Manual Pause Check
     const isPausedGlobally = settings.globalCooldownUntil && now < settings.globalCooldownUntil;
+    
+    // UI expects activeGlobalSchedulePauseSecs for legacy badge, keep 0
+    chrome.storage.local.set({ activeGlobalSchedulePauseSecs: 0 });
+    
     const betsToTrigger = [];
+
+    const initBal = settings.dualBotInitialBalance || 100;
+    const dState = settings.dualBotState || { 
+      balance: initBal, checkpoint: initBal, activeBot: 'A', 
+      consecutiveLosses: 0, pauseUntil: 0, activeBet: null, 
+      stats: { profitHits: 0, lossHits: 0, totalProfit: 0 }, logs: [] 
+    };
+
+    // Handle reset request from popup (avoids race condition)
+    if (settings.dualBotResetRequested) {
+      dState.balance = initBal;
+      dState.checkpoint = initBal;
+      dState.activeBot = 'A';
+      dState.consecutiveLosses = 0;
+      dState.activeBet = null;
+      dState.pauseUntil = 0;
+      dState.stats = { profitHits: 0, lossHits: 0, totalProfit: 0 };
+      dState.logs.unshift(`[${new Date().toLocaleTimeString()}] Reset to ₹${initBal}`);
+      if (dState.logs.length > 30) dState.logs.pop();
+      chrome.storage.local.set({ dualBotResetRequested: false });
+    }
+
+    if (settings.dualBotEnabled && !isPausedGlobally) {
+      evaluateDualBotMaster(dState, settings, latestDraw, betsToTrigger, updatedHistory);
+    }
 
     // Process all strategies in parallel
     if (!isPausedGlobally) {
@@ -643,10 +856,12 @@ function evaluateDrawHistory(recordBody) {
         if (targetStrat) {
           autoSwitchStrat.enabled = false;
           autoSwitchStrat.activeBet = null;
+          autoSwitchStrat.checkpoint = autoSwitchStrat.demoBalance;
+          
           targetStrat.enabled = true;
-          targetStrat.activeBet = null;
-          targetStrat.consecutiveSequenceLosses = 0;
-          logToStrategySync(autoSwitchStrat, `[AUTO-SWITCH] Strategy hit 2 consecutive losses. Turning OFF and swapping to "${targetStrat.name}".`);
+          targetStrat.checkpoint = targetStrat.demoBalance; // Ensure clean start for target
+          
+          logToStrategySync(autoSwitchStrat, `[AUTO-SWITCH] Hit loss threshold. Turning OFF and swapping to "${targetStrat.name}".`);
           logToStrategySync(targetStrat, `[AUTO-SWITCH] Activated by "${autoSwitchStrat.name}". Strategy is now ON.`);
         }
         delete autoSwitchStrat.autoSwitchJustActivated;
@@ -718,7 +933,7 @@ function evaluateDrawHistory(recordBody) {
     }
 
     // Write updated strategies to storage EXACTLY ONCE
-    chrome.storage.local.set({ strategies, manualPlayState: mState, fullHistory: updatedHistory }, () => {
+    chrome.storage.local.set({ strategies, manualPlayState: mState, dualBotState: dState, fullHistory: updatedHistory }, () => {
       // After save finishes, execute queued bet triggers
       betsToTrigger.forEach(bet => {
         setTimeout(() => {

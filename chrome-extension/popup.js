@@ -26,6 +26,13 @@ const defaultSettings = {
   metaBotEnabled: false,
   metaBotLossLimit: 2,
   metaBotWinLimit: 2,
+  dualBotEnabled: false,
+  dualBotSequence: '10, 40, 160',
+  dualProfitTarget: 50,
+  dualProfitPause: 3,
+  dualLossLimit: 40,
+  dualLossPause: 2,
+  dualTargetBalance: 0,
   strategies: [
     {
       id: 'strat-1',
@@ -46,6 +53,10 @@ const defaultSettings = {
       customSequence: '',
       waitStreakBreak: false,
       waitStreakType: null,
+      runTime: 0,
+      pauseTime: 1,
+      targetBalance: 0,
+      cycleTimerEnd: 0,
       demoBalance: 100,
       initialBalance: 100,
       activeBet: null,
@@ -73,6 +84,10 @@ const defaultSettings = {
       customSequence: '',
       waitStreakBreak: false,
       waitStreakType: null,
+      runTime: 0,
+      pauseTime: 1,
+      targetBalance: 0,
+      cycleTimerEnd: 0,
       demoBalance: 300,
       initialBalance: 300,
       activeBet: null,
@@ -87,13 +102,32 @@ const defaultSettings = {
 // UI Elements (Configurations)
 const metaBotTabBtn = document.getElementById('meta-bot-tab');
 const metaBotPanel = document.getElementById('meta-bot-panel');
+const dualBotTabBtn = document.getElementById('dual-bot-tab');
+const dualBotPanel = document.getElementById('dual-bot-panel');
 const activeStrategyPanel = document.getElementById('active-strategy-panel');
 const metaBotToggle = document.getElementById('meta-bot-toggle');
 const metaLossLimitInput = document.getElementById('meta-loss-limit');
 const metaWinLimitInput = document.getElementById('meta-win-limit');
 
+const dualBotToggle = document.getElementById('dual-bot-toggle');
+const dualBotSequenceInput = document.getElementById('dual-bot-sequence');
+const dualBotInitialBalanceInput = document.getElementById('dual-bot-initial-balance');
+const dualProfitTargetInput = document.getElementById('dual-profit-target');
+const dualProfitPauseInput = document.getElementById('dual-profit-pause');
+const dualLossLimitInput = document.getElementById('dual-loss-limit');
+const dualLossPauseInput = document.getElementById('dual-loss-pause');
+const dualTargetBalanceInput = document.getElementById('dual-target-balance');
+
+const dualBalanceVal = document.getElementById('dual-balance');
+const dualCheckpointVal = document.getElementById('dual-checkpoint');
+const dualActiveBotVal = document.getElementById('dual-active-bot');
+const dualProfitHitsVal = document.getElementById('dual-profit-hits');
+const dualLossHitsVal = document.getElementById('dual-loss-hits');
+const dualLogsBox = document.getElementById('dual-logs-box');
+
 const enabledToggle = document.getElementById('enabled-toggle');
 const waitStreakToggle = document.getElementById('wait-streak-toggle');
+const waitStreakLengthInput = document.getElementById('wait-streak-length');
 const streakLimitInput = document.getElementById('streak-limit');
 const betDirectionSelect = document.getElementById('bet-direction');
 const stakingSystemSelect = document.getElementById('staking-system');
@@ -106,8 +140,18 @@ const stakingMultiplierInput = document.getElementById('staking-multiplier');
 const customSequenceInput = document.getElementById('custom-sequence');
 const limitLabel = document.getElementById('limit-label');
 const autoSwitchToggle = document.getElementById('auto-switch-toggle');
+const autoSwitchLossAmount = document.getElementById('auto-switch-loss-amount');
 const autoSwitchSettings = document.getElementById('auto-switch-settings');
 const autoSwitchTargetSelect = document.getElementById('auto-switch-target');
+
+const takeProfitTargetInput = document.getElementById('take-profit-target');
+const takeProfitPauseInput = document.getElementById('take-profit-pause');
+const stopLossLimitInput = document.getElementById('stop-loss-limit');
+const stopLossPauseInput = document.getElementById('stop-loss-pause');
+
+const stratRunTimeInput = document.getElementById('strat-run-time');
+const stratPauseTimeInput = document.getElementById('strat-pause-time');
+const stratTargetBalanceInput = document.getElementById('strat-target-balance');
 
 // UI Elements (Status)
 const demoBalanceRow = document.getElementById('demo-balance-row');
@@ -139,7 +183,6 @@ const recentDrawsVal = document.getElementById('recent-draws');
 const combinedBalanceVal = document.getElementById('combined-balance');
 const combinedInitialBalanceVal = document.getElementById('combined-initial-balance');
 const combinedPnLVal = document.getElementById('combined-pnl');
-const globalPauseTimeInput = document.getElementById('global-pause-time');
 const triggerGlobalPauseBtn = document.getElementById('trigger-global-pause-btn');
 const globalPauseRow = document.getElementById('global-pause-row');
 const globalPauseBadge = document.getElementById('global-pause-badge');
@@ -166,6 +209,14 @@ const manualLogsBox = document.getElementById('manual-logs-box');
 metaBotTabBtn.addEventListener('click', () => {
   saveCurrentStrategyToMemory();
   currentActiveId = 'meta-bot';
+  chrome.storage.local.set({ activeStrategyId: currentActiveId }, () => {
+    loadSettings();
+  });
+});
+
+dualBotTabBtn.addEventListener('click', () => {
+  saveCurrentStrategyToMemory();
+  currentActiveId = 'dual-bot';
   chrome.storage.local.set({ activeStrategyId: currentActiveId }, () => {
     loadSettings();
   });
@@ -198,19 +249,27 @@ function initializeSettings(settings) {
     activeStrategyPanel.style.display = 'none';
     manualPlayPanel.style.display = 'block';
     metaBotPanel.style.display = 'none';
+    dualBotPanel.style.display = 'none';
+  } else if (currentActiveId === 'dual-bot') {
+    activeStrategyPanel.style.display = 'none';
+    manualPlayPanel.style.display = 'none';
+    metaBotPanel.style.display = 'none';
+    dualBotPanel.style.display = 'block';
   } else if (currentActiveId === 'meta-bot') {
     activeStrategyPanel.style.display = 'none';
     manualPlayPanel.style.display = 'none';
+    dualBotPanel.style.display = 'none';
     metaBotPanel.style.display = 'block';
   } else {
     activeStrategyPanel.style.display = 'block';
     manualPlayPanel.style.display = 'none';
     metaBotPanel.style.display = 'none';
+    dualBotPanel.style.display = 'none';
   }
 
   // Global settings loading
-  clickDelayInput.value = settings.clickDelay;
-  betModeSelect.value = settings.betMode;
+  clickDelayInput.value = settings.clickDelay || 1000;
+  betModeSelect.value = settings.betMode || 'demo';
   bigBtnSelectorInput.value = settings.bigBtnSelector;
   smallBtnSelectorInput.value = settings.smallBtnSelector;
   popInputSelectorInput.value = settings.popInputSelector;
@@ -221,8 +280,17 @@ function initializeSettings(settings) {
   metaLossLimitInput.value = settings.metaBotLossLimit || 2;
   metaWinLimitInput.value = settings.metaBotWinLimit || 2;
 
+  dualBotToggle.checked = settings.dualBotEnabled || false;
+  dualBotSequenceInput.value = settings.dualBotSequence || '10, 40, 160';
+  dualBotInitialBalanceInput.value = settings.dualBotInitialBalance !== undefined ? settings.dualBotInitialBalance : 100;
+  dualProfitTargetInput.value = settings.dualProfitTarget !== undefined ? settings.dualProfitTarget : 50;
+  dualProfitPauseInput.value = settings.dualProfitPause !== undefined ? settings.dualProfitPause : 3;
+  dualLossLimitInput.value = settings.dualLossLimit !== undefined ? settings.dualLossLimit : 40;
+  dualLossPauseInput.value = settings.dualLossPause !== undefined ? settings.dualLossPause : 2;
+  dualTargetBalanceInput.value = settings.dualTargetBalance !== undefined ? settings.dualTargetBalance : 0;
+
   // Load active strategy settings into the UI
-  if (currentActiveId !== 'manual-play') {
+  if (currentActiveId !== 'manual-play' && currentActiveId !== 'meta-bot' && currentActiveId !== 'dual-bot') {
     const activeStrat = currentStrategies.find(s => s.id === currentActiveId) || currentStrategies[0];
     if (activeStrat) {
       currentActiveId = activeStrat.id;
@@ -237,8 +305,20 @@ function initializeSettings(settings) {
       lossCooldownTimeInput.value = activeStrat.lossCooldownTime !== undefined ? activeStrat.lossCooldownTime : 5;
       stakingMultiplierInput.value = activeStrat.stakingMultiplier !== undefined ? activeStrat.stakingMultiplier : 2;
       customSequenceInput.value = activeStrat.customSequence !== undefined ? activeStrat.customSequence : '';
+      
+      takeProfitTargetInput.value = activeStrat.takeProfitTarget !== undefined ? activeStrat.takeProfitTarget : '';
+      takeProfitPauseInput.value = activeStrat.takeProfitPause !== undefined ? activeStrat.takeProfitPause : '';
+      stopLossLimitInput.value = activeStrat.stopLossLimit !== undefined ? activeStrat.stopLossLimit : '';
+      stopLossPauseInput.value = activeStrat.stopLossPause !== undefined ? activeStrat.stopLossPause : '';
+      
+      stratRunTimeInput.value = activeStrat.runTime !== undefined ? activeStrat.runTime : '';
+      stratPauseTimeInput.value = activeStrat.pauseTime !== undefined ? activeStrat.pauseTime : '';
+      stratTargetBalanceInput.value = activeStrat.targetBalance !== undefined ? activeStrat.targetBalance : '';
+      
       waitStreakToggle.checked = activeStrat.waitStreakBreak || false;
+      waitStreakLengthInput.value = activeStrat.waitStreakLength !== undefined ? activeStrat.waitStreakLength : 5;
       autoSwitchToggle.checked = activeStrat.autoSwitchEnabled || false;
+      autoSwitchLossAmount.value = activeStrat.autoSwitchLossAmount || '';
       autoSwitchTargetSelect.innerHTML = '<option value="" disabled selected>Select Strategy to swap to...</option>';
       currentStrategies.forEach(s => {
         if (s.id !== currentActiveId) {
@@ -290,11 +370,8 @@ function adjustUIForModes() {
 function renderTabs() {
   tabsList.innerHTML = '';
   
-  if (currentActiveId === 'meta-bot') {
-    metaBotTabBtn.classList.add('active');
-  } else {
-    metaBotTabBtn.classList.remove('active');
-  }
+  metaBotTabBtn.classList.toggle('active', currentActiveId === 'meta-bot');
+  dualBotTabBtn.classList.toggle('active', currentActiveId === 'dual-bot');
 
   currentStrategies.forEach(strat => {
     const btn = document.createElement('button');
@@ -332,7 +409,7 @@ function renderTabs() {
 
 // Save inputs of currently active strategy into the array in memory
 function saveCurrentStrategyToMemory() {
-  if (currentActiveId === 'manual-play' || currentActiveId === 'meta-bot') return;
+  if (currentActiveId === 'manual-play' || currentActiveId === 'meta-bot' || currentActiveId === 'dual-bot') return;
   const strat = currentStrategies.find(s => s.id === currentActiveId);
   if (strat) {
     strat.enabled = enabledToggle.checked;
@@ -348,8 +425,20 @@ function saveCurrentStrategyToMemory() {
     strat.stakingMultiplier = parseFloat(stakingMultiplierInput.value) || 2;
     strat.customSequence = customSequenceInput.value.trim();
     strat.waitStreakBreak = waitStreakToggle.checked;
+    strat.waitStreakLength = parseInt(waitStreakLengthInput.value) || 5;
     strat.autoSwitchEnabled = autoSwitchToggle.checked;
+    strat.autoSwitchLossAmount = parseFloat(autoSwitchLossAmount.value) || 0;
     strat.autoSwitchTargetId = autoSwitchTargetSelect.value;
+    
+    strat.takeProfitTarget = parseNum(takeProfitTargetInput.value, 0);
+    strat.takeProfitPause = parseNum(takeProfitPauseInput.value, 0);
+    strat.stopLossLimit = parseNum(stopLossLimitInput.value, 0);
+    strat.stopLossPause = parseNum(stopLossPauseInput.value, 0);
+    
+    strat.runTime = parseNum(stratRunTimeInput.value, 0);
+    strat.pauseTime = parseNum(stratPauseTimeInput.value, 0);
+    strat.targetBalance = parseNum(stratTargetBalanceInput.value, 0);
+    
     strat.demoBalance = parseFloat(demoBalanceInput.value) || 0;
   }
 }
@@ -369,6 +458,14 @@ function saveSettings() {
     metaBotEnabled: metaBotToggle.checked,
     metaBotLossLimit: parseInt(metaLossLimitInput.value, 10) || 2,
     metaBotWinLimit: parseInt(metaWinLimitInput.value, 10) || 2,
+    dualBotEnabled: dualBotToggle.checked,
+    dualBotSequence: dualBotSequenceInput.value.trim(),
+    dualBotInitialBalance: parseFloat(dualBotInitialBalanceInput.value) || 100,
+    dualProfitTarget: parseInt(dualProfitTargetInput.value, 10) || 50,
+    dualProfitPause: parseInt(dualProfitPauseInput.value, 10) || 3,
+    dualLossLimit: parseInt(dualLossLimitInput.value, 10) || 40,
+    dualLossPause: parseInt(dualLossPauseInput.value, 10) || 2,
+    dualTargetBalance: parseFloat(dualTargetBalanceInput.value) || 0,
     strategies: currentStrategies,
     activeStrategyId: currentActiveId
   };
@@ -392,6 +489,7 @@ function updateLiveStatus() {
     recentDraws: [],
     strategies: defaultSettings.strategies,
     manualPlayState: { balance: 1000, activeBet: null, stats: { wins: 0, losses: 0 }, logs: [] },
+    dualBotState: { balance: 100, checkpoint: 100, activeBot: 'A', stats: { profitHits: 0, lossHits: 0 }, logs: [], pauseUntil: 0 },
     globalCooldownUntil: 0
   }, (data) => {
     const strategies = data.strategies || [];
@@ -483,6 +581,31 @@ function updateLiveStatus() {
       manualLogsBox.textContent = 'No manual games played yet.';
     }
 
+    // Sync Dual Bot Status
+    const dState = data.dualBotState || { balance: 100, checkpoint: 100, activeBot: 'A', stats: { profitHits: 0, lossHits: 0 }, logs: [], pauseUntil: 0 };
+    if (dualBalanceVal) dualBalanceVal.textContent = `₹${Number(dState.balance).toFixed(2)}`;
+    if (dualCheckpointVal) dualCheckpointVal.textContent = `₹${Number(dState.checkpoint).toFixed(2)}`;
+    
+    if (dState.pauseUntil && dState.pauseUntil > Date.now()) {
+      const remaining = Math.ceil((dState.pauseUntil - Date.now()) / 1000);
+      const m = Math.floor(remaining / 60);
+      const s = remaining % 60;
+      if (dualActiveBotVal) dualActiveBotVal.textContent = `Paused (${m}m ${s}s)`;
+    } else {
+      if (dualActiveBotVal) dualActiveBotVal.textContent = `Bot ${dState.activeBot}`;
+    }
+
+    if (dualProfitHitsVal) dualProfitHitsVal.textContent = dState.stats?.profitHits || 0;
+    if (dualLossHitsVal) dualLossHitsVal.textContent = dState.stats?.lossHits || 0;
+
+    if (dualLogsBox) {
+      if (dState.logs && dState.logs.length > 0) {
+        dualLogsBox.textContent = dState.logs.join('\n');
+      } else {
+        dualLogsBox.textContent = 'No Dual Bot activity yet.';
+      }
+    }
+
     // Update Combined Bot Balance
     const totalBotBalance = strategies.reduce((acc, strat) => acc + (parseFloat(strat.demoBalance) || 0), 0);
     if (combinedBalanceVal) {
@@ -510,28 +633,45 @@ function updateLiveStatus() {
 
     // Render Global Pause Status
     const now = Date.now();
-    if (data.globalCooldownUntil && now < data.globalCooldownUntil) {
+    let isManualPause = (data.globalCooldownUntil && now < data.globalCooldownUntil);
+    let isSchedulePause = (data.activeGlobalSchedulePauseSecs > 0);
+    
+    if (isManualPause || isSchedulePause) {
       if (globalPauseRow) {
         globalPauseRow.style.display = 'flex';
-        const remainingMs = data.globalCooldownUntil - now;
-        const remainingSecs = Math.ceil(remainingMs / 1000);
+        let remainingSecs = 0;
+        let prefix = "GLOBAL PAUSE";
+        
+        if (isManualPause) {
+          remainingSecs = Math.ceil((data.globalCooldownUntil - now) / 1000);
+        } else {
+          remainingSecs = data.activeGlobalSchedulePauseSecs;
+          prefix = "SCHEDULED PAUSE";
+        }
+        
         const mins = Math.floor(remainingSecs / 60);
         const secs = remainingSecs % 60;
         if (globalPauseBadge) {
-          globalPauseBadge.textContent = `GLOBAL PAUSE ACTIVE: ${mins}m ${secs}s`;
+          globalPauseBadge.textContent = `${prefix} ACTIVE: ${mins}m ${secs}s`;
         }
       }
       if (triggerGlobalPauseBtn) {
-        triggerGlobalPauseBtn.textContent = 'Cancel Global Pause';
-        triggerGlobalPauseBtn.style.color = '#34d399';
-        triggerGlobalPauseBtn.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+        if (isManualPause) {
+          triggerGlobalPauseBtn.textContent = 'Cancel Global Pause';
+          triggerGlobalPauseBtn.style.color = '#34d399';
+          triggerGlobalPauseBtn.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+        } else {
+          triggerGlobalPauseBtn.textContent = 'Pause All Bots Manually';
+          triggerGlobalPauseBtn.style.color = '#f87171';
+          triggerGlobalPauseBtn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+        }
       }
     } else {
       if (globalPauseRow) {
         globalPauseRow.style.display = 'none';
       }
       if (triggerGlobalPauseBtn) {
-        triggerGlobalPauseBtn.textContent = 'Pause All Bots';
+        triggerGlobalPauseBtn.textContent = 'Pause All Bots Manually';
         triggerGlobalPauseBtn.style.color = '#f87171';
         triggerGlobalPauseBtn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
       }
@@ -648,6 +788,7 @@ function updateBalanceFromUI() {
     const val = parseFloat(demoBalanceInput.value) || 0;
     strat.demoBalance = val;
     strat.initialBalance = val;
+    strat.checkpoint = val; // Reset checkpoint on manual balance change
     chrome.storage.local.set({ strategies: currentStrategies });
   }
 }
@@ -675,6 +816,7 @@ resetDemoBtn.addEventListener('click', () => {
 
     strat.demoBalance = startVal;
     strat.initialBalance = startVal;
+    strat.checkpoint = startVal; // Reset checkpoint
     strat.activeBet = null;
     strat.cooldownUntil = 0;
     strat.winStreak = { current: 0, max: 0 };
@@ -696,6 +838,7 @@ metaBotTabBtn.addEventListener('click', () => {
     loadSettings();
   });
 });
+
 metaBotToggle.addEventListener('change', saveSettings);
 metaLossLimitInput.addEventListener('change', saveSettings);
 metaWinLimitInput.addEventListener('change', saveSettings);
@@ -724,10 +867,9 @@ if (downloadJsonBtn) {
 saveBtn.addEventListener('click', saveSettings);
 enabledToggle.addEventListener('change', saveSettings);
 waitStreakToggle.addEventListener('change', saveSettings);
-autoSwitchToggle.addEventListener('change', () => {
-  autoSwitchSettings.style.display = autoSwitchToggle.checked ? 'flex' : 'none';
-  saveSettings();
-});
+waitStreakLengthInput.addEventListener('change', saveSettings);
+autoSwitchToggle.addEventListener('change', () => { autoSwitchSettings.style.display = autoSwitchToggle.checked ? 'flex' : 'none'; saveSettings(); });
+autoSwitchLossAmount.addEventListener('input', saveSettings);
 autoSwitchTargetSelect.addEventListener('change', saveSettings);
 
 streakLimitInput.addEventListener('change', saveSettings);
@@ -737,6 +879,10 @@ maxStepsInput.addEventListener('change', saveSettings);
 betModeSelect.addEventListener('change', () => {
   adjustUIForModes();
   saveSettings();
+});
+
+[clickDelayInput, bigBtnSelectorInput, smallBtnSelectorInput].forEach(el => {
+  if (el) el.addEventListener('change', saveSettings);
 });
 
 stakingSystemSelect.addEventListener('change', () => {
@@ -749,7 +895,79 @@ cooldownTimeInput.addEventListener('change', saveSettings);
 lossCooldownLimitInput.addEventListener('change', saveSettings);
 lossCooldownTimeInput.addEventListener('change', saveSettings);
 stakingMultiplierInput.addEventListener('change', saveSettings);
-customSequenceInput.addEventListener('change', saveSettings);
+customSequenceInput.addEventListener('input', saveSettings);
+
+takeProfitTargetInput.addEventListener('change', saveSettings);
+takeProfitPauseInput.addEventListener('change', saveSettings);
+stopLossLimitInput.addEventListener('change', saveSettings);
+stopLossPauseInput.addEventListener('change', saveSettings);
+stratRunTimeInput.addEventListener('change', saveSettings);
+stratPauseTimeInput.addEventListener('change', saveSettings);
+stratTargetBalanceInput.addEventListener('change', saveSettings);
+metaWinLimitInput.addEventListener('change', saveSettings);
+
+// Dual Bot Listeners
+dualBotToggle.addEventListener('change', saveSettings);
+dualBotSequenceInput.addEventListener('change', saveSettings);
+dualProfitTargetInput.addEventListener('change', saveSettings);
+dualProfitPauseInput.addEventListener('change', saveSettings);
+dualLossLimitInput.addEventListener('change', saveSettings);
+dualLossPauseInput.addEventListener('change', saveSettings);
+dualTargetBalanceInput.addEventListener('change', saveSettings);
+
+// Dual Bot Balance Save
+const dualBotSaveBalanceBtn = document.getElementById('dual-bot-save-balance');
+const dualBotResetBtn = document.getElementById('dual-bot-reset-btn');
+
+function forceDualBotBalanceReset() {
+  const newBal = parseFloat(dualBotInitialBalanceInput.value) || 100;
+  // Save the setting
+  chrome.storage.local.set({
+    dualBotInitialBalance: newBal,
+    dualBotResetRequested: true,
+    // Also force-write the state directly as belt-and-suspenders
+    dualBotState: {
+      balance: newBal,
+      checkpoint: newBal,
+      activeBot: 'A',
+      consecutiveLosses: 0,
+      pauseUntil: 0,
+      activeBet: null,
+      stats: { profitHits: 0, lossHits: 0, totalProfit: 0 },
+      logs: [`[${new Date().toLocaleTimeString()}] Balance set to ₹${newBal}`]
+    }
+  });
+}
+
+function updateDualBotUI(bal) {
+  if (dualBalanceVal) dualBalanceVal.textContent = `₹${Number(bal).toFixed(2)}`;
+  if (dualCheckpointVal) dualCheckpointVal.textContent = `₹${Number(bal).toFixed(2)}`;
+  if (dualActiveBotVal) dualActiveBotVal.textContent = 'Bot A';
+  if (dualProfitHitsVal) dualProfitHitsVal.textContent = '0';
+  if (dualLossHitsVal) dualLossHitsVal.textContent = '0';
+  if (dualLogsBox) dualLogsBox.textContent = `Balance set to ₹${bal}`;
+}
+
+if (dualBotSaveBalanceBtn) {
+  dualBotSaveBalanceBtn.addEventListener('click', () => {
+    forceDualBotBalanceReset();
+    const bal = parseFloat(dualBotInitialBalanceInput.value) || 100;
+    updateDualBotUI(bal);
+    dualBotSaveBalanceBtn.textContent = 'Saved!';
+    dualBotSaveBalanceBtn.style.background = '#34d399';
+    setTimeout(() => { dualBotSaveBalanceBtn.textContent = 'Save'; dualBotSaveBalanceBtn.style.background = '#10b981'; }, 1000);
+  });
+}
+
+if (dualBotResetBtn) {
+  dualBotResetBtn.addEventListener('click', () => {
+    forceDualBotBalanceReset();
+    const bal = parseFloat(dualBotInitialBalanceInput.value) || 100;
+    updateDualBotUI(bal);
+    dualBotResetBtn.textContent = 'Done!';
+    setTimeout(() => { dualBotResetBtn.textContent = 'Reset'; }, 1000);
+  });
+}
 
 // Manual Play logic implementation
 function updateManualBalanceFromUI() {

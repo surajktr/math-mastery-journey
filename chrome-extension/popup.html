@@ -410,6 +410,7 @@
   <header>
     <h1>Wingo Strategy Simulator</h1>
     <div style="display: flex; align-items: center; gap: 8px;">
+      <button id="dual-bot-tab" class="tab-btn" style="border: 1px solid rgba(236, 72, 153, 0.5); color: #ec4899; flex-shrink: 0; padding: 4px 8px; font-size: 11px;">⚔️ Dual Bot</button>
       <button id="download-json-btn" class="btn btn-secondary" style="font-size: 9px; padding: 3px 6px; border-color: rgba(99, 102, 241, 0.4); color: #a5b4fc;" title="Download 300 Results">📥 JSON</button>
       <span style="font-size: 9px; color: var(--accent-success); font-weight: 600; display: flex; align-items: center; gap: 4px;">
         <span style="width: 5px; height: 5px; background-color: var(--accent-success); border-radius: 50%; display: inline-block;"></span>
@@ -482,6 +483,86 @@
     </div>
   </div>
 
+  <!-- DUAL BOT MASTER PANEL -->
+  <div id="dual-bot-panel" style="display: none;">
+    <div class="switch-container" style="background: rgba(236, 72, 153, 0.08); border: 1px solid rgba(236, 72, 153, 0.3); margin-bottom: 12px;">
+      <span class="switch-title" style="color: #ec4899; font-weight: 800;">Enable Dual Bot Master</span>
+      <label class="switch">
+        <input type="checkbox" id="dual-bot-toggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="status-card" style="background: rgba(0,0,0,0.2); border: 1px solid var(--card-border);">
+      <p style="font-size: 11px; color: var(--text-muted); margin: 0 0 10px 0; line-height: 1.4;">Automates the Dual Bot Stopper Strategy. Runs Bot A (Opposite, Streak 1) and swaps to Bot B (Same, Streak 2) on 2 consecutive sequence losses.</p>
+      
+      <div class="row-grid" style="margin-bottom: 10px;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="dual-bot-sequence" style="color: #a5b4fc;">Staking Sequence:</label>
+          <input type="text" id="dual-bot-sequence" value="10, 40, 160">
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="dual-bot-initial-balance" style="color: #34d399;">Initial Balance (₹):</label>
+          <div style="display: flex; gap: 6px;">
+            <input type="number" id="dual-bot-initial-balance" value="100" style="flex: 1;">
+            <button id="dual-bot-save-balance" class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; background: #10b981; color: #fff; border: none; white-space: nowrap;">Save</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row-grid" style="margin-bottom: 10px;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="dual-profit-target" style="color: #10b981;">Take Profit (+₹)</label>
+          <input type="number" id="dual-profit-target" value="50">
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="dual-profit-pause" style="color: #34d399;">Pause (Mins)</label>
+          <input type="number" id="dual-profit-pause" value="3">
+        </div>
+      </div>
+
+      <div class="row-grid">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="dual-loss-limit" style="color: #f43f5e;">Stop Loss (-₹)</label>
+          <input type="number" id="dual-loss-limit" value="40">
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="dual-loss-pause" style="color: #fb7185;">Pause (Mins)</label>
+          <input type="number" id="dual-loss-pause" value="2">
+        </div>
+      </div>
+      
+      <div class="form-group" style="margin-top: 10px; margin-bottom: 0;">
+        <label for="dual-target-balance" style="color: #a855f7;">Hard Target Balance Stop (₹)</label>
+        <input type="number" id="dual-target-balance" placeholder="0 = disabled. Reaching this pauses bot.">
+      </div>
+    </div>
+
+    <!-- Dual Bot Live Status -->
+    <div class="status-card" style="background: rgba(99, 102, 241, 0.04); margin-bottom: 10px; margin-top: 10px;">
+      <div class="status-row">
+        <span class="label" style="font-weight: 700; color: #34d399; display: flex; align-items: center; gap: 6px;">
+          Balance / Checkpoint
+          <button id="dual-bot-reset-btn" class="cancel-btn" style="color: #34d399; border-color: rgba(52,211,153,0.3); margin-left: 0;">Reset</button>
+        </span>
+        <span class="value" style="color: #34d399;"><span id="dual-balance">₹1000</span> / <span id="dual-checkpoint">₹1000</span></span>
+      </div>
+      <div class="status-row">
+        <span class="label">Active Bot</span>
+        <span class="value" id="dual-active-bot" style="color: #a5b4fc; font-weight: bold;">Bot A</span>
+      </div>
+      <div class="status-row">
+        <span class="label">Profit / Loss Stops</span>
+        <span class="value" style="color: #fbbf24;"><span id="dual-profit-hits" style="color:#10b981">0</span> / <span id="dual-loss-hits" style="color:#f43f5e">0</span></span>
+      </div>
+    </div>
+    <div class="logs-container">
+      <div class="logs-header">
+        <span>Dual Bot Logs</span>
+      </div>
+      <div class="logs-box" id="dual-logs-box"></div>
+    </div>
+  </div>
+
   <!-- ACTIVE STRATEGY TAB CONTENT PANEL -->
   <div id="active-strategy-panel">
     <!-- Auto Clicker Switch -->
@@ -494,12 +575,15 @@
     </div>
 
     <!-- Wait for Streak Break Switch -->
-    <div class="switch-container" style="background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.2); margin-top: -6px; margin-bottom: 12px;">
-      <span class="switch-title" style="color: #fbbf24;">Wait for Streak Break (5+ Streak)</span>
-      <label class="switch">
-        <input type="checkbox" id="wait-streak-toggle">
-        <span class="slider"></span>
-      </label>
+    <div class="switch-container" style="background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.2); margin-top: -6px; margin-bottom: 12px; flex-wrap: wrap;">
+      <span class="switch-title" style="color: #fbbf24;">Wait for Streak Shield</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <input type="number" id="wait-streak-length" min="1" max="20" value="5" style="width: 40px; padding: 2px 4px; background: rgba(0,0,0,0.25); border: 1px solid rgba(245,158,11,0.3); border-radius: 4px; color: #fbbf24; font-size: 11px; text-align: center;">
+        <label class="switch">
+          <input type="checkbox" id="wait-streak-toggle">
+          <span class="slider"></span>
+        </label>
+      </div>
     </div>
 
     <!-- Strategy Status Card -->
@@ -523,10 +607,47 @@
       </div>
     </div>
 
+
     <!-- Trigger Configurations Header -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
       <div class="section-title" style="margin-top: 0; margin-bottom: 0; border-bottom: none; padding-bottom: 0; text-transform: uppercase;">Strategy Configurations</div>
-      <button id="delete-strat-btn" class="cancel-btn" style="margin-left: 0; border: 1px solid var(--accent-danger); font-size: 9px; padding: 2px 6px;">Delete Strategy</button>
+      <div>
+        <button id="run-optimizer-btn" class="btn" style="background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%); color: white; border: none; font-size: 9px; padding: 3px 8px; margin-right: 4px; border-radius: 4px;">🧠 Auto-Optimize</button>
+        <button id="delete-strat-btn" class="cancel-btn" style="margin-left: 0; border: 1px solid var(--accent-danger); font-size: 9px; padding: 2px 6px;">Delete Strategy</button>
+      </div>
+    </div>
+
+    <!-- INLINE OPTIMIZER PANEL -->
+    <div id="optimizer-panel" style="display: none; margin-bottom: 12px;">
+      <div class="status-card" style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.3); text-align: center; margin-bottom: 4px; padding: 8px;">
+        <div id="optimizer-status" style="font-size: 11px; color: #fbbf24;">Scanning <span id="opt-history-count">0</span> draws... Please wait...</div>
+      </div>
+      
+      <div id="optimizer-results-card" class="status-card" style="background: rgba(0,0,0,0.3); border: 1px solid #34d399; display: none;">
+        <h4 style="margin: 0 0 8px 0; color: #34d399; text-align: center;">🎯 Best Configuration Found</h4>
+        <div style="font-size: 16px; font-weight: bold; color: #34d399; text-align: center; margin-bottom: 12px;" id="opt-best-profit">+₹0.00</div>
+        
+        <div class="row-grid" style="font-size: 11px; margin-bottom: 8px;">
+          <div><span style="color: #cbd5e1;">Bet Direction:</span> <strong style="color: #60a5fa;" id="opt-direction">Opposite</strong></div>
+          <div><span style="color: #cbd5e1;">Wait for Streak Shield:</span> <strong style="color: #fbbf24;" id="opt-shield">5</strong></div>
+        </div>
+        
+        <div class="row-grid" style="font-size: 11px;">
+          <div><span style="color: #cbd5e1;">Take Profit:</span> <strong style="color: #10b981;" id="opt-tp">50</strong> <span style="color: #64748b;">(Pause <span id="opt-tp-pause">2</span>m)</span></div>
+          <div><span style="color: #cbd5e1;">Stop Loss:</span> <strong style="color: #f43f5e;" id="opt-sl">20</strong> <span style="color: #64748b;">(Pause <span id="opt-sl-pause">2</span>m)</span></div>
+        </div>
+
+        <div class="row-grid" style="font-size: 11px; margin-top: 8px; margin-bottom: 12px;">
+          <div><span style="color: #cbd5e1;">Run Duration:</span> <strong style="color: #38bdf8;" id="opt-run">0</strong><span style="color: #64748b;">m</span></div>
+          <div><span style="color: #cbd5e1;">Pause Duration:</span> <strong style="color: #a78bfa;" id="opt-pause">0</strong><span style="color: #64748b;">m</span></div>
+        </div>
+        
+        <div style="font-size: 10px; color: #64748b; text-align: center; margin-bottom: 10px;">
+          * Simulated using Paroli Base <span id="opt-base-amount">10</span> with ₹<span id="opt-balance">300</span> starting balance.
+        </div>
+
+        <button id="apply-optimizer-btn" class="btn" style="width: 100%; padding: 8px; background: #10b981; color: white; border: none; font-weight: bold; font-size: 12px; border-radius: 4px;">Apply Best Settings</button>
+      </div>
     </div>
 
     <div class="row-grid">
@@ -544,12 +665,15 @@
     </div>
 
     <!-- Auto-Strategy Switcher -->
-    <div class="switch-container" style="background: rgba(236, 72, 153, 0.06); border: 1px solid rgba(236, 72, 153, 0.2); margin-top: 10px; margin-bottom: 8px;">
-      <span class="switch-title" style="color: #f472b6;">Auto-Switch on 2 Losses</span>
-      <label class="switch">
-        <input type="checkbox" id="auto-switch-toggle">
-        <span class="slider"></span>
-      </label>
+    <div class="switch-container" style="background: rgba(236, 72, 153, 0.06); border: 1px solid rgba(236, 72, 153, 0.2); margin-top: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+      <span class="switch-title" style="color: #f472b6;">Auto-Switch on Loss</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <input type="number" id="auto-switch-loss-amount" min="1" placeholder="₹" style="width: 50px; padding: 2px 4px; background: rgba(0,0,0,0.25); border: 1px solid rgba(236,72,153,0.3); border-radius: 4px; color: #f472b6; font-size: 11px; text-align: center;">
+        <label class="switch">
+          <input type="checkbox" id="auto-switch-toggle">
+          <span class="slider"></span>
+        </label>
+      </div>
     </div>
     
     <div class="row-grid" id="auto-switch-settings" style="display: none; border-left: 2px solid rgba(236, 72, 153, 0.4); padding-left: 8px; margin-bottom: 12px; margin-top: 4px;">
@@ -569,6 +693,7 @@
         <select id="staking-system">
           <option value="martingale" selected>Martingale (Double on Loss)</option>
           <option value="paroli">Paroli (Double on Win)</option>
+          <option value="custom">Custom Sequence</option>
         </select>
       </div>
       <div class="form-group">
@@ -608,6 +733,44 @@
         <label for="custom-sequence">Custom Sequence (comma-separated)</label>
         <input type="text" id="custom-sequence" placeholder="e.g. 10, 30, 90, 200">
       </div>
+    </div>
+    
+    <!-- New Strategy-Specific Stoppers (Profit/Loss Limits) -->
+    <div class="row-grid" style="margin-top: 15px;">
+      <div class="form-group">
+        <label for="take-profit-target" style="color: #10b981;">Take Profit (+₹)</label>
+        <input type="number" id="take-profit-target" min="0" placeholder="e.g. 50">
+      </div>
+      <div class="form-group">
+        <label for="take-profit-pause" style="color: #34d399;">Pause (Mins)</label>
+        <input type="number" id="take-profit-pause" min="0" placeholder="e.g. 3">
+      </div>
+    </div>
+    <div class="row-grid">
+      <div class="form-group">
+        <label for="stop-loss-limit" style="color: #ef4444;">Stop Loss (-₹)</label>
+        <input type="number" id="stop-loss-limit" min="0" placeholder="e.g. 40">
+      </div>
+      <div class="form-group">
+        <label for="stop-loss-pause" style="color: #f87171;">Pause (Mins)</label>
+        <input type="number" id="stop-loss-pause" min="0" placeholder="e.g. 1">
+      </div>
+    </div>
+
+    <!-- Cycle Schedule & Target Balance -->
+    <div class="row-grid" style="margin-top: 15px;">
+      <div class="form-group">
+        <label for="strat-run-time" style="color: #60a5fa;">Run Duration (min)</label>
+        <input type="number" id="strat-run-time" min="0" max="1440" placeholder="0 = infinite">
+      </div>
+      <div class="form-group">
+        <label for="strat-pause-time" style="color: #93c5fd;">Pause Duration (min)</label>
+        <input type="number" id="strat-pause-time" min="0" placeholder="e.g. 1">
+      </div>
+    </div>
+    <div class="form-group" style="margin-top: 8px;">
+      <label for="strat-target-balance" style="color: #c084fc;">Hard Target Balance Stop (₹)</label>
+      <input type="number" id="strat-target-balance" min="0" placeholder="0 = disabled. Reaching this pauses bot.">
     </div>
 
     <!-- Live Logs -->
@@ -675,14 +838,9 @@
     </div>
   </div>
 
-  <div class="row-grid" style="margin-top: 8px;">
-    <div class="form-group">
-      <label for="global-pause-time">Global Pause Duration (min)</label>
-      <input type="number" id="global-pause-time" min="1" max="1440" value="1">
-    </div>
-    <div class="form-group" style="display: flex; align-items: flex-end;">
-      <button id="trigger-global-pause-btn" class="btn btn-secondary" style="width: 100%; border-color: rgba(239, 68, 68, 0.4); color: #f87171; font-weight: 700; padding: 7px 0; font-size: 11px;">Pause All Bots</button>
-    </div>
+
+  <div class="form-group" style="margin-top: 8px;">
+      <button id="trigger-global-pause-btn" class="btn btn-secondary" style="width: 100%; border-color: rgba(239, 68, 68, 0.4); color: #f87171; font-weight: 700; padding: 7px 0; font-size: 11px;">Pause All Bots Manually</button>
   </div>
 
   <div class="form-group" id="demo-reset-col" style="margin-top: 4px; margin-bottom: 8px; display: none;">
@@ -725,6 +883,7 @@
     <button id="save-btn" class="btn btn-primary">Save Settings</button>
   </div>
 
+  <script src="optimizer.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
