@@ -725,6 +725,10 @@ function evaluateDrawHistory(recordBody) {
     dualTargetBalance: 0,
     dualBotState: null, // Fetched explicitly below or defaulted
     dualBotResetRequested: false,
+    manualPlayState: null,
+    aiOptimizerEnabled: false,
+    aiInitialBalance: 100,
+    aiBlockSize: 30,
 
     // Strategies list with default bootstraps
     strategies: [
