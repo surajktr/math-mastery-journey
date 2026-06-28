@@ -6,11 +6,14 @@ The Chrome extension sends draw data here every 30 draws.
 First 30 draws = observe only, then it returns the best strategy.
 """
 
+import sys
+sys.dont_write_bytecode = True
+
 import json
 import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-# â”€â”€â”€ Simulation Engine (same logic as test_ultimate.py) â”€â”€â”€
+# ——— Simulation Engine (same logic as test_ultimate.py) ———
 
 def sim(draws, direction, shield, tp, tp_pause, sl, sl_pause, seq, balance, staking='paroli', streak_limit=1):
     checkpoint = balance
