@@ -1033,35 +1033,45 @@ dualTargetBalanceInput.addEventListener('change', saveSettings);
 // AI Optimizer Listeners
 document.getElementById('ai-optimizer-toggle').addEventListener('change', saveSettings);
 document.getElementById('ai-initial-balance').addEventListener('change', (e) => {
+  const newBal = parseFloat(e.target.value) || 100;
   saveSettings();
-  chrome.storage.local.get(['strategies', 'aiOptimizerEnabled'], (data) => {
-    if (data.aiOptimizerEnabled) {
-      const strats = data.strategies || [];
-      if (strats[0]) {
-        strats[0].demoBalance = parseFloat(e.target.value) || 100;
-        chrome.storage.local.set({ strategies: strats });
-      }
+  // Update Python server immediately
+  fetch('http://localhost:8787/set-balance', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ initialBalance: newBal })
+  }).catch(() => {});
+  chrome.storage.local.get(['strategies'], (data) => {
+    const strats = data.strategies || [];
+    if (strats[0]) {
+      strats[0].demoBalance = newBal;
+      chrome.storage.local.set({ strategies: strats });
     }
   });
 });
 document.getElementById('ai-block-size').addEventListener('change', saveSettings);
 
 document.getElementById('ai-reset-btn').addEventListener('click', () => {
-  fetch('http://localhost:8787/reset', { method: 'POST' }).then(() => {
-    chrome.storage.local.get(['strategies', 'aiInitialBalance'], (data) => {
+  const userBal = parseFloat(document.getElementById('ai-initial-balance').value) || 100;
+  fetch('http://localhost:8787/set-balance', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ initialBalance: userBal })
+  }).then(() => {
+    chrome.storage.local.get(['strategies'], (data) => {
       const strats = data.strategies || [];
       if (strats[0]) {
-        strats[0].demoBalance = parseFloat(data.aiInitialBalance) || 100;
+        strats[0].demoBalance = userBal;
         strats[0].enabled = false;
       }
       chrome.storage.local.set({ 
         strategies: strats,
         aiProgress: null,
-        aiOptimizerLog: 'AI Server State Reset! Toggle AI OFF and ON again to restart.' 
+        aiOptimizerLog: `AI Reset! Balance set to ₹${userBal}. Toggle AI back ON to restart.` 
       }, () => {
         document.getElementById('ai-optimizer-toggle').checked = false;
         saveSettings();
-        alert("AI Server and Balance Reset! Toggle AI back ON to start fresh.");
+        alert(`AI Reset! Balance set to ₹${userBal}. Toggle AI back ON to start fresh.`);
       });
     });
   }).catch(() => alert("Python server not running!"));
