@@ -1069,16 +1069,19 @@ document.getElementById('ai-reset-btn').addEventListener('click', () => {
       const strats = data.strategies || [];
       if (strats[0]) {
         strats[0].demoBalance = userBal;
-        strats[0].enabled = false;
+        strats[0].checkpoint = userBal;
+        strats[0].activeBet = null;
+        strats[0].cooldownUntil = 0;
+        strats[0].enabled = true;
+        strats[0].lastTriggeredPeriod = null;
       }
+      // Reset AI draw counter
       chrome.storage.local.set({ 
         strategies: strats,
         aiProgress: null,
-        aiOptimizerLog: `AI Reset! Balance set to ₹${userBal}. Toggle AI back ON to restart.` 
+        aiOptimizerLog: `AI Reset! Balance restored to ₹${userBal}. Betting continues.` 
       }, () => {
-        document.getElementById('ai-optimizer-toggle').checked = false;
-        saveSettings();
-        alert(`AI Reset! Balance set to ₹${userBal}. Toggle AI back ON to start fresh.`);
+        alert(`✅ Balance reset to ₹${userBal}! AI continues betting.`);
       });
     });
   }).catch(() => alert("Python server not running!"));
