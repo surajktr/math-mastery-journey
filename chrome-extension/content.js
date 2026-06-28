@@ -996,12 +996,26 @@ function evaluateDrawHistory(recordBody) {
               chrome.storage.local.set({ strategies, aiOptimizerLog: `[Block ${aiState.blockNumber}] Applied: ${s.stakingSystem.toUpperCase()} ${s.direction.toUpperCase()} Seq:${s.sequence} TP:${s.takeProfit} SL:${s.stopLoss}` });
               console.log(`[AI Optimizer] Block ${aiState.blockNumber}: Applied ${s.stakingSystem} ${s.direction}`);
             } else if (resp.action === 'observe') {
-              // First block: disable betting, just observe
-              if (strategies[0]) {
-                strategies[0].enabled = false;
+              // First block: apply strategy but mark as observing in logs
+              if (strategies[0] && resp.strategy) {
+                const s = resp.strategy;
+                const strat = strategies[0];
+                strat.stakingSystem = s.stakingSystem;
+                strat.direction = s.direction;
+                strat.shieldLimit = s.shieldLimit;
+                strat.streakLimit = s.streakLimit || 1;
+                strat.baseQuantity = s.baseQuantity;
+                strat.maxSteps = s.maxSteps;
+                strat.profitTarget = s.takeProfit;
+                strat.profitPause = s.takeProfitPause;
+                strat.lossLimit = s.stopLoss;
+                strat.lossPause = s.stopLossPause;
+                strat.customSequence = s.sequence ? s.sequence.join(',') : '';
+                strat.checkpoint = strat.demoBalance;
+                strat.enabled = true;
               }
-              chrome.storage.local.set({ strategies, aiOptimizerLog: `[Block ${aiState.blockNumber}] Observing market... Recommended: ${resp.recommendedStrategy ? resp.recommendedStrategy.stakingSystem.toUpperCase() + ' ' + resp.recommendedStrategy.direction.toUpperCase() : 'N/A'}` });
-              console.log(`[AI Optimizer] Block ${aiState.blockNumber}: Observing...`);
+              chrome.storage.local.set({ strategies, aiOptimizerLog: `[Block ${aiState.blockNumber}] Observed & Ready: ${resp.strategy ? resp.strategy.stakingSystem.toUpperCase() + ' ' + resp.strategy.direction.toUpperCase() : 'N/A'}` });
+              console.log(`[AI Optimizer] Block ${aiState.blockNumber}: Observed, strategy applied for betting!`);
             }
           }).catch(err => {
             console.log('[AI Optimizer] Server not reachable:', err.message);
