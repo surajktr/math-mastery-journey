@@ -980,15 +980,16 @@ function evaluateDrawHistory(recordBody) {
               
               // Auto-apply the best strategy to Strategy 1
               strat.stakingSystem = s.stakingSystem;
-              strat.direction = s.direction;
-              strat.shieldLimit = s.shieldLimit;
+              strat.betDirection = s.direction;
+              strat.waitStreakBreak = s.shieldLimit > 0;
+              strat.waitStreakLength = s.shieldLimit;
               strat.streakLimit = s.streakLimit || 1;
               strat.baseQuantity = s.baseQuantity;
               strat.maxSteps = s.maxSteps;
-              strat.profitTarget = s.takeProfit;
-              strat.profitPause = s.takeProfitPause;
-              strat.lossLimit = s.stopLoss;
-              strat.lossPause = s.stopLossPause;
+              strat.takeProfitTarget = s.takeProfit;
+              strat.takeProfitPause = s.takeProfitPause;
+              strat.stopLossLimit = s.stopLoss;
+              strat.stopLossPause = s.stopLossPause;
               strat.customSequence = s.sequence ? s.sequence.join(',') : '';
               strat.checkpoint = strat.demoBalance;
               strat.enabled = true;
@@ -1001,15 +1002,16 @@ function evaluateDrawHistory(recordBody) {
                 const s = resp.strategy;
                 const strat = strategies[0];
                 strat.stakingSystem = s.stakingSystem;
-                strat.direction = s.direction;
-                strat.shieldLimit = s.shieldLimit;
+                strat.betDirection = s.direction;
+                strat.waitStreakBreak = s.shieldLimit > 0;
+                strat.waitStreakLength = s.shieldLimit;
                 strat.streakLimit = s.streakLimit || 1;
                 strat.baseQuantity = s.baseQuantity;
                 strat.maxSteps = s.maxSteps;
-                strat.profitTarget = s.takeProfit;
-                strat.profitPause = s.takeProfitPause;
-                strat.lossLimit = s.stopLoss;
-                strat.lossPause = s.stopLossPause;
+                strat.takeProfitTarget = s.takeProfit;
+                strat.takeProfitPause = s.takeProfitPause;
+                strat.stopLossLimit = s.stopLoss;
+                strat.stopLossPause = s.stopLossPause;
                 strat.customSequence = s.sequence ? s.sequence.join(',') : '';
                 strat.checkpoint = strat.demoBalance;
                 strat.enabled = true;
