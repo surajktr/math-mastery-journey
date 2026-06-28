@@ -89,13 +89,8 @@ def find_best_strategy(draws, balance):
     sls = [0, 20, 30, 50]
     sl_pauses = [0, 2, 5]
     
-    # Pick sequences based on balance
-    if balance < 200:
-        seqs = [[10,20,40], [20,40,80]]
-    elif balance < 500:
-        seqs = [[10,20,40], [20,40,80], [30,60,120]]
-    else:
-        seqs = [[20,40,80], [30,60,120]]
+    # Test all sequences regardless of balance to allow high risk/reward
+    seqs = [[10,20,40], [20,40,80], [30,60,120]]
     
     best_bal = balance
     best_cfg = None
