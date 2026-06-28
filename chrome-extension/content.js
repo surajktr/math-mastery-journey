@@ -263,6 +263,7 @@ function handleBetOutcome(win, settings, latestDraw, strategy, betsToTrigger) {
         if (settings.enableSound && !isShadow) playSound('safety_stop');
         strategy.activeBet = null;
         strategy.isInReentryMode = true;
+        strategy.safeModeStartPeriod = latestDraw.period;
       }
     }
   } else {
@@ -310,23 +311,36 @@ function handleBetOutcome(win, settings, latestDraw, strategy, betsToTrigger) {
       if (settings.enableSound && !isShadow) playSound('loss');
       strategy.activeBet = null;
       strategy.isInReentryMode = true;
+      strategy.safeModeStartPeriod = latestDraw.period;
+    }
+  }
+
+  let seqWon = false;
+  let seqLost = false;
+  
+  if (stakingSystem === 'martingale') {
+    if (win) seqWon = true;
+    else if (nextStep > maxSteps) seqLost = true;
+  } else {
+    // Paroli
+    if (win && nextStep > maxSteps) seqWon = true;
+    else if (!win) seqLost = true;
+  }
+
+  // Auto-Switch Strategy Tracker
+  if (seqWon) {
+    strategy.consecutiveSequenceLosses = 0;
+  } else if (seqLost) {
+    strategy.consecutiveSequenceLosses = (strategy.consecutiveSequenceLosses || 0) + 1;
+    
+    if (!isShadow && strategy.autoSwitchEnabled && strategy.autoSwitchTargetId && strategy.consecutiveSequenceLosses >= 2) {
+      strategy.autoSwitchJustActivated = true;
+      strategy.consecutiveSequenceLosses = 0;
     }
   }
 
   // --- Meta-Bot Manager Tracking & Auto-Switching ---
   if (settings.metaBotEnabled) {
-    let seqWon = false;
-    let seqLost = false;
-    
-    if (stakingSystem === 'martingale') {
-      if (win) seqWon = true;
-      else if (nextStep > maxSteps) seqLost = true;
-    } else {
-      // Paroli
-      if (win && nextStep > maxSteps) seqWon = true;
-      else if (!win) seqLost = true;
-    }
-
     if (seqWon) {
       strategy.metaSequenceWins = (strategy.metaSequenceWins || 0) + 1;
       strategy.metaSequenceLosses = 0;
@@ -417,77 +431,7 @@ function evaluateStrategy(strategy, settings, parsedRows, count, targetType, lat
   // 2. Idle State: Evaluate new triggers
   if (!strategy.activeBet && count >= strategy.streakLimit && latestDraw.period !== strategy.lastTriggeredPeriod) {
     
-    // Pattern Momentum Filter (Virtual Paper Trading)
-    if (strategy.patternFilterEnabled && updatedHistory && updatedHistory.length > 0) {
-      const windowMins = strategy.isInReentryMode ? (strategy.patternReentryMins || 10) : (strategy.patternEntryMins || 5);
-      const lookbackDraws = windowMins * 2;
-      const scanLimit = Math.min(updatedHistory.length, lookbackDraws);
-      const scanData = updatedHistory.slice(0, scanLimit);
-      const reversedScan = [...scanData].reverse();
-      
-      let virtualSequenceWins = 0;
-      let simStreak = 0;
-      let simLastType = null;
-      let simActiveBet = null;
-      let simCurrentStep = 0;
-      
-      const customSequence = parseCustomSequence(strategy.customSequence);
-      const maxSteps = customSequence.length > 0 ? customSequence.length : strategy.maxSteps;
 
-      for (let i = 0; i < reversedScan.length; i++) {
-        const row = reversedScan[i];
-        
-        if (simActiveBet) {
-          const isWin = (row.result === simActiveBet.target);
-          if (isWin) {
-            if (strategy.stakingSystem === 'martingale') {
-              virtualSequenceWins++;
-              simActiveBet = null;
-            } else {
-              simCurrentStep++;
-              if (simCurrentStep > maxSteps) {
-                virtualSequenceWins++;
-                simActiveBet = null;
-              }
-            }
-          } else {
-            if (strategy.stakingSystem === 'martingale') {
-              simCurrentStep++;
-              if (simCurrentStep > maxSteps) {
-                simActiveBet = null;
-              }
-            } else {
-              simActiveBet = null;
-            }
-          }
-        }
-
-        if (row.result === simLastType) {
-          simStreak++;
-        } else {
-          simLastType = row.result;
-          simStreak = 1;
-        }
-
-        if (!simActiveBet && simStreak >= strategy.streakLimit) {
-          const betTarget = strategy.betDirection === 'same' ? row.result : (row.result === 'Big' ? 'Small' : 'Big');
-          simActiveBet = { target: betTarget };
-          simCurrentStep = 1;
-        }
-      }
-
-      if (virtualSequenceWins < 2) {
-        const logPrefix2 = strategy.isShadow ? '[SHADOW] ' : (isDemo ? '[SIMULATOR] ' : '');
-        logToStrategySync(strategy, `${logPrefix2}[FILTER] Simulated strategy won ${virtualSequenceWins} times in last ${windowMins} mins (Requires 2). Bet blocked.`);
-        strategy.lastTriggeredPeriod = latestDraw.period;
-        return; 
-      } else {
-        if (strategy.isInReentryMode) {
-          logToStrategySync(strategy, `[FILTER] Re-entry momentum confirmed! Strategy simulated ${virtualSequenceWins} wins in last ${windowMins} mins. Exiting safe mode.`);
-        }
-        strategy.isInReentryMode = false;
-      }
-    }
 
     const customSequence = parseCustomSequence(strategy.customSequence);
     const quantity = customSequence.length > 0 ? customSequence[0] : strategy.baseQuantity;
@@ -692,6 +636,22 @@ function evaluateDrawHistory(recordBody) {
         evaluateStrategy(strategy, settings, parsedRows, count, targetType, latestDraw, betsToTrigger, updatedHistory);
       }
       
+      // Auto-Switcher cross-strategy resolution
+      const autoSwitchStrat = strategies.find(s => s.autoSwitchJustActivated);
+      if (autoSwitchStrat) {
+        const targetStrat = strategies.find(s => s.id === autoSwitchStrat.autoSwitchTargetId);
+        if (targetStrat) {
+          autoSwitchStrat.enabled = false;
+          autoSwitchStrat.activeBet = null;
+          targetStrat.enabled = true;
+          targetStrat.activeBet = null;
+          targetStrat.consecutiveSequenceLosses = 0;
+          logToStrategySync(autoSwitchStrat, `[AUTO-SWITCH] Strategy hit 2 consecutive losses. Turning OFF and swapping to "${targetStrat.name}".`);
+          logToStrategySync(targetStrat, `[AUTO-SWITCH] Activated by "${autoSwitchStrat.name}". Strategy is now ON.`);
+        }
+        delete autoSwitchStrat.autoSwitchJustActivated;
+      }
+
       // Meta-Bot cross-strategy auto-switch resolution
       if (settings.metaBotEnabled) {
         const activatedStrat = strategies.find(s => s.metaBotJustActivated);

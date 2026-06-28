@@ -105,10 +105,9 @@ const lossCooldownTimeInput = document.getElementById('loss-cooldown-time');
 const stakingMultiplierInput = document.getElementById('staking-multiplier');
 const customSequenceInput = document.getElementById('custom-sequence');
 const limitLabel = document.getElementById('limit-label');
-const patternFilterToggle = document.getElementById('pattern-filter-toggle');
-const patternFilterSettings = document.getElementById('pattern-filter-settings');
-const patternEntryMinsInput = document.getElementById('pattern-entry-mins');
-const patternReentryMinsInput = document.getElementById('pattern-reentry-mins');
+const autoSwitchToggle = document.getElementById('auto-switch-toggle');
+const autoSwitchSettings = document.getElementById('auto-switch-settings');
+const autoSwitchTargetSelect = document.getElementById('auto-switch-target');
 
 // UI Elements (Status)
 const demoBalanceRow = document.getElementById('demo-balance-row');
@@ -239,10 +238,18 @@ function initializeSettings(settings) {
       stakingMultiplierInput.value = activeStrat.stakingMultiplier !== undefined ? activeStrat.stakingMultiplier : 2;
       customSequenceInput.value = activeStrat.customSequence !== undefined ? activeStrat.customSequence : '';
       waitStreakToggle.checked = activeStrat.waitStreakBreak || false;
-      patternFilterToggle.checked = activeStrat.patternFilterEnabled || false;
-      patternEntryMinsInput.value = activeStrat.patternEntryMins || 5;
-      patternReentryMinsInput.value = activeStrat.patternReentryMins || 10;
-      patternFilterSettings.style.display = patternFilterToggle.checked ? 'flex' : 'none';
+      autoSwitchToggle.checked = activeStrat.autoSwitchEnabled || false;
+      autoSwitchTargetSelect.innerHTML = '<option value="" disabled selected>Select Strategy to swap to...</option>';
+      currentStrategies.forEach(s => {
+        if (s.id !== currentActiveId) {
+          const opt = document.createElement('option');
+          opt.value = s.id;
+          opt.textContent = s.name;
+          autoSwitchTargetSelect.appendChild(opt);
+        }
+      });
+      autoSwitchTargetSelect.value = activeStrat.autoSwitchTargetId || '';
+      autoSwitchSettings.style.display = autoSwitchToggle.checked ? 'flex' : 'none';
     }
   }
 
@@ -341,9 +348,8 @@ function saveCurrentStrategyToMemory() {
     strat.stakingMultiplier = parseFloat(stakingMultiplierInput.value) || 2;
     strat.customSequence = customSequenceInput.value.trim();
     strat.waitStreakBreak = waitStreakToggle.checked;
-    strat.patternFilterEnabled = patternFilterToggle.checked;
-    strat.patternEntryMins = parseNum(patternEntryMinsInput.value, 5);
-    strat.patternReentryMins = parseNum(patternReentryMinsInput.value, 10);
+    strat.autoSwitchEnabled = autoSwitchToggle.checked;
+    strat.autoSwitchTargetId = autoSwitchTargetSelect.value;
     strat.demoBalance = parseFloat(demoBalanceInput.value) || 0;
   }
 }
@@ -718,12 +724,11 @@ if (downloadJsonBtn) {
 saveBtn.addEventListener('click', saveSettings);
 enabledToggle.addEventListener('change', saveSettings);
 waitStreakToggle.addEventListener('change', saveSettings);
-patternFilterToggle.addEventListener('change', () => {
-  patternFilterSettings.style.display = patternFilterToggle.checked ? 'flex' : 'none';
+autoSwitchToggle.addEventListener('change', () => {
+  autoSwitchSettings.style.display = autoSwitchToggle.checked ? 'flex' : 'none';
   saveSettings();
 });
-patternEntryMinsInput.addEventListener('change', saveSettings);
-patternReentryMinsInput.addEventListener('change', saveSettings);
+autoSwitchTargetSelect.addEventListener('change', saveSettings);
 
 streakLimitInput.addEventListener('change', saveSettings);
 baseQuantityInput.addEventListener('change', saveSettings);
