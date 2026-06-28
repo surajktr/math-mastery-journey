@@ -180,6 +180,9 @@ class Handler(BaseHTTPRequestHandler):
     
     def do_GET(self):
         if self.path == '/status':
+            if not state.get('_connected'):
+                state['_connected'] = True
+                print("✅ Chrome extension connected! Waiting for draws...\n")
             self.send_response(200)
             self._cors()
             self.send_header('Content-Type', 'application/json')
