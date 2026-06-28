@@ -1042,19 +1042,30 @@ document.getElementById('ai-optimizer-toggle').addEventListener('change', saveSe
 document.getElementById('ai-initial-balance').addEventListener('change', (e) => {
   const newBal = parseFloat(e.target.value) || 100;
   saveSettings();
-  // Update Python server immediately
+  
+  // Full reset triggered automatically on balance change
   fetch('http://localhost:8787/set-balance', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ initialBalance: newBal })
+  }).then(() => {
+    chrome.storage.local.get(['strategies'], (data) => {
+      const strats = data.strategies || [];
+      if (strats[0]) {
+        strats[0].demoBalance = newBal;
+        strats[0].checkpoint = newBal;
+        strats[0].activeBet = null;
+        strats[0].cooldownUntil = 0;
+        strats[0].enabled = true;
+        strats[0].lastTriggeredPeriod = null;
+      }
+      chrome.storage.local.set({ 
+        strategies: strats,
+        aiProgress: null,
+        aiOptimizerLog: `Balance updated to ₹${newBal}. Automated reset complete.` 
+      });
+    });
   }).catch(() => {});
-  chrome.storage.local.get(['strategies'], (data) => {
-    const strats = data.strategies || [];
-    if (strats[0]) {
-      strats[0].demoBalance = newBal;
-      chrome.storage.local.set({ strategies: strats });
-    }
-  });
 });
 document.getElementById('ai-block-size').addEventListener('change', saveSettings);
 
