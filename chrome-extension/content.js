@@ -1010,8 +1010,23 @@ function evaluateDrawHistory(recordBody) {
       }
     }
 
+    // Prepare AI Progress info
+    let aiProgress = null;
+    if (settings.aiOptimizerEnabled && window._aiOptimizerState) {
+      aiProgress = { 
+        current: window._aiOptimizerState.drawsSinceLastSend, 
+        total: settings.aiBlockSize || 30 
+      };
+    }
+
     // Write updated strategies to storage EXACTLY ONCE
-    chrome.storage.local.set({ strategies, manualPlayState: mState, dualBotState: dState, fullHistory: updatedHistory }, () => {
+    chrome.storage.local.set({ 
+      strategies, 
+      manualPlayState: mState, 
+      dualBotState: dState, 
+      fullHistory: updatedHistory,
+      aiProgress: aiProgress
+    }, () => {
       // After save finishes, execute queued bet triggers
       betsToTrigger.forEach(bet => {
         setTimeout(() => {

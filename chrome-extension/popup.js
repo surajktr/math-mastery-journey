@@ -547,7 +547,8 @@ function updateLiveStatus() {
     manualPlayState: { balance: 1000, activeBet: null, stats: { wins: 0, losses: 0 }, logs: [] },
     dualBotState: { balance: 100, checkpoint: 100, activeBot: 'A', stats: { profitHits: 0, lossHits: 0 }, logs: [], pauseUntil: 0 },
     globalCooldownUntil: 0,
-    aiOptimizerLog: ''
+    aiOptimizerLog: '',
+    aiProgress: null
   }, (data) => {
     const strategies = data.strategies || [];
     currentStrategies = strategies;
@@ -663,13 +664,22 @@ function updateLiveStatus() {
       }
     }
     
-    // Update AI Logs
+    // Update AI Logs & Progress
     const aiLogsBox = document.getElementById('ai-logs-box');
     if (aiLogsBox) {
       if (data.aiOptimizerLog) {
         aiLogsBox.textContent = data.aiOptimizerLog;
       } else {
         aiLogsBox.textContent = 'Waiting for block completion...';
+      }
+    }
+    
+    const aiProgressText = document.getElementById('ai-progress-text');
+    if (aiProgressText) {
+      if (data.aiProgress) {
+        aiProgressText.textContent = `${data.aiProgress.current} / ${data.aiProgress.total} Draws`;
+      } else {
+        aiProgressText.textContent = '0 / 0 Draws';
       }
     }
 
