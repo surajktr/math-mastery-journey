@@ -244,11 +244,19 @@ setInterval(() => {
     document.getElementById('ai-block-num').textContent = data.blockNumber || 0;
     document.getElementById('ai-mode').textContent = data.isObserving ? '👁️ Observing' : '🎯 Betting';
     document.getElementById('ai-mode').style.color = data.isObserving ? '#fbbf24' : '#34d399';
-    document.getElementById('ai-balance').textContent = `₹${(data.currentBalance || 0).toFixed(0)}`;
-    const profit = data.totalProfit || 0;
-    const profitEl = document.getElementById('ai-profit');
-    profitEl.textContent = profit >= 0 ? `+₹${profit.toFixed(0)}` : `-₹${Math.abs(profit).toFixed(0)}`;
-    profitEl.style.color = profit >= 0 ? '#34d399' : '#f87171';
+    chrome.storage.local.get(['strategies', 'aiInitialBalance'], (store) => {
+      let liveBal = store.aiInitialBalance || 100;
+      if (store.strategies && store.strategies[0] && store.strategies[0].demoBalance !== undefined) {
+        liveBal = store.strategies[0].demoBalance;
+      }
+      
+      document.getElementById('ai-balance').textContent = `₹${parseFloat(liveBal).toFixed(0)}`;
+      const profit = liveBal - (store.aiInitialBalance || 100);
+      const profitEl = document.getElementById('ai-profit');
+      profitEl.textContent = profit >= 0 ? `+₹${profit.toFixed(0)}` : `-₹${Math.abs(profit).toFixed(0)}`;
+      profitEl.style.color = profit >= 0 ? '#34d399' : '#f87171';
+    });
+
     if (data.currentStrategy) {
       const s = data.currentStrategy;
       document.getElementById('ai-current-strat').textContent = `${s.stakingSystem.toUpperCase()} ${s.direction.toUpperCase()} [${s.sequence}]`;
@@ -922,6 +930,23 @@ metaWinLimitInput.addEventListener('change', saveSettings);
 
 const downloadJsonBtn = document.getElementById('download-json-btn');
 if (downloadJsonBtn) {
+  document.getElementById('ai-optimizer-toggle').addEventListener('change', (e) => {
+    chrome.storage.local.set({ aiOptimizerEnabled: e.target.checked }, () => {
+      if (e.target.checked) {
+        chrome.storage.local.get(['strategies', 'aiInitialBalance'], (data) => {
+          const strats = data.strategies || [];
+          if (strats[0]) {
+            strats[0].demoBalance = parseFloat(document.getElementById('ai-initial-balance').value) || 100;
+          }
+          chrome.storage.local.set({ 
+            strategies: strats,
+            aiOptimizerLog: 'AI Optimizer started. Waiting for first block data...' 
+          });
+        });
+      }
+    });
+  });
+
   downloadJsonBtn.addEventListener('click', () => {
     chrome.storage.local.get('fullHistory', (data) => {
       const history = data.fullHistory || [];
@@ -994,7 +1019,18 @@ dualTargetBalanceInput.addEventListener('change', saveSettings);
 
 // AI Optimizer Listeners
 document.getElementById('ai-optimizer-toggle').addEventListener('change', saveSettings);
-document.getElementById('ai-initial-balance').addEventListener('change', saveSettings);
+document.getElementById('ai-initial-balance').addEventListener('change', (e) => {
+  saveSettings();
+  chrome.storage.local.get(['strategies', 'aiOptimizerEnabled'], (data) => {
+    if (data.aiOptimizerEnabled) {
+      const strats = data.strategies || [];
+      if (strats[0]) {
+        strats[0].demoBalance = parseFloat(e.target.value) || 100;
+        chrome.storage.local.set({ strategies: strats });
+      }
+    }
+  });
+});
 document.getElementById('ai-block-size').addEventListener('change', saveSettings);
 
 // Dual Bot Balance Save
