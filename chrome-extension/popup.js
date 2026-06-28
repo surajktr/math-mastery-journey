@@ -33,6 +33,9 @@ const defaultSettings = {
   dualLossLimit: 40,
   dualLossPause: 2,
   dualTargetBalance: 0,
+  aiOptimizerEnabled: false,
+  aiInitialBalance: 100,
+  aiBlockSize: 30,
   strategies: [
     {
       id: 'strat-1',
