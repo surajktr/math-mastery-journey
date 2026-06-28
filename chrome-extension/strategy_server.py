@@ -229,41 +229,11 @@ class Handler(BaseHTTPRequestHandler):
             print(f"   Trend: {trend['trend']} (Same:{trend['sameCount']} Opp:{trend['oppositeCount']} MaxStreak:{trend['maxStreak']})")
             
             if block_num == 1:
-                # First block = OBSERVE ONLY
-                state['isObserving'] = True
-                print(f"   👁️  OBSERVATION BLOCK - Not betting yet!")
-                print(f"   Analyzing market patterns for next block...")
-                
-                # Still find best strategy to RECOMMEND for next block
-                start = time.time()
-                best_bal, best_cfg, tested = find_best_strategy(draws, balance)
-                elapsed = time.time() - start
-                
-                state['currentStrategy'] = best_cfg
-                projected = best_bal - balance
-                
-                print(f"   Tested {tested:,} combinations in {elapsed:.1f}s")
-                if best_cfg:
-                    print(f"   📋 Recommended for next block: {best_cfg['stakingSystem'].upper()} {best_cfg['direction'].upper()}")
-                    print(f"   Projected profit: +₹{projected:.0f}")
-                
-                self.send_response(200)
-                self._cors()
-                self.send_header('Content-Type', 'application/json')
-                self.end_headers()
-                resp = {
-                    'action': 'observe',
-                    'message': 'Observing market. Will start betting next block.',
-                    'trend': trend,
-                    'recommendedStrategy': best_cfg,
-                    'projectedProfit': projected,
-                    'combinationsTested': tested
-                }
-                self.wfile.write(json.dumps(resp).encode())
-            
+                print(f"   👁️  OBSERVATION COMPLETE - Switching to Betting Mode!")
             else:
-                # Blocks 2+: Find best strategy and APPLY
-                state['isObserving'] = False
+                print(f"   🎯 BETTING BLOCK - Optimizing strategy...")
+
+            state['isObserving'] = False
                 
                 start = time.time()
                 best_bal, best_cfg, tested = find_best_strategy(draws, balance)
