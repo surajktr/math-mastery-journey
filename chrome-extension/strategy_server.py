@@ -227,38 +227,43 @@ class Handler(BaseHTTPRequestHandler):
             print(f"   Trend: {trend['trend']} (Same:{trend['sameCount']} Opp:{trend['oppositeCount']} MaxStreak:{trend['maxStreak']})")
             
             if block_num == 1:
-                print(f"   👁️   OBSERVATION COMPLETE - Switching to Betting Mode!")
+                print(f"   👁️  OBSERVATION BLOCK - Analyzing patterns...")
             else:
-                print(f"   🎯 BETTING BLOCK - Optimizing strategy...")
-                state['isObserving'] = False
-                start = time.time()
-                best_bal, best_cfg, tested = find_best_strategy(draws, balance)
-                elapsed = time.time() - start
-                
-                state['currentStrategy'] = best_cfg
-                projected = best_bal - balance
-                state['totalProfit'] = balance - state['initialBalance']
-                
-                print(f"   Tested {tested:,} combinations in {elapsed:.1f}s")
-                if best_cfg:
-                    print(f"   🎯 APPLYING: {best_cfg['stakingSystem'].upper()} {best_cfg['direction'].upper()} Seq:{best_cfg['sequence']}")
-                    print(f"   Shield:{best_cfg['shieldLimit']} StreakLim:{best_cfg['streakLimit']} TP:{best_cfg['takeProfit']}(p{best_cfg['takeProfitPause']}m) SL:{best_cfg['stopLoss']}(p{best_cfg['stopLossPause']}m)")
-                    print(f"   Projected profit: +₹{projected:.0f}")
-                print(f"   Total Profit so far: ₹{state['totalProfit']:.0f}")
-                
-                self.send_response(200)
-                self._cors()
-                self.send_header('Content-Type', 'application/json')
-                self.end_headers()
-                resp = {
-                    'action': 'apply',
-                    'strategy': best_cfg,
-                    'trend': trend,
-                    'projectedProfit': projected,
-                    'totalProfit': state['totalProfit'],
-                    'combinationsTested': tested
-                }
-                self.wfile.write(json.dumps(resp).encode())
+                print(f"   🎯 BETTING BLOCK {block_num} - Optimizing strategy...")
+            
+            state['isObserving'] = (block_num == 1)
+            
+            start = time.time()
+            best_bal, best_cfg, tested = find_best_strategy(draws, balance)
+            elapsed = time.time() - start
+            
+            state['currentStrategy'] = best_cfg
+            projected = best_bal - balance
+            state['totalProfit'] = balance - state['initialBalance']
+            
+            print(f"   Tested {tested:,} combinations in {elapsed:.1f}s")
+            if best_cfg:
+                action_word = "RECOMMENDS" if block_num == 1 else "APPLYING"
+                print(f"   🎯 {action_word}: {best_cfg['stakingSystem'].upper()} {best_cfg['direction'].upper()} Seq:{best_cfg['sequence']}")
+                print(f"   Shield:{best_cfg['shieldLimit']} StreakLim:{best_cfg['streakLimit']} TP:{best_cfg['takeProfit']}(p{best_cfg['takeProfitPause']}m) SL:{best_cfg['stopLoss']}(p{best_cfg['stopLossPause']}m)")
+                print(f"   Projected profit: +₹{projected:.0f}")
+            print(f"   Total Profit so far: ₹{state['totalProfit']:.0f}")
+            
+            action = 'observe' if block_num == 1 else 'apply'
+            self.send_response(200)
+            self._cors()
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            resp = {
+                'action': action,
+                'strategy': best_cfg,
+                'trend': trend,
+                'projectedProfit': projected,
+                'totalProfit': state['totalProfit'],
+                'combinationsTested': tested,
+                'isObserving': state['isObserving']
+            }
+            self.wfile.write(json.dumps(resp).encode())
         
         elif self.path == '/reset':
             state['initialBalance'] = 100
