@@ -10,7 +10,7 @@ import json
 import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-# ─── Simulation Engine (same logic as test_ultimate.py) ───
+# â”€â”€â”€ Simulation Engine (same logic as test_ultimate.py) â”€â”€â”€
 
 def sim(draws, direction, shield, tp, tp_pause, sl, sl_pause, seq, balance, staking='paroli', streak_limit=1):
     checkpoint = balance
@@ -156,7 +156,7 @@ def analyze_trend(draws):
         'smallCount': small
     }
 
-# ─── State ───
+# â”€â”€â”€ State â”€â”€â”€
 state = {
     'initialBalance': 100,
     'currentBalance': 100,
@@ -167,7 +167,7 @@ state = {
     'currentStrategy': None
 }
 
-# ─── HTTP Server ───
+# â”€â”€â”€ HTTP Server â”€â”€â”€
 
 class Handler(BaseHTTPRequestHandler):
     def _cors(self):
@@ -221,20 +221,18 @@ class Handler(BaseHTTPRequestHandler):
             state['blockNumber'] = block_num
             
             print(f"\n{'='*60}")
-            print(f"📡 Block {block_num} received! ({len(draws)} draws)")
-            print(f"   Current Balance: ₹{balance:.0f}")
+            print(f"ðŸ“¡ Block {block_num} received! ({len(draws)} draws)")
+            print(f"   Current Balance: â‚¹{balance:.0f}")
             
             # Analyze trend
             trend = analyze_trend(draws)
             print(f"   Trend: {trend['trend']} (Same:{trend['sameCount']} Opp:{trend['oppositeCount']} MaxStreak:{trend['maxStreak']})")
             
             if block_num == 1:
-                print(f"   👁️  OBSERVATION COMPLETE - Switching to Betting Mode!")
+                print(f"   👁️   OBSERVATION COMPLETE - Switching to Betting Mode!")
             else:
                 print(f"   🎯 BETTING BLOCK - Optimizing strategy...")
-
-            state['isObserving'] = False
-                
+                state['isObserving'] = False
                 start = time.time()
                 best_bal, best_cfg, tested = find_best_strategy(draws, balance)
                 elapsed = time.time() - start
@@ -272,7 +270,7 @@ class Handler(BaseHTTPRequestHandler):
             state['isObserving'] = True
             state['history'] = []
             state['currentStrategy'] = None
-            print("\n🔄 AI Server State Reset!")
+            print("\nðŸ”„ AI Server State Reset!")
             
             self.send_response(200)
             self._cors()
@@ -290,7 +288,7 @@ class Handler(BaseHTTPRequestHandler):
             state['isObserving'] = True
             state['currentStrategy'] = None
             
-            print(f"\n💰 Initial balance set to ₹{state['initialBalance']}")
+            print(f"\nðŸ’° Initial balance set to â‚¹{state['initialBalance']}")
             print(f"   Ready to receive draws!")
             
             self.send_response(200)
@@ -307,7 +305,7 @@ class Handler(BaseHTTPRequestHandler):
             state['isObserving'] = True
             state['currentStrategy'] = None
             
-            print(f"\n🔄 State reset!")
+            print(f"\nðŸ”„ State reset!")
             
             self.send_response(200)
             self._cors()
@@ -326,17 +324,17 @@ def main():
     port = 8787
     server = HTTPServer(('localhost', port), Handler)
     print(f"""
-╔══════════════════════════════════════════════════════════╗
-║          🧠 STRATEGY OPTIMIZER SERVER                    ║
-║          Running on http://localhost:{port}               ║
-╠══════════════════════════════════════════════════════════╣
-║  The Chrome extension will connect automatically.        ║
-║  First 30 draws = Observation only (no betting).         ║
-║  After that, it will auto-apply the best strategy        ║
-║  every 30 draws.                                         ║
-║                                                          ║
-║  Press Ctrl+C to stop the server.                        ║
-╚══════════════════════════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
+â•‘          ðŸ§  STRATEGY OPTIMIZER SERVER                    â•‘
+â•‘          Running on http://localhost:{port}               â•‘
+â• â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•£
+â•‘  The Chrome extension will connect automatically.        â•‘
+â•‘  First 30 draws = Observation only (no betting).         â•‘
+â•‘  After that, it will auto-apply the best strategy        â•‘
+â•‘  every 30 draws.                                         â•‘
+â•‘                                                          â•‘
+â•‘  Press Ctrl+C to stop the server.                        â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 """)
     print("Waiting for Chrome extension to connect...\n")
     
