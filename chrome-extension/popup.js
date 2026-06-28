@@ -246,7 +246,7 @@ setInterval(() => {
     document.getElementById('ai-mode').style.color = data.isObserving ? '#fbbf24' : '#34d399';
     chrome.storage.local.get(['strategies', 'aiInitialBalance'], (store) => {
       let liveBal = store.aiInitialBalance || 100;
-      if (store.strategies && store.strategies[0] && store.strategies[0].demoBalance !== undefined) {
+      if (!data.isObserving && store.strategies && store.strategies[0] && store.strategies[0].demoBalance !== undefined) {
         liveBal = store.strategies[0].demoBalance;
       }
       
@@ -1032,6 +1032,27 @@ document.getElementById('ai-initial-balance').addEventListener('change', (e) => 
   });
 });
 document.getElementById('ai-block-size').addEventListener('change', saveSettings);
+
+document.getElementById('ai-reset-btn').addEventListener('click', () => {
+  fetch('http://localhost:8787/reset', { method: 'POST' }).then(() => {
+    chrome.storage.local.get(['strategies', 'aiInitialBalance'], (data) => {
+      const strats = data.strategies || [];
+      if (strats[0]) {
+        strats[0].demoBalance = parseFloat(data.aiInitialBalance) || 100;
+        strats[0].enabled = false;
+      }
+      chrome.storage.local.set({ 
+        strategies: strats,
+        aiProgress: null,
+        aiOptimizerLog: 'AI Server State Reset! Toggle AI OFF and ON again to restart.' 
+      }, () => {
+        document.getElementById('ai-optimizer-toggle').checked = false;
+        saveSettings();
+        alert("AI Server and Balance Reset! Toggle AI back ON to start fresh.");
+      });
+    });
+  }).catch(() => alert("Python server not running!"));
+});
 
 // Dual Bot Balance Save
 const dualBotSaveBalanceBtn = document.getElementById('dual-bot-save-balance');

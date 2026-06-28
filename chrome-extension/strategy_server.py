@@ -264,6 +264,22 @@ class Handler(BaseHTTPRequestHandler):
                 }
                 self.wfile.write(json.dumps(resp).encode())
         
+        elif self.path == '/reset':
+            state['initialBalance'] = 100
+            state['currentBalance'] = 100
+            state['totalProfit'] = 0
+            state['blockNumber'] = 0
+            state['isObserving'] = True
+            state['history'] = []
+            state['currentStrategy'] = None
+            print("\n🔄 AI Server State Reset!")
+            
+            self.send_response(200)
+            self._cors()
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'status': 'reset'}).encode())
+        
         elif self.path == '/set-balance':
             length = int(self.headers.get('Content-Length', 0))
             body = json.loads(self.rfile.read(length))
