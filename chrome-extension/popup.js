@@ -1056,7 +1056,7 @@ document.getElementById('ai-initial-balance').addEventListener('change', (e) => 
         strats[0].checkpoint = newBal;
         strats[0].activeBet = null;
         strats[0].cooldownUntil = 0;
-        strats[0].enabled = true;
+        strats[0].enabled = false;
         strats[0].lastTriggeredPeriod = null;
       }
       chrome.storage.local.set({ 
@@ -1083,7 +1083,7 @@ document.getElementById('ai-reset-btn').addEventListener('click', () => {
         strats[0].checkpoint = userBal;
         strats[0].activeBet = null;
         strats[0].cooldownUntil = 0;
-        strats[0].enabled = true;
+        strats[0].enabled = false;
         strats[0].lastTriggeredPeriod = null;
       }
       // Reset AI draw counter
