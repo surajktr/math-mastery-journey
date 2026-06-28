@@ -20,7 +20,7 @@ def sim(draws, direction, shield, tp, tp_pause, sl, sl_pause, seq, balance, stak
     active = None
     pause_until = 0
     t = 0
-    ms = 60000
+    ms = 30000  # Each draw = 30 seconds
     mx = len(seq)
     for i, result in enumerate(draws):
         t += ms
