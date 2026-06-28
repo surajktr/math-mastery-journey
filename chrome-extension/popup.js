@@ -104,6 +104,8 @@ const metaBotTabBtn = document.getElementById('meta-bot-tab');
 const metaBotPanel = document.getElementById('meta-bot-panel');
 const dualBotTabBtn = document.getElementById('dual-bot-tab');
 const dualBotPanel = document.getElementById('dual-bot-panel');
+const aiOptimizerTabBtn = document.getElementById('ai-optimizer-tab');
+const aiOptimizerPanel = document.getElementById('ai-optimizer-panel');
 const activeStrategyPanel = document.getElementById('active-strategy-panel');
 const metaBotToggle = document.getElementById('meta-bot-toggle');
 const metaLossLimitInput = document.getElementById('meta-loss-limit');
@@ -222,6 +224,38 @@ dualBotTabBtn.addEventListener('click', () => {
   });
 });
 
+aiOptimizerTabBtn.addEventListener('click', () => {
+  saveCurrentStrategyToMemory();
+  currentActiveId = 'ai-optimizer';
+  chrome.storage.local.set({ activeStrategyId: currentActiveId }, () => {
+    loadSettings();
+  });
+});
+
+// AI Optimizer: Poll server status every 3 seconds
+setInterval(() => {
+  if (currentActiveId !== 'ai-optimizer') return;
+  fetch('http://localhost:8787/status').then(r => r.json()).then(data => {
+    document.getElementById('ai-server-status').textContent = '● Connected';
+    document.getElementById('ai-server-status').style.color = '#34d399';
+    document.getElementById('ai-block-num').textContent = data.blockNumber || 0;
+    document.getElementById('ai-mode').textContent = data.isObserving ? '👁️ Observing' : '🎯 Betting';
+    document.getElementById('ai-mode').style.color = data.isObserving ? '#fbbf24' : '#34d399';
+    document.getElementById('ai-balance').textContent = `₹${(data.currentBalance || 0).toFixed(0)}`;
+    const profit = data.totalProfit || 0;
+    const profitEl = document.getElementById('ai-profit');
+    profitEl.textContent = profit >= 0 ? `+₹${profit.toFixed(0)}` : `-₹${Math.abs(profit).toFixed(0)}`;
+    profitEl.style.color = profit >= 0 ? '#34d399' : '#f87171';
+    if (data.currentStrategy) {
+      const s = data.currentStrategy;
+      document.getElementById('ai-current-strat').textContent = `${s.stakingSystem.toUpperCase()} ${s.direction.toUpperCase()} [${s.sequence}]`;
+    }
+  }).catch(() => {
+    document.getElementById('ai-server-status').textContent = '● Disconnected';
+    document.getElementById('ai-server-status').style.color = '#f87171';
+  });
+}, 3000);
+
 let currentActiveId = 'strat-1';
 let currentStrategies = [];
 
@@ -250,21 +284,31 @@ function initializeSettings(settings) {
     manualPlayPanel.style.display = 'block';
     metaBotPanel.style.display = 'none';
     dualBotPanel.style.display = 'none';
+    aiOptimizerPanel.style.display = 'none';
   } else if (currentActiveId === 'dual-bot') {
     activeStrategyPanel.style.display = 'none';
     manualPlayPanel.style.display = 'none';
     metaBotPanel.style.display = 'none';
     dualBotPanel.style.display = 'block';
+    aiOptimizerPanel.style.display = 'none';
   } else if (currentActiveId === 'meta-bot') {
     activeStrategyPanel.style.display = 'none';
     manualPlayPanel.style.display = 'none';
     dualBotPanel.style.display = 'none';
     metaBotPanel.style.display = 'block';
+    aiOptimizerPanel.style.display = 'none';
+  } else if (currentActiveId === 'ai-optimizer') {
+    activeStrategyPanel.style.display = 'none';
+    manualPlayPanel.style.display = 'none';
+    metaBotPanel.style.display = 'none';
+    dualBotPanel.style.display = 'none';
+    aiOptimizerPanel.style.display = 'block';
   } else {
     activeStrategyPanel.style.display = 'block';
     manualPlayPanel.style.display = 'none';
     metaBotPanel.style.display = 'none';
     dualBotPanel.style.display = 'none';
+    aiOptimizerPanel.style.display = 'none';
   }
 
   // Global settings loading
@@ -289,8 +333,13 @@ function initializeSettings(settings) {
   dualLossPauseInput.value = settings.dualLossPause !== undefined ? settings.dualLossPause : 2;
   dualTargetBalanceInput.value = settings.dualTargetBalance !== undefined ? settings.dualTargetBalance : 0;
 
+  // AI Optimizer settings
+  document.getElementById('ai-optimizer-toggle').checked = settings.aiOptimizerEnabled || false;
+  document.getElementById('ai-initial-balance').value = settings.aiInitialBalance || 100;
+  document.getElementById('ai-block-size').value = settings.aiBlockSize || 30;
+
   // Load active strategy settings into the UI
-  if (currentActiveId !== 'manual-play' && currentActiveId !== 'meta-bot' && currentActiveId !== 'dual-bot') {
+  if (currentActiveId !== 'manual-play' && currentActiveId !== 'meta-bot' && currentActiveId !== 'dual-bot' && currentActiveId !== 'ai-optimizer') {
     const activeStrat = currentStrategies.find(s => s.id === currentActiveId) || currentStrategies[0];
     if (activeStrat) {
       currentActiveId = activeStrat.id;
@@ -372,6 +421,7 @@ function renderTabs() {
   
   metaBotTabBtn.classList.toggle('active', currentActiveId === 'meta-bot');
   dualBotTabBtn.classList.toggle('active', currentActiveId === 'dual-bot');
+  aiOptimizerTabBtn.classList.toggle('active', currentActiveId === 'ai-optimizer');
 
   currentStrategies.forEach(strat => {
     const btn = document.createElement('button');
@@ -466,6 +516,9 @@ function saveSettings() {
     dualLossLimit: parseInt(dualLossLimitInput.value, 10) || 40,
     dualLossPause: parseInt(dualLossPauseInput.value, 10) || 2,
     dualTargetBalance: parseFloat(dualTargetBalanceInput.value) || 0,
+    aiOptimizerEnabled: document.getElementById('ai-optimizer-toggle').checked,
+    aiInitialBalance: parseFloat(document.getElementById('ai-initial-balance').value) || 100,
+    aiBlockSize: parseInt(document.getElementById('ai-block-size').value, 10) || 30,
     strategies: currentStrategies,
     activeStrategyId: currentActiveId
   };
@@ -490,7 +543,8 @@ function updateLiveStatus() {
     strategies: defaultSettings.strategies,
     manualPlayState: { balance: 1000, activeBet: null, stats: { wins: 0, losses: 0 }, logs: [] },
     dualBotState: { balance: 100, checkpoint: 100, activeBot: 'A', stats: { profitHits: 0, lossHits: 0 }, logs: [], pauseUntil: 0 },
-    globalCooldownUntil: 0
+    globalCooldownUntil: 0,
+    aiOptimizerLog: ''
   }, (data) => {
     const strategies = data.strategies || [];
     currentStrategies = strategies;
@@ -603,6 +657,16 @@ function updateLiveStatus() {
         dualLogsBox.textContent = dState.logs.join('\n');
       } else {
         dualLogsBox.textContent = 'No Dual Bot activity yet.';
+      }
+    }
+    
+    // Update AI Logs
+    const aiLogsBox = document.getElementById('ai-logs-box');
+    if (aiLogsBox) {
+      if (data.aiOptimizerLog) {
+        aiLogsBox.textContent = data.aiOptimizerLog;
+      } else {
+        aiLogsBox.textContent = 'Waiting for block completion...';
       }
     }
 
@@ -914,6 +978,11 @@ dualProfitPauseInput.addEventListener('change', saveSettings);
 dualLossLimitInput.addEventListener('change', saveSettings);
 dualLossPauseInput.addEventListener('change', saveSettings);
 dualTargetBalanceInput.addEventListener('change', saveSettings);
+
+// AI Optimizer Listeners
+document.getElementById('ai-optimizer-toggle').addEventListener('change', saveSettings);
+document.getElementById('ai-initial-balance').addEventListener('change', saveSettings);
+document.getElementById('ai-block-size').addEventListener('change', saveSettings);
 
 // Dual Bot Balance Save
 const dualBotSaveBalanceBtn = document.getElementById('dual-bot-save-balance');
