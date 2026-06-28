@@ -355,15 +355,15 @@ function handleBetOutcome(win, settings, latestDraw, strategy, betsToTrigger) {
 
     // 2. Local Profit / Loss Stoppers
     if (takeProfitTarget > 0 && profit >= takeProfitTarget) {
-      logToStrategySync(strategy, `[PROFIT STOP] Hit +₹${profit.toFixed(2)}. Pausing ${takeProfitPause} mins.`);
-      strategy.cooldownUntil = Date.now() + takeProfitPause * 60000;
+      logToStrategySync(strategy, `[PROFIT STOP] Hit +₹${profit.toFixed(2)}. Pausing ${takeProfitPause} draws (${takeProfitPause * 30}s).`);
+      strategy.cooldownUntil = Date.now() + takeProfitPause * 30000;
       strategy.checkpoint = strategy.demoBalance;
       strategy.activeBet = null;
       if (settings.enableSound) playSound('win');
       return;
     } else if (stopLossLimit > 0 && loss >= stopLossLimit) {
-      logToStrategySync(strategy, `[LOSS STOP] Hit -₹${loss.toFixed(2)}. Pausing ${stopLossPause} mins.`);
-      strategy.cooldownUntil = Date.now() + stopLossPause * 60000;
+      logToStrategySync(strategy, `[LOSS STOP] Hit -₹${loss.toFixed(2)}. Pausing ${stopLossPause} draws (${stopLossPause * 30}s).`);
+      strategy.cooldownUntil = Date.now() + stopLossPause * 30000;
       strategy.checkpoint = strategy.demoBalance;
       strategy.activeBet = null;
       if (settings.enableSound) playSound('safety_stop');
