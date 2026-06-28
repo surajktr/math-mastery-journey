@@ -235,7 +235,7 @@ aiOptimizerTabBtn.addEventListener('click', () => {
   });
 });
 
-// AI Optimizer: Poll server status every 3 seconds
+// AI Optimizer: Poll server status every 2 seconds
 setInterval(() => {
   if (currentActiveId !== 'ai-optimizer') return;
   fetch('http://localhost:8787/status').then(r => r.json()).then(data => {
@@ -250,35 +250,42 @@ setInterval(() => {
       document.getElementById('ai-current-strat').textContent = `${s.stakingSystem.toUpperCase()} ${s.direction.toUpperCase()} [${s.sequence}]`;
     }
 
-    // Balance: read from server state directly
-    const initialBal = data.initialBalance || 100;
-    const currentBal = data.currentBalance || initialBal;
-    const profit = currentBal - initialBal;
-
-    document.getElementById('ai-initial-bal-display').textContent = `₹${parseFloat(initialBal).toFixed(2)}`;
-    document.getElementById('ai-balance').textContent = `₹${parseFloat(currentBal).toFixed(2)}`;
-    
-    const profitEl = document.getElementById('ai-profit');
-    profitEl.textContent = profit >= 0 ? `+₹${profit.toFixed(2)}` : `-₹${Math.abs(profit).toFixed(2)}`;
-    profitEl.style.color = profit >= 0 ? '#34d399' : '#f87171';
-
-    // Active bet indicator
-    chrome.storage.local.get(['strategies'], (store) => {
+    // Balance: read LIVE from Chrome storage (strategies[0].demoBalance)
+    chrome.storage.local.get(['strategies', 'aiInitialBalance'], (store) => {
+      const initialBal = parseFloat(store.aiInitialBalance) || 100;
       const strat = store.strategies && store.strategies[0];
+      const liveBal = strat ? (strat.demoBalance || initialBal) : initialBal;
+      const profit = liveBal - initialBal;
+
+      document.getElementById('ai-initial-bal-display').textContent = `₹${initialBal.toFixed(2)}`;
+      document.getElementById('ai-balance').textContent = `₹${liveBal.toFixed(2)}`;
+      
+      const profitEl = document.getElementById('ai-profit');
+      profitEl.textContent = profit >= 0 ? `+₹${profit.toFixed(2)}` : `-₹${Math.abs(profit).toFixed(2)}`;
+      profitEl.style.color = profit >= 0 ? '#34d399' : '#f87171';
+
+      // Active bet indicator
       const betRow = document.getElementById('ai-active-bet-row');
       const betInfo = document.getElementById('ai-active-bet-info');
-      if (strat && strat.activeBet && strat.activeBet.amount) {
+      if (strat && strat.activeBet && strat.activeBet.quantity) {
         betRow.style.display = 'block';
-        betInfo.textContent = `₹${strat.activeBet.amount} on ${strat.activeBet.target || '-'}`;
+        betInfo.textContent = `₹${strat.activeBet.quantity} on ${strat.activeBet.target || '-'} (Period: ${strat.activeBet.period || '-'})`;
+      } else if (strat && strat.cooldownUntil && Date.now() < strat.cooldownUntil) {
+        betRow.style.display = 'block';
+        const secsLeft = Math.ceil((strat.cooldownUntil - Date.now()) / 1000);
+        betInfo.textContent = `⏳ Cooldown: ${secsLeft}s remaining`;
+        betInfo.style.color = '#fbbf24';
       } else {
-        betRow.style.display = 'none';
+        betRow.style.display = 'block';
+        betInfo.textContent = strat && strat.enabled ? '⏳ Waiting for streak trigger...' : '⛔ Strategy disabled';
+        betInfo.style.color = strat && strat.enabled ? '#60a5fa' : '#f87171';
       }
     });
   }).catch(() => {
     document.getElementById('ai-server-status').textContent = '● Disconnected';
     document.getElementById('ai-server-status').style.color = '#f87171';
   });
-}, 3000);
+}, 2000);
 
 let currentActiveId = 'strat-1';
 let currentStrategies = [];
