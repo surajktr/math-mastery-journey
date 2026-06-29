@@ -564,7 +564,10 @@ function updateLiveStatus() {
     strategies: defaultSettings.strategies,
     manualPlayState: { balance: 1000, activeBet: null, stats: { wins: 0, losses: 0 }, logs: [] },
     dualBotState: { balance: 100, checkpoint: 100, activeBot: 'A', stats: { profitHits: 0, lossHits: 0 }, logs: [], pauseUntil: 0 },
-    globalCooldownUntil: 0
+    flipBotState: null,
+    flipBotEnabled: false,
+    globalCooldownUntil: 0,
+    activeGlobalSchedulePauseSecs: 0
   }, (data) => {
     const strategies = data.strategies || [];
     currentStrategies = strategies;
@@ -701,7 +704,10 @@ function updateLiveStatus() {
       
       // Render Active Bet State
       if (flipActiveBetVal) {
-        if (fbState.permanentlyStopped) {
+        if (!data.flipBotEnabled) {
+          flipActiveBetVal.textContent = "Bot is OFF (toggle not saved)";
+          flipActiveBetVal.style.color = "#94a3b8";
+        } else if (fbState.permanentlyStopped) {
           flipActiveBetVal.textContent = "STOPPED (Hard Limit Reached)";
           flipActiveBetVal.style.color = "#ef4444";
         } else if (fbState.pauseRemaining > 0) {
@@ -711,7 +717,7 @@ function updateLiveStatus() {
           flipActiveBetVal.textContent = `Betting ₹${fbState.lastBetAmount} on ${fbState.lastBetPlaced}`;
           flipActiveBetVal.style.color = "#fbbf24";
         } else {
-          flipActiveBetVal.textContent = "None";
+          flipActiveBetVal.textContent = "Waiting for draw...";
           flipActiveBetVal.style.color = "#64748b";
         }
       }
