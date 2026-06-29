@@ -188,8 +188,19 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
   const seq = parseCustomSequence(settings.flipBotSequence);
   if (!seq || seq.length === 0) return;
 
-  const sv = latestDraw.streakValue;
-  if (latestDraw.streakLength < 1) return;
+  // Calculate streak from updatedHistory
+  let streakValue = updatedHistory[0].result;
+  let streakLength = 0;
+  for (const row of updatedHistory) {
+    if (row.result === streakValue) {
+      streakLength++;
+    } else {
+      break;
+    }
+  }
+
+  const sv = streakValue;
+  if (streakLength < 1) return;
 
   const targetDir = state.direction || settings.flipBotDirection || 'opposite';
   const betOn = targetDir === 'opposite' ? (sv === 'Big' ? 'Small' : 'Big') : sv;
@@ -984,6 +995,17 @@ function evaluateDrawHistory(recordBody) {
 
     // Handle reset request from popup (avoids race condition)
     if (settings.dualBotResetRequested) {
+      dState.balance = initBal;
+      dState.checkpoint = initBal;
+      dState.activeBot = 'A';
+      dState.consecutiveLosses = 0;
+      dState.activeBet = null;
+      dState.pauseUntil = 0;
+      dState.stats = { profitHits: 0, lossHits: 0, totalProfit: 0 };
+      dState.logs.unshift(`[${new Date().toLocaleTimeString()}] Reset to ₹${initBal}`);
+      if (dState.logs.length > 30) dState.logs.pop();
+      chrome.storage.local.set({ dualBotResetRequested: false });
+    }
 
     if (settings.flipBotResetRequested) {
       fState.balance = fInitBal;
@@ -1002,17 +1024,7 @@ function evaluateDrawHistory(recordBody) {
       chrome.storage.local.set({ flipBotResetRequested: false });
       logEvent("[Flip Bot] Reset requested and processed.");
     }
-      dState.balance = initBal;
-      dState.checkpoint = initBal;
-      dState.activeBot = 'A';
-      dState.consecutiveLosses = 0;
-      dState.activeBet = null;
-      dState.pauseUntil = 0;
-      dState.stats = { profitHits: 0, lossHits: 0, totalProfit: 0 };
-      dState.logs.unshift(`[${new Date().toLocaleTimeString()}] Reset to ₹${initBal}`);
-      if (dState.logs.length > 30) dState.logs.pop();
-      chrome.storage.local.set({ dualBotResetRequested: false });
-    }
+
 
     if (settings.dualBotEnabled && !isPausedGlobally) {
       evaluateDualBotMaster(dState, settings, latestDraw, betsToTrigger, updatedHistory);
