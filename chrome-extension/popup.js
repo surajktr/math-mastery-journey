@@ -125,6 +125,27 @@ const dualProfitHitsVal = document.getElementById('dual-profit-hits');
 const dualLossHitsVal = document.getElementById('dual-loss-hits');
 const dualLogsBox = document.getElementById('dual-logs-box');
 
+const flipBotTabBtn = document.getElementById('flip-bot-tab');
+const flipBotPanel = document.getElementById('flip-bot-panel');
+const flipBotToggle = document.getElementById('flip-bot-toggle');
+const flipBotSequence = document.getElementById('flip-bot-sequence');
+const flipBotInitialBalance = document.getElementById('flip-bot-initial-balance');
+const flipBotSaveBalanceBtn = document.getElementById('flip-bot-save-balance');
+const flipBotSystem = document.getElementById('flip-bot-system');
+const flipBotDirection = document.getElementById('flip-bot-direction');
+const flipBotRule = document.getElementById('flip-bot-rule');
+const flipProfitTarget = document.getElementById('flip-profit-target');
+const flipProfitPause = document.getElementById('flip-profit-pause');
+const flipLossPauseTarget = document.getElementById('flip-loss-pause-target');
+const flipLossPauseMins = document.getElementById('flip-loss-pause-mins');
+const flipBotResetBtn = document.getElementById('flip-bot-reset-btn');
+
+const flipBalanceVal = document.getElementById('flip-balance');
+const flipCheckpointVal = document.getElementById('flip-checkpoint');
+const flipActiveDirectionVal = document.getElementById('flip-active-direction');
+const flipActiveStepVal = document.getElementById('flip-active-step');
+const flipCountVal = document.getElementById('flip-count');
+
 const enabledToggle = document.getElementById('enabled-toggle');
 const waitStreakToggle = document.getElementById('wait-streak-toggle');
 const waitStreakLengthInput = document.getElementById('wait-streak-length');
@@ -222,6 +243,16 @@ dualBotTabBtn.addEventListener('click', () => {
   });
 });
 
+if(flipBotTabBtn) {
+  flipBotTabBtn.addEventListener('click', () => {
+    saveCurrentStrategyToMemory();
+    currentActiveId = 'flip-bot';
+    chrome.storage.local.set({ activeStrategyId: currentActiveId }, () => {
+      loadSettings();
+    });
+  });
+}
+
 let currentActiveId = 'strat-1';
 let currentStrategies = [];
 
@@ -250,16 +281,31 @@ function initializeSettings(settings) {
     manualPlayPanel.style.display = 'block';
     metaBotPanel.style.display = 'none';
     dualBotPanel.style.display = 'none';
+    if(flipBotPanel) flipBotPanel.style.display = 'none';
   } else if (currentActiveId === 'dual-bot') {
     activeStrategyPanel.style.display = 'none';
     manualPlayPanel.style.display = 'none';
     metaBotPanel.style.display = 'none';
     dualBotPanel.style.display = 'block';
+    if(flipBotPanel) flipBotPanel.style.display = 'none';
+  } else if (currentActiveId === 'flip-bot') {
+    activeStrategyPanel.style.display = 'none';
+    manualPlayPanel.style.display = 'none';
+    metaBotPanel.style.display = 'none';
+    dualBotPanel.style.display = 'none';
+    if(flipBotPanel) flipBotPanel.style.display = 'block';
+  } else if (currentActiveId === 'meta-bot') {
+    activeStrategyPanel.style.display = 'block'; // Meta bot uses active strategy UI
+    manualPlayPanel.style.display = 'none';
+    metaBotPanel.style.display = 'block';
+    dualBotPanel.style.display = 'none';
+    if(flipBotPanel) flipBotPanel.style.display = 'none';
   } else {
     activeStrategyPanel.style.display = 'block';
     manualPlayPanel.style.display = 'none';
     metaBotPanel.style.display = 'none';
     dualBotPanel.style.display = 'none';
+    if(flipBotPanel) flipBotPanel.style.display = 'none';
   }
 
   // Global settings loading
@@ -285,7 +331,7 @@ function initializeSettings(settings) {
   dualTargetBalanceInput.value = settings.dualTargetBalance !== undefined ? settings.dualTargetBalance : 0;
 
   // Load active strategy settings into the UI
-  if (currentActiveId !== 'manual-play' && currentActiveId !== 'meta-bot' && currentActiveId !== 'dual-bot') {
+  if (currentActiveId !== 'manual-play' && currentActiveId !== 'meta-bot' && currentActiveId !== 'dual-bot' && currentActiveId !== 'flip-bot') {
     const activeStrat = currentStrategies.find(s => s.id === currentActiveId) || currentStrategies[0];
     if (activeStrat) {
       currentActiveId = activeStrat.id;
@@ -367,6 +413,7 @@ function renderTabs() {
   
   metaBotTabBtn.classList.toggle('active', currentActiveId === 'meta-bot');
   dualBotTabBtn.classList.toggle('active', currentActiveId === 'dual-bot');
+  if(flipBotTabBtn) flipBotTabBtn.classList.toggle('active', currentActiveId === 'flip-bot');
 
   currentStrategies.forEach(strat => {
     const btn = document.createElement('button');
@@ -405,7 +452,7 @@ function renderTabs() {
 // Save inputs of currently active strategy into the array in memory
 function saveCurrentStrategyToMemory() {
   chrome.storage.local.set({ betMode: betModeSelect.value });
-  if (currentActiveId === 'manual-play' || currentActiveId === 'meta-bot' || currentActiveId === 'dual-bot') return;
+  if (currentActiveId === 'manual-play' || currentActiveId === 'meta-bot' || currentActiveId === 'dual-bot' || currentActiveId === 'flip-bot') return;
   const strat = currentStrategies.find(s => s.id === currentActiveId);
   if (strat) {
     strat.enabled = enabledToggle.checked;
