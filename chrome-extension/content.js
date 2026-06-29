@@ -290,8 +290,14 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
       return;
   }
 
-  const nextDir = state.direction || settings.flipBotDirection || 'opposite';
-  const nextBetOn = nextDir === 'opposite' ? (sv === 'Big' ? 'Small' : 'Big') : sv;
+  let nextBetOn;
+  if ((state.step || 0) === 0 || !state.lockedTarget) {
+      const nextDir = state.direction || settings.flipBotDirection || 'opposite';
+      nextBetOn = nextDir === 'opposite' ? (sv === 'Big' ? 'Small' : 'Big') : sv;
+      state.lockedTarget = nextBetOn;
+  } else {
+      nextBetOn = state.lockedTarget;
+  }
 
   const nextStake = seq[state.step || 0];
 
