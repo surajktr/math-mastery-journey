@@ -33,6 +33,18 @@ const defaultSettings = {
   dualLossLimit: 40,
   dualLossPause: 2,
   dualTargetBalance: 0,
+  flipBotEnabled: false,
+  flipBotSequence: '50, 100, 300',
+  flipBotInitialBalance: 3000,
+  flipBotSystem: 'paroli',
+  flipBotDirection: 'opposite',
+  flipBotRule: 'patient',
+  flipProfitTarget: 100,
+  flipProfitPause: 4,
+  flipLossPauseTarget: 0,
+  flipLossPauseMins: 0,
+  flipHardStopLoss: 0,
+  flipHardStopTarget: 0,
   strategies: [
     {
       id: 'strat-1',
@@ -335,6 +347,20 @@ function initializeSettings(settings) {
   dualLossLimitInput.value = settings.dualLossLimit !== undefined ? settings.dualLossLimit : 40;
   dualLossPauseInput.value = settings.dualLossPause !== undefined ? settings.dualLossPause : 2;
   dualTargetBalanceInput.value = settings.dualTargetBalance !== undefined ? settings.dualTargetBalance : 0;
+
+  // Flip Bot Settings Load
+  if (flipBotToggle) flipBotToggle.checked = settings.flipBotEnabled || false;
+  if (flipBotSequence) flipBotSequence.value = settings.flipBotSequence || '50, 100, 300';
+  if (flipBotInitialBalance) flipBotInitialBalance.value = settings.flipBotInitialBalance !== undefined ? settings.flipBotInitialBalance : 3000;
+  if (flipBotSystem) flipBotSystem.value = settings.flipBotSystem || 'paroli';
+  if (flipBotDirection) flipBotDirection.value = settings.flipBotDirection || 'opposite';
+  if (flipBotRule) flipBotRule.value = settings.flipBotRule || 'patient';
+  if (flipProfitTarget) flipProfitTarget.value = settings.flipProfitTarget !== undefined ? settings.flipProfitTarget : 100;
+  if (flipProfitPause) flipProfitPause.value = settings.flipProfitPause !== undefined ? settings.flipProfitPause : 4;
+  if (flipLossPauseTarget) flipLossPauseTarget.value = settings.flipLossPauseTarget !== undefined ? settings.flipLossPauseTarget : 0;
+  if (flipLossPauseMins) flipLossPauseMins.value = settings.flipLossPauseMins !== undefined ? settings.flipLossPauseMins : 0;
+  if (flipHardStopLoss) flipHardStopLoss.value = settings.flipHardStopLoss !== undefined ? settings.flipHardStopLoss : 0;
+  if (flipHardStopTarget) flipHardStopTarget.value = settings.flipHardStopTarget !== undefined ? settings.flipHardStopTarget : 0;
 
   // Load active strategy settings into the UI
   if (currentActiveId !== 'manual-play' && currentActiveId !== 'meta-bot' && currentActiveId !== 'dual-bot' && currentActiveId !== 'flip-bot') {
