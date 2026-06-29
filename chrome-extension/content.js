@@ -166,13 +166,13 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
   
   // Check Hard Stops BEFORE doing anything
   if (settings.flipHardStopLoss > 0 && state.balance <= settings.flipHardStopLoss) {
-      logEvent(`[Flip Bot] STOPPED: Balance ₹${state.balance} hit Hard Stop Loss (≤ ₹${settings.flipHardStopLoss})!`);
+      console.log(`[Flip Bot] STOPPED: Balance ₹${state.balance} hit Hard Stop Loss (≤ ₹${settings.flipHardStopLoss})!`);
       state.permanentlyStopped = true;
       state.lastBetPlaced = null;
       return;
   }
   if (settings.flipHardStopTarget > 0 && state.balance >= settings.flipHardStopTarget) {
-      logEvent(`[Flip Bot] STOPPED: Balance ₹${state.balance} hit Hard Target (≥ ₹${settings.flipHardStopTarget})!`);
+      console.log(`[Flip Bot] STOPPED: Balance ₹${state.balance} hit Hard Target (≥ ₹${settings.flipHardStopTarget})!`);
       state.permanentlyStopped = true;
       state.lastBetPlaced = null;
       return;
@@ -181,7 +181,7 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
   if (state.pauseRemaining > 0) {
 
     state.pauseRemaining--;
-    logEvent(`[Flip Bot] Paused. Remaining draws: ${state.pauseRemaining}`);
+    console.log(`[Flip Bot] Paused. Remaining draws: ${state.pauseRemaining}`);
     return;
   }
 
@@ -221,7 +221,7 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
     state.window.push({ won, stake });
 
     if (won) {
-      logEvent(`[Flip Bot] Won ₹${stake}. Balance: ₹${state.balance}`);
+      console.log(`[Flip Bot] Won ₹${stake}. Balance: ₹${state.balance}`);
       
       if (settings.flipBotSystem === 'paroli') {
         state.step++;
@@ -234,11 +234,11 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
         state.consecSeqLosses = 0;
       }
     } else {
-      logEvent(`[Flip Bot] Lost ₹${stake}. Balance: ₹${state.balance}`);
+      console.log(`[Flip Bot] Lost ₹${stake}. Balance: ₹${state.balance}`);
       
       // Loss pause check
       if (settings.flipLossPauseTarget > 0 && stake >= settings.flipLossPauseTarget) {
-          logEvent(`[Flip Bot] Loss ₹${stake} >= ₹${settings.flipLossPauseTarget}. Triggering Loss Pause.`);
+          console.log(`[Flip Bot] Loss ₹${stake} >= ₹${settings.flipLossPauseTarget}. Triggering Loss Pause.`);
           state.pauseRemaining = (settings.flipLossPauseMins || 5) * 1;
       }
 
@@ -275,9 +275,9 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
         state.flips = (state.flips || 0) + 1;
         state.step = 0;
         state.checkpoint = state.balance;
-        logEvent(`[Flip Bot] FLIP TRIGGERED! New Direction: ${state.direction.toUpperCase()}`);
+        console.log(`[Flip Bot] FLIP TRIGGERED! New Direction: ${state.direction.toUpperCase()}`);
     } else if (settings.flipProfitTarget > 0 && (state.balance - state.checkpoint >= settings.flipProfitTarget)) {
-        logEvent(`[Flip Bot] Take Profit Hit! (+₹${state.balance - state.checkpoint}). Pausing for ${settings.flipProfitPause} mins.`);
+        console.log(`[Flip Bot] Take Profit Hit! (+₹${state.balance - state.checkpoint}). Pausing for ${settings.flipProfitPause} mins.`);
         state.pauseRemaining = (settings.flipProfitPause || 0) * 1;
         state.checkpoint = state.balance;
     }
@@ -1022,7 +1022,7 @@ function evaluateDrawHistory(recordBody) {
       fState.permanentlyStopped = false;
 
       chrome.storage.local.set({ flipBotResetRequested: false });
-      logEvent("[Flip Bot] Reset requested and processed.");
+      console.log("[Flip Bot] Reset requested and processed.");
     }
 
 
