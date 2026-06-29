@@ -1221,7 +1221,16 @@ if (flipLossPauseTarget) flipLossPauseTarget.addEventListener('change', (e) => c
 if (flipLossPauseMins) flipLossPauseMins.addEventListener('change', (e) => chrome.storage.local.set({ flipLossPauseMins: Number(e.target.value) }));
 if (flipHardStopLoss) flipHardStopLoss.addEventListener('change', (e) => chrome.storage.local.set({ flipHardStopLoss: Number(e.target.value) }));
 if (flipHardStopTarget) flipHardStopTarget.addEventListener('change', (e) => chrome.storage.local.set({ flipHardStopTarget: Number(e.target.value) }));
-if (flipBotResetBtn) flipBotResetBtn.addEventListener('click', () => chrome.storage.local.set({ flipBotResetRequested: true }));
+if (flipBotResetBtn) flipBotResetBtn.addEventListener('click', () => {
+  const initBal = parseFloat(flipBotInitialBalance.value) || 3000;
+  const freshState = {
+    balance: initBal, checkpoint: initBal,
+    direction: (flipBotDirection ? flipBotDirection.value : 'opposite') || 'opposite',
+    step: 0, flips: 0, pauseRemaining: 0, window: [], consecSeqLosses: 0,
+    lastBetPlaced: null, lastBetAmount: 0, permanentlyStopped: false
+  };
+  chrome.storage.local.set({ flipBotState: freshState, flipBotResetRequested: false });
+});
 
 
 // Boot
