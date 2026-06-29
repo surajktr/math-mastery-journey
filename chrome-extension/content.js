@@ -936,112 +936,14 @@ function evaluateDrawHistory(recordBody) {
       }
     }
 
-    // ─── AI Optimizer Integration ───
-    if (settings.aiOptimizerEnabled && !isPausedGlobally) {
-      const blockSize = settings.aiBlockSize || 30;
-      if (!window._aiOptimizerState) {
-        window._aiOptimizerState = { drawsSinceLastSend: 0, blockNumber: 0, lastPeriod: null };
-      }
-      const aiState = window._aiOptimizerState;
-      
-      // Only count if this is a new draw
-      if (aiState.lastPeriod !== latestDraw.period) {
-        aiState.lastPeriod = latestDraw.period;
-        aiState.drawsSinceLastSend++;
-        
-        if (aiState.drawsSinceLastSend >= blockSize) {
-          aiState.blockNumber++;
-          aiState.drawsSinceLastSend = 0;
-          
-          // Collect last N draws as Big/Small
-          const recentDraws = updatedHistory.slice(0, blockSize).map(d => d.result).reverse();
-          
-          // Get current balance from first strategy
-          const currentBalance = strategies[0] ? strategies[0].demoBalance : 100;
-          
-          const payload = {
-            draws: recentDraws,
-            balance: currentBalance,
-            initialBalance: settings.aiInitialBalance || 100,
-            blockNumber: aiState.blockNumber
-          };
-          
-          // Send to Python server
-          fetch('http://localhost:8787/analyze', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          }).then(r => r.json()).then(resp => {
-            console.log('[AI Optimizer] Response:', resp);
-            
-            if (resp.action === 'apply' && resp.strategy && strategies[0]) {
-              const s = resp.strategy;
-              const strat = strategies[0];
-              
-              // Auto-apply the best strategy to Strategy 1
-              strat.stakingSystem = s.stakingSystem;
-              strat.betDirection = s.direction;
-              strat.waitStreakBreak = s.shieldLimit > 0;
-              strat.waitStreakLength = s.shieldLimit;
-              strat.streakLimit = s.streakLimit || 1;
-              strat.baseQuantity = s.baseQuantity;
-              strat.maxSteps = s.maxSteps;
-              strat.takeProfitTarget = s.takeProfit;
-              strat.takeProfitPause = s.takeProfitPause;
-              strat.stopLossLimit = s.stopLoss;
-              strat.stopLossPause = s.stopLossPause;
-              strat.customSequence = s.sequence ? s.sequence.join(',') : '';
-              strat.checkpoint = strat.demoBalance;
-              strat.enabled = true;
-              
-              chrome.storage.local.set({ strategies, aiOptimizerLog: `[Block ${aiState.blockNumber}] Applied: ${s.stakingSystem.toUpperCase()} ${s.direction.toUpperCase()} Seq:${s.sequence} TP:${s.takeProfit} SL:${s.stopLoss}` });
-              console.log(`[AI Optimizer] Block ${aiState.blockNumber}: Applied ${s.stakingSystem} ${s.direction}`);
-            } else if (resp.action === 'observe') {
-              // First block: apply strategy but mark as observing in logs
-              if (strategies[0] && resp.strategy) {
-                const s = resp.strategy;
-                const strat = strategies[0];
-                strat.stakingSystem = s.stakingSystem;
-                strat.betDirection = s.direction;
-                strat.waitStreakBreak = s.shieldLimit > 0;
-                strat.waitStreakLength = s.shieldLimit;
-                strat.streakLimit = s.streakLimit || 1;
-                strat.baseQuantity = s.baseQuantity;
-                strat.maxSteps = s.maxSteps;
-                strat.takeProfitTarget = s.takeProfit;
-                strat.takeProfitPause = s.takeProfitPause;
-                strat.stopLossLimit = s.stopLoss;
-                strat.stopLossPause = s.stopLossPause;
-                strat.customSequence = s.sequence ? s.sequence.join(',') : '';
-                strat.checkpoint = strat.demoBalance;
-                strat.enabled = true;
-              }
-              chrome.storage.local.set({ strategies, aiOptimizerLog: `[Block ${aiState.blockNumber}] Observed & Ready: ${resp.strategy ? resp.strategy.stakingSystem.toUpperCase() + ' ' + resp.strategy.direction.toUpperCase() : 'N/A'}` });
-              console.log(`[AI Optimizer] Block ${aiState.blockNumber}: Observed, strategy applied for betting!`);
-            }
-          }).catch(err => {
-            console.log('[AI Optimizer] Server not reachable:', err.message);
-          });
-        }
-      }
-    }
 
-    // Prepare AI Progress info
-    let aiProgress = null;
-    if (settings.aiOptimizerEnabled && window._aiOptimizerState) {
-      aiProgress = { 
-        current: window._aiOptimizerState.drawsSinceLastSend, 
-        total: settings.aiBlockSize || 30 
-      };
-    }
 
     // Write updated strategies to storage EXACTLY ONCE
     chrome.storage.local.set({ 
       strategies, 
       manualPlayState: mState, 
       dualBotState: dState, 
-      fullHistory: updatedHistory,
-      aiProgress: aiProgress
+      fullHistory: updatedHistory
     }, () => {
       // After save finishes, execute queued bet triggers
       betsToTrigger.forEach(bet => {

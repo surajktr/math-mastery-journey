@@ -33,9 +33,6 @@ const defaultSettings = {
   dualLossLimit: 40,
   dualLossPause: 2,
   dualTargetBalance: 0,
-  aiOptimizerEnabled: false,
-  aiInitialBalance: 100,
-  aiBlockSize: 30,
   strategies: [
     {
       id: 'strat-1',
@@ -107,8 +104,6 @@ const metaBotTabBtn = document.getElementById('meta-bot-tab');
 const metaBotPanel = document.getElementById('meta-bot-panel');
 const dualBotTabBtn = document.getElementById('dual-bot-tab');
 const dualBotPanel = document.getElementById('dual-bot-panel');
-const aiOptimizerTabBtn = document.getElementById('ai-optimizer-tab');
-const aiOptimizerPanel = document.getElementById('ai-optimizer-panel');
 const activeStrategyPanel = document.getElementById('active-strategy-panel');
 const metaBotToggle = document.getElementById('meta-bot-toggle');
 const metaLossLimitInput = document.getElementById('meta-loss-limit');
@@ -227,66 +222,6 @@ dualBotTabBtn.addEventListener('click', () => {
   });
 });
 
-aiOptimizerTabBtn.addEventListener('click', () => {
-  saveCurrentStrategyToMemory();
-  currentActiveId = 'ai-optimizer';
-  chrome.storage.local.set({ activeStrategyId: currentActiveId }, () => {
-    loadSettings();
-  });
-});
-
-// AI Optimizer: Poll server status every 2 seconds
-setInterval(() => {
-  if (currentActiveId !== 'ai-optimizer') return;
-  fetch('http://localhost:8787/status').then(r => r.json()).then(data => {
-    document.getElementById('ai-server-status').textContent = '● Connected';
-    document.getElementById('ai-server-status').style.color = '#34d399';
-    document.getElementById('ai-block-num').textContent = data.blockNumber || 0;
-    document.getElementById('ai-mode').textContent = data.isObserving ? '👁️ Observing' : '🎯 Betting';
-    document.getElementById('ai-mode').style.color = data.isObserving ? '#fbbf24' : '#34d399';
-
-    if (data.currentStrategy) {
-      const s = data.currentStrategy;
-      document.getElementById('ai-current-strat').textContent = `${s.stakingSystem.toUpperCase()} ${s.direction.toUpperCase()} [${s.sequence}]`;
-    }
-
-    // Balance: read LIVE from Chrome storage (strategies[0].demoBalance)
-    chrome.storage.local.get(['strategies', 'aiInitialBalance'], (store) => {
-      const initialBal = parseFloat(store.aiInitialBalance) || 100;
-      const strat = store.strategies && store.strategies[0];
-      const liveBal = strat ? (strat.demoBalance || initialBal) : initialBal;
-      const profit = liveBal - initialBal;
-
-      document.getElementById('ai-initial-bal-display').textContent = `₹${initialBal.toFixed(2)}`;
-      document.getElementById('ai-balance').textContent = `₹${liveBal.toFixed(2)}`;
-      
-      const profitEl = document.getElementById('ai-profit');
-      profitEl.textContent = profit >= 0 ? `+₹${profit.toFixed(2)}` : `-₹${Math.abs(profit).toFixed(2)}`;
-      profitEl.style.color = profit >= 0 ? '#34d399' : '#f87171';
-
-      // Active bet indicator
-      const betRow = document.getElementById('ai-active-bet-row');
-      const betInfo = document.getElementById('ai-active-bet-info');
-      if (strat && strat.activeBet && strat.activeBet.quantity) {
-        betRow.style.display = 'block';
-        betInfo.textContent = `₹${strat.activeBet.quantity} on ${strat.activeBet.target || '-'} (Period: ${strat.activeBet.period || '-'})`;
-      } else if (strat && strat.cooldownUntil && Date.now() < strat.cooldownUntil) {
-        betRow.style.display = 'block';
-        const secsLeft = Math.ceil((strat.cooldownUntil - Date.now()) / 1000);
-        betInfo.textContent = `⏳ Cooldown: ${secsLeft}s remaining`;
-        betInfo.style.color = '#fbbf24';
-      } else {
-        betRow.style.display = 'block';
-        betInfo.textContent = strat && strat.enabled ? '⏳ Waiting for streak trigger...' : '⛔ Strategy disabled';
-        betInfo.style.color = strat && strat.enabled ? '#60a5fa' : '#f87171';
-      }
-    });
-  }).catch(() => {
-    document.getElementById('ai-server-status').textContent = '● Disconnected';
-    document.getElementById('ai-server-status').style.color = '#f87171';
-  });
-}, 2000);
-
 let currentActiveId = 'strat-1';
 let currentStrategies = [];
 
@@ -315,31 +250,16 @@ function initializeSettings(settings) {
     manualPlayPanel.style.display = 'block';
     metaBotPanel.style.display = 'none';
     dualBotPanel.style.display = 'none';
-    aiOptimizerPanel.style.display = 'none';
   } else if (currentActiveId === 'dual-bot') {
     activeStrategyPanel.style.display = 'none';
     manualPlayPanel.style.display = 'none';
     metaBotPanel.style.display = 'none';
     dualBotPanel.style.display = 'block';
-    aiOptimizerPanel.style.display = 'none';
-  } else if (currentActiveId === 'meta-bot') {
-    activeStrategyPanel.style.display = 'none';
-    manualPlayPanel.style.display = 'none';
-    dualBotPanel.style.display = 'none';
-    metaBotPanel.style.display = 'block';
-    aiOptimizerPanel.style.display = 'none';
-  } else if (currentActiveId === 'ai-optimizer') {
-    activeStrategyPanel.style.display = 'none';
-    manualPlayPanel.style.display = 'none';
-    metaBotPanel.style.display = 'none';
-    dualBotPanel.style.display = 'none';
-    aiOptimizerPanel.style.display = 'block';
   } else {
     activeStrategyPanel.style.display = 'block';
     manualPlayPanel.style.display = 'none';
     metaBotPanel.style.display = 'none';
     dualBotPanel.style.display = 'none';
-    aiOptimizerPanel.style.display = 'none';
   }
 
   // Global settings loading
@@ -364,13 +284,8 @@ function initializeSettings(settings) {
   dualLossPauseInput.value = settings.dualLossPause !== undefined ? settings.dualLossPause : 2;
   dualTargetBalanceInput.value = settings.dualTargetBalance !== undefined ? settings.dualTargetBalance : 0;
 
-  // AI Optimizer settings
-  document.getElementById('ai-optimizer-toggle').checked = settings.aiOptimizerEnabled || false;
-  document.getElementById('ai-initial-balance').value = settings.aiInitialBalance || 100;
-  document.getElementById('ai-block-size').value = settings.aiBlockSize || 30;
-
   // Load active strategy settings into the UI
-  if (currentActiveId !== 'manual-play' && currentActiveId !== 'meta-bot' && currentActiveId !== 'dual-bot' && currentActiveId !== 'ai-optimizer') {
+  if (currentActiveId !== 'manual-play' && currentActiveId !== 'meta-bot' && currentActiveId !== 'dual-bot') {
     const activeStrat = currentStrategies.find(s => s.id === currentActiveId) || currentStrategies[0];
     if (activeStrat) {
       currentActiveId = activeStrat.id;
@@ -452,7 +367,6 @@ function renderTabs() {
   
   metaBotTabBtn.classList.toggle('active', currentActiveId === 'meta-bot');
   dualBotTabBtn.classList.toggle('active', currentActiveId === 'dual-bot');
-  aiOptimizerTabBtn.classList.toggle('active', currentActiveId === 'ai-optimizer');
 
   currentStrategies.forEach(strat => {
     const btn = document.createElement('button');
@@ -490,6 +404,7 @@ function renderTabs() {
 
 // Save inputs of currently active strategy into the array in memory
 function saveCurrentStrategyToMemory() {
+  chrome.storage.local.set({ betMode: betModeSelect.value });
   if (currentActiveId === 'manual-play' || currentActiveId === 'meta-bot' || currentActiveId === 'dual-bot') return;
   const strat = currentStrategies.find(s => s.id === currentActiveId);
   if (strat) {
@@ -545,11 +460,7 @@ function saveSettings() {
     dualProfitTarget: parseInt(dualProfitTargetInput.value, 10) || 50,
     dualProfitPause: parseInt(dualProfitPauseInput.value, 10) || 3,
     dualLossLimit: parseInt(dualLossLimitInput.value, 10) || 40,
-    dualLossPause: parseInt(dualLossPauseInput.value, 10) || 2,
     dualTargetBalance: parseFloat(dualTargetBalanceInput.value) || 0,
-    aiOptimizerEnabled: document.getElementById('ai-optimizer-toggle').checked,
-    aiInitialBalance: parseFloat(document.getElementById('ai-initial-balance').value) || 100,
-    aiBlockSize: parseInt(document.getElementById('ai-block-size').value, 10) || 30,
     strategies: currentStrategies,
     activeStrategyId: currentActiveId
   };
@@ -574,9 +485,7 @@ function updateLiveStatus() {
     strategies: defaultSettings.strategies,
     manualPlayState: { balance: 1000, activeBet: null, stats: { wins: 0, losses: 0 }, logs: [] },
     dualBotState: { balance: 100, checkpoint: 100, activeBot: 'A', stats: { profitHits: 0, lossHits: 0 }, logs: [], pauseUntil: 0 },
-    globalCooldownUntil: 0,
-    aiOptimizerLog: '',
-    aiProgress: null
+    globalCooldownUntil: 0
   }, (data) => {
     const strategies = data.strategies || [];
     currentStrategies = strategies;
@@ -692,25 +601,6 @@ function updateLiveStatus() {
       }
     }
     
-    // Update AI Logs & Progress
-    const aiLogsBox = document.getElementById('ai-logs-box');
-    if (aiLogsBox) {
-      if (data.aiOptimizerLog) {
-        aiLogsBox.textContent = data.aiOptimizerLog;
-      } else {
-        aiLogsBox.textContent = 'Waiting for block completion...';
-      }
-    }
-    
-    const aiProgressText = document.getElementById('ai-progress-text');
-    if (aiProgressText) {
-      if (data.aiProgress) {
-        aiProgressText.textContent = `${data.aiProgress.current} / ${data.aiProgress.total} Draws`;
-      } else {
-        aiProgressText.textContent = '0 / 0 Draws';
-      }
-    }
-
     // Update Combined Bot Balance
     const totalBotBalance = strategies.reduce((acc, strat) => acc + (parseFloat(strat.demoBalance) || 0), 0);
     if (combinedBalanceVal) {
@@ -950,23 +840,6 @@ metaWinLimitInput.addEventListener('change', saveSettings);
 
 const downloadJsonBtn = document.getElementById('download-json-btn');
 if (downloadJsonBtn) {
-  document.getElementById('ai-optimizer-toggle').addEventListener('change', (e) => {
-    chrome.storage.local.set({ aiOptimizerEnabled: e.target.checked }, () => {
-      if (e.target.checked) {
-        chrome.storage.local.get(['strategies', 'aiInitialBalance'], (data) => {
-          const strats = data.strategies || [];
-          if (strats[0]) {
-            strats[0].demoBalance = parseFloat(document.getElementById('ai-initial-balance').value) || 100;
-          }
-          chrome.storage.local.set({ 
-            strategies: strats,
-            aiOptimizerLog: 'AI Optimizer started. Waiting for first block data...' 
-          });
-        });
-      }
-    });
-  });
-
   downloadJsonBtn.addEventListener('click', () => {
     chrome.storage.local.get('fullHistory', (data) => {
       const history = data.fullHistory || [];
@@ -1037,66 +910,7 @@ dualLossLimitInput.addEventListener('change', saveSettings);
 dualLossPauseInput.addEventListener('change', saveSettings);
 dualTargetBalanceInput.addEventListener('change', saveSettings);
 
-// AI Optimizer Listeners
-document.getElementById('ai-optimizer-toggle').addEventListener('change', saveSettings);
-document.getElementById('ai-initial-balance').addEventListener('change', (e) => {
-  const newBal = parseFloat(e.target.value) || 100;
-  saveSettings();
-  
-  // Full reset triggered automatically on balance change
-  fetch('http://localhost:8787/set-balance', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ initialBalance: newBal })
-  }).then(() => {
-    chrome.storage.local.get(['strategies'], (data) => {
-      const strats = data.strategies || [];
-      if (strats[0]) {
-        strats[0].demoBalance = newBal;
-        strats[0].checkpoint = newBal;
-        strats[0].activeBet = null;
-        strats[0].cooldownUntil = 0;
-        strats[0].enabled = false;
-        strats[0].lastTriggeredPeriod = null;
-      }
-      chrome.storage.local.set({ 
-        strategies: strats,
-        aiProgress: null,
-        aiOptimizerLog: `Balance updated to ₹${newBal}. Automated reset complete.` 
-      });
-    });
-  }).catch(() => {});
-});
-document.getElementById('ai-block-size').addEventListener('change', saveSettings);
 
-document.getElementById('ai-reset-btn').addEventListener('click', () => {
-  const userBal = parseFloat(document.getElementById('ai-initial-balance').value) || 100;
-  fetch('http://localhost:8787/set-balance', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ initialBalance: userBal })
-  }).then(() => {
-    chrome.storage.local.get(['strategies'], (data) => {
-      const strats = data.strategies || [];
-      if (strats[0]) {
-        strats[0].demoBalance = userBal;
-        strats[0].checkpoint = userBal;
-        strats[0].activeBet = null;
-        strats[0].cooldownUntil = 0;
-        strats[0].enabled = false;
-        strats[0].lastTriggeredPeriod = null;
-      }
-      // Reset AI draw counter
-      chrome.storage.local.set({ 
-        strategies: strats,
-        aiProgress: null,
-        aiOptimizerLog: `AI Reset! Balance restored to ₹${userBal}. Betting continues.` 
-      }, () => {
-        alert(`✅ Balance reset to ₹${userBal}! AI continues betting.`);
-      });
-    });
-  }).catch(() => alert("Python server not running!"));
-});
 
 // Dual Bot Balance Save
 const dualBotSaveBalanceBtn = document.getElementById('dual-bot-save-balance');

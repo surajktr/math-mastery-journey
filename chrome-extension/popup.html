@@ -411,7 +411,6 @@
     <h1>Wingo Strategy Simulator</h1>
     <div style="display: flex; align-items: center; gap: 8px;">
       <button id="dual-bot-tab" class="tab-btn" style="border: 1px solid rgba(236, 72, 153, 0.5); color: #ec4899; flex-shrink: 0; padding: 4px 8px; font-size: 11px;">⚔️ Dual Bot</button>
-      <button id="ai-optimizer-tab" class="tab-btn" style="border: 1px solid rgba(16, 185, 129, 0.5); color: #10b981; flex-shrink: 0; padding: 4px 8px; font-size: 11px;">🧠 AI</button>
       <button id="download-json-btn" class="btn btn-secondary" style="font-size: 9px; padding: 3px 6px; border-color: rgba(99, 102, 241, 0.4); color: #a5b4fc;" title="Download 300 Results">📥 JSON</button>
       <span style="font-size: 9px; color: var(--accent-success); font-weight: 600; display: flex; align-items: center; gap: 4px;">
         <span style="width: 5px; height: 5px; background-color: var(--accent-success); border-radius: 50%; display: inline-block;"></span>
@@ -481,87 +480,6 @@
         <label for="meta-win-limit" style="color: #10b981;">Turn ON shadow strategy after X sequence wins:</label>
         <input type="number" id="meta-win-limit" min="1" max="10" value="2">
       </div>
-    </div>
-  </div>
-
-  <!-- AI OPTIMIZER PANEL -->
-  <div id="ai-optimizer-panel" style="display: none;">
-    <div class="switch-container" style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); margin-bottom: 12px;">
-      <span class="switch-title" style="color: #10b981; font-weight: 800;">🧠 AI Strategy Optimizer</span>
-      <label class="switch">
-        <input type="checkbox" id="ai-optimizer-toggle">
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <p style="font-size: 11px; color: var(--text-muted); margin: 0 0 10px 0; line-height: 1.4;">Connects to Python server (localhost:8787). First 30 draws = observe only. Then auto-applies the best strategy every 30 draws.</p>
-
-    <div class="row-grid">
-      <div class="form-group">
-        <label for="ai-initial-balance" style="color: #10b981;">Initial Balance (₹)</label>
-        <input type="number" id="ai-initial-balance" min="10" max="100000" value="100">
-      </div>
-      <div class="form-group">
-        <label for="ai-block-size" style="color: #10b981;">Analyze Every (draws)</label>
-        <input type="number" id="ai-block-size" min="10" max="100" value="30">
-      </div>
-    </div>
-
-    <!-- AI Status -->
-    <div id="ai-status-box" style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.15); border-radius: 8px; padding: 10px; margin-top: 10px;">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-        <span style="color: #10b981; font-weight: 700; font-size: 12px;">Server Status</span>
-        <span id="ai-server-status" style="font-size: 11px; color: #f87171; font-weight: 600;">● Disconnected</span>
-      </div>
-      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-        <span style="color: var(--text-muted); font-size: 11px;">Block</span>
-        <span id="ai-block-num" style="color: var(--text-primary); font-size: 11px; font-weight: 600;">0</span>
-      </div>
-      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-        <span style="color: var(--text-muted); font-size: 11px;">Progress</span>
-        <span id="ai-progress-text" style="color: #60a5fa; font-size: 11px; font-weight: 600;">0 / 0 Draws</span>
-      </div>
-      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-        <span style="color: var(--text-muted); font-size: 11px;">Mode</span>
-        <span id="ai-mode" style="color: #fbbf24; font-size: 11px; font-weight: 600;">Waiting...</span>
-      </div>
-      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-        <span style="color: var(--text-muted); font-size: 11px;">Current Strategy</span>
-        <span id="ai-current-strat" style="color: var(--text-primary); font-size: 11px; font-weight: 600;">-</span>
-      </div>
-
-      <!-- Active Bet Indicator -->
-      <div id="ai-active-bet-row" style="display: none; background: rgba(96, 165, 250, 0.1); border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 6px; padding: 6px 8px; margin: 6px 0;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="color: #60a5fa; font-size: 11px; font-weight: 700;">🎲 Active Bet</span>
-          <span id="ai-active-bet-info" style="color: #fbbf24; font-size: 11px; font-weight: 600;">-</span>
-        </div>
-      </div>
-
-      <!-- Balance Section (like dual bot) -->
-      <div style="background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); border-radius: 6px; padding: 8px; margin-top: 8px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-          <span style="color: #60a5fa; font-size: 11px; font-weight: 700;">Initial Balance</span>
-          <span id="ai-initial-bal-display" style="color: #60a5fa; font-size: 12px; font-weight: 700;">₹100.00</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-          <span style="color: #34d399; font-size: 11px; font-weight: 700;">Final Balance</span>
-          <span id="ai-balance" style="color: #34d399; font-size: 12px; font-weight: 700;">₹100.00</span>
-        </div>
-        <div style="display: flex; justify-content: space-between;">
-          <span style="color: var(--text-muted); font-size: 11px;">Net Profit</span>
-          <span id="ai-profit" style="color: #34d399; font-size: 13px; font-weight: 800;">+₹0.00</span>
-        </div>
-      </div>
-      <button id="ai-reset-btn" class="btn btn-secondary" style="width: 100%; margin-top: 10px; background: rgba(248, 113, 113, 0.1); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3);">Reset AI Server State</button>
-    </div>
-
-    <!-- AI Logs -->
-    <div style="margin-top: 10px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-        <span style="color: #10b981; font-weight: 600; font-size: 12px;">🧠 AI Logs</span>
-      </div>
-      <div class="logs-box" id="ai-logs-box" style="max-height: 120px;"></div>
     </div>
   </div>
 
