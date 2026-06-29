@@ -80,27 +80,27 @@ function processRealBetQueue() {
   const btn = document.querySelector(btnSelector);
 
   if (!btn) {
-    addLog(`Error: Target button "${btnSelector}" not found.`, strategyId);
+    console.log(`Error: Target button "${btnSelector}" not found.`, strategyId);
     if (settings.enableSound) playSound('error');
     processingQueue = false;
     processRealBetQueue();
     return;
   }
 
-  addLog(`[REAL MODE] Clicking "${target}" button...`, strategyId);
+  console.log(`[REAL MODE] Clicking "${target}" button...`, strategyId);
   btn.click();
 
   setTimeout(() => {
     const input = document.querySelector(settings.popInputSelector);
     if (!input) {
-      addLog(`Error: Popup input "${settings.popInputSelector}" not found.`, strategyId);
+      console.log(`Error: Popup input "${settings.popInputSelector}" not found.`, strategyId);
       if (settings.enableSound) playSound('error');
       processingQueue = false;
       processRealBetQueue();
       return;
     }
 
-    addLog(`[REAL MODE] Setting Quantity to ${quantity}...`, strategyId);
+    console.log(`[REAL MODE] Setting Quantity to ${quantity}...`, strategyId);
     input.value = quantity;
     input.dispatchEvent(new Event('input', { bubbles: true }));
     input.dispatchEvent(new Event('change', { bubbles: true }));
@@ -108,14 +108,14 @@ function processRealBetQueue() {
     setTimeout(() => {
       const submitBtn = document.querySelector(settings.popBetSelector);
       if (!submitBtn) {
-        addLog(`Error: Popup submit button "${settings.popBetSelector}" not found.`, strategyId);
+        console.log(`Error: Popup submit button "${settings.popBetSelector}" not found.`, strategyId);
         if (settings.enableSound) playSound('error');
         processingQueue = false;
         processRealBetQueue();
         return;
       }
 
-      addLog(`[REAL MODE] Confirming bet...`, strategyId);
+      console.log(`[REAL MODE] Confirming bet...`, strategyId);
       submitBtn.click();
       if (settings.enableSound) playSound('success');
       
