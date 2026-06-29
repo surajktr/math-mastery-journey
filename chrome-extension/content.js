@@ -159,9 +159,27 @@ function logToStrategySync(strategy, message) {
 // =====================================================================
 // FLIP BOT MASTER LOGIC
 // =====================================================================
+
 function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updatedHistory) {
+  if (state.permanentlyStopped) return;
   if (state.globalPause > 0) return;
+  
+  // Check Hard Stops BEFORE doing anything
+  if (settings.flipHardStopLoss > 0 && state.balance <= settings.flipHardStopLoss) {
+      logEvent(`[Flip Bot] STOPPED: Balance ₹${state.balance} hit Hard Stop Loss (≤ ₹${settings.flipHardStopLoss})!`);
+      state.permanentlyStopped = true;
+      state.lastBetPlaced = null;
+      return;
+  }
+  if (settings.flipHardStopTarget > 0 && state.balance >= settings.flipHardStopTarget) {
+      logEvent(`[Flip Bot] STOPPED: Balance ₹${state.balance} hit Hard Target (≥ ₹${settings.flipHardStopTarget})!`);
+      state.permanentlyStopped = true;
+      state.lastBetPlaced = null;
+      return;
+  }
+
   if (state.pauseRemaining > 0) {
+
     state.pauseRemaining--;
     logEvent(`[Flip Bot] Paused. Remaining draws: ${state.pauseRemaining}`);
     return;
@@ -262,11 +280,14 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
 
   const nextDir = state.direction || settings.flipBotDirection || 'opposite';
   const nextBetOn = nextDir === 'opposite' ? (sv === 'Big' ? 'Small' : 'Big') : sv;
+
   const nextStake = seq[state.step || 0];
 
   betsToTrigger.push({ type: nextBetOn, amount: nextStake, label: 'Flip Bot' });
   state.lastBetPlaced = nextBetOn;
+  state.lastBetAmount = nextStake;
 }
+
 
 function evaluateDualBotMaster(state, settings, latestDraw, betsToTrigger, updatedHistory) {
   const now = Date.now();
@@ -837,8 +858,12 @@ function evaluateDrawHistory(recordBody) {
     flipBotRule: 'patient',
     flipProfitTarget: 100,
     flipProfitPause: 4,
+
+    flipProfitPause: 4,
     flipLossPauseTarget: 0,
     flipLossPauseMins: 0,
+    flipHardStopLoss: 0,
+    flipHardStopTarget: 0,
     flipBotState: null,
     flipBotResetRequested: false,
     dualBotSequence: '10, 40, 160',
@@ -949,12 +974,13 @@ function evaluateDrawHistory(recordBody) {
 
     const initBal = settings.dualBotInitialBalance || 100;
     const dState = settings.dualBotState || { 
-    const fInitBal = settings.flipBotInitialBalance || 3000;
-    const fState = settings.flipBotState || { balance: fInitBal, checkpoint: fInitBal, direction: settings.flipBotDirection || 'opposite', step: 0, flips: 0, pauseRemaining: 0, window: [], consecSeqLosses: 0, lastBetPlaced: null };
       balance: initBal, checkpoint: initBal, activeBot: 'A', 
       consecutiveLosses: 0, pauseUntil: 0, activeBet: null, 
       stats: { profitHits: 0, lossHits: 0, totalProfit: 0 }, logs: [] 
     };
+    const fInitBal = settings.flipBotInitialBalance || 3000;
+    const fState = settings.flipBotState || { balance: fInitBal, checkpoint: fInitBal, direction: settings.flipBotDirection || 'opposite', step: 0, flips: 0, pauseRemaining: 0, window: [], consecSeqLosses: 0, lastBetPlaced: null, lastBetAmount: 0, permanentlyStopped: false };
+
 
     // Handle reset request from popup (avoids race condition)
     if (settings.dualBotResetRequested) {
@@ -968,7 +994,11 @@ function evaluateDrawHistory(recordBody) {
       fState.pauseRemaining = 0;
       fState.window = [];
       fState.consecSeqLosses = 0;
+
       fState.lastBetPlaced = null;
+      fState.lastBetAmount = 0;
+      fState.permanentlyStopped = false;
+
       chrome.storage.local.set({ flipBotResetRequested: false });
       logEvent("[Flip Bot] Reset requested and processed.");
     }

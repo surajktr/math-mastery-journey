@@ -140,6 +140,12 @@ const flipLossPauseTarget = document.getElementById('flip-loss-pause-target');
 const flipLossPauseMins = document.getElementById('flip-loss-pause-mins');
 const flipBotResetBtn = document.getElementById('flip-bot-reset-btn');
 
+const flipHardStopLoss = document.getElementById('flip-hard-stop-loss');
+const flipHardStopTarget = document.getElementById('flip-hard-stop-target');
+const flipNetProfitVal = document.getElementById('flip-net-profit');
+const flipActiveBetVal = document.getElementById('flip-active-bet');
+
+
 const flipBalanceVal = document.getElementById('flip-balance');
 const flipCheckpointVal = document.getElementById('flip-checkpoint');
 const flipActiveDirectionVal = document.getElementById('flip-active-direction');

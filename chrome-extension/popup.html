@@ -636,6 +636,18 @@
           <input type="number" id="flip-loss-pause-mins" value="0" placeholder="e.g. 5">
         </div>
       </div>
+    
+      <div class="row-grid" style="margin-top: 15px;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="flip-hard-stop-loss" style="color: #ef4444;">Hard Stop Loss (Balance ≤)</label>
+          <input type="number" id="flip-hard-stop-loss" placeholder="e.g. 500">
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="flip-hard-stop-target" style="color: #10b981;">Hard Target (Balance ≥)</label>
+          <input type="number" id="flip-hard-stop-target" placeholder="e.g. 1500">
+        </div>
+      </div>
+
     </div>
 
     <!-- Flip Bot Live Status -->
@@ -646,6 +658,15 @@
           <button id="flip-bot-reset-btn" class="cancel-btn" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); margin-left: 0;">Reset</button>
         </span>
         <span class="value" style="color: #38bdf8;"><span id="flip-balance">₹500</span> / <span id="flip-checkpoint">₹500</span></span>
+      </div>
+      
+      <div class="status-row">
+        <span class="label">Net Profit</span>
+        <span class="value" id="flip-net-profit" style="color: #34d399; font-weight: bold;">+₹0</span>
+      </div>
+      <div class="status-row">
+        <span class="label">Active Bet State</span>
+        <span class="value" id="flip-active-bet" style="color: #fbbf24; font-weight: bold;">None</span>
       </div>
       <div class="status-row">
         <span class="label">Active Direction</span>
