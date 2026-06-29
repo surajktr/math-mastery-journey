@@ -186,9 +186,29 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
     return;
   }
 
-  const seq = parseCustomSequence(settings.flipBotSequence);
-  if (!seq || seq.length === 0) return;
-
+  const baseSeq = parseCustomSequence(settings.flipBotSequence);
+  if (!baseSeq || baseSeq.length === 0) return;
+  
+  let seq = baseSeq;
+  let activeMode = 'MID';
+  
+  if (settings.flipAutoScaleEnabled) {
+      const windowSize = settings.flipAutoScaleWindow || 20;
+      const recent = (state.autoScaleHistory || []).slice(-windowSize);
+      const wins = recent.filter(w => w).length;
+      
+      if (recent.length >= windowSize) {
+          if (wins >= (settings.flipAutoScaleHighWins || 10)) {
+              seq = parseCustomSequence(settings.flipAutoScaleHighSeq || '300, 600, 900');
+              activeMode = 'HIGH';
+          } else if (wins <= (settings.flipAutoScaleLowWins || 5)) {
+              seq = parseCustomSequence(settings.flipAutoScaleLowSeq || '30, 50, 80');
+              activeMode = 'LOW';
+          }
+      }
+      
+      if (!seq || seq.length === 0) seq = baseSeq;
+  }
   // Calculate streak from updatedHistory
   let streakValue = updatedHistory[0].result;
   let streakLength = 0;
@@ -220,6 +240,12 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
     // Add to window
     if (!state.window) state.window = [];
     state.window.push({ won, stake });
+    
+    if (!state.autoScaleHistory) state.autoScaleHistory = [];
+    state.autoScaleHistory.push(won);
+    if (state.autoScaleHistory.length > (settings.flipAutoScaleWindow || 20)) {
+        state.autoScaleHistory.shift();
+    }
 
     if (won) {
       console.log(`[Flip Bot] Won ₹${stake}. Balance: ₹${state.balance}`);

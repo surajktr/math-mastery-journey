@@ -648,6 +648,44 @@
         </div>
       </div>
 
+      <!-- AUTO SCALE STAKING -->
+      <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+        <div class="switch-container" style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.3); margin-bottom: 12px; padding: 6px 10px;">
+          <span class="switch-title" style="color: #c084fc; font-weight: 700;">Enable Auto-Scale (Dynamic Staking)</span>
+          <label class="switch">
+            <input type="checkbox" id="flip-autoscale-toggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 10px;">
+          <label for="flip-autoscale-window" style="color: #94a3b8;">Window Size (Last N Draws)</label>
+          <input type="number" id="flip-autoscale-window" value="20">
+        </div>
+        
+        <div class="row-grid" style="margin-bottom: 10px;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="flip-autoscale-high-wins" style="color: #a855f7;">High Mode (Wins ≥)</label>
+            <input type="number" id="flip-autoscale-high-wins" value="10">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="flip-autoscale-high-seq" style="color: #c084fc;">High Sequence</label>
+            <input type="text" id="flip-autoscale-high-seq" value="300, 600, 900">
+          </div>
+        </div>
+        
+        <div class="row-grid" style="margin-bottom: 10px;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="flip-autoscale-low-wins" style="color: #fb923c;">Low Mode (Wins ≤)</label>
+            <input type="number" id="flip-autoscale-low-wins" value="5">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="flip-autoscale-low-seq" style="color: #fdba74;">Low Sequence</label>
+            <input type="text" id="flip-autoscale-low-seq" value="30, 50, 80">
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- Flip Bot Live Status -->

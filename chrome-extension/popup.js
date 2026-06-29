@@ -45,6 +45,12 @@ const defaultSettings = {
   flipLossPauseMins: 0,
   flipHardStopLoss: 0,
   flipHardStopTarget: 0,
+  flipAutoScaleEnabled: false,
+  flipAutoScaleWindow: 20,
+  flipAutoScaleHighWins: 10,
+  flipAutoScaleHighSeq: '300, 600, 900',
+  flipAutoScaleLowWins: 5,
+  flipAutoScaleLowSeq: '30, 50, 80',
   strategies: [
     {
       id: 'strat-1',
@@ -154,6 +160,12 @@ const flipBotResetBtn = document.getElementById('flip-bot-reset-btn');
 
 const flipHardStopLoss = document.getElementById('flip-hard-stop-loss');
 const flipHardStopTarget = document.getElementById('flip-hard-stop-target');
+const flipAutoScaleToggle = document.getElementById('flip-autoscale-toggle');
+const flipAutoScaleWindow = document.getElementById('flip-autoscale-window');
+const flipAutoScaleHighWins = document.getElementById('flip-autoscale-high-wins');
+const flipAutoScaleHighSeq = document.getElementById('flip-autoscale-high-seq');
+const flipAutoScaleLowWins = document.getElementById('flip-autoscale-low-wins');
+const flipAutoScaleLowSeq = document.getElementById('flip-autoscale-low-seq');
 const flipNetProfitVal = document.getElementById('flip-net-profit');
 const flipActiveBetVal = document.getElementById('flip-active-bet');
 
@@ -361,6 +373,13 @@ function initializeSettings(settings) {
   if (flipLossPauseMins) flipLossPauseMins.value = settings.flipLossPauseMins !== undefined ? settings.flipLossPauseMins : 0;
   if (flipHardStopLoss) flipHardStopLoss.value = settings.flipHardStopLoss !== undefined ? settings.flipHardStopLoss : 0;
   if (flipHardStopTarget) flipHardStopTarget.value = settings.flipHardStopTarget !== undefined ? settings.flipHardStopTarget : 0;
+  
+  if (flipAutoScaleToggle) flipAutoScaleToggle.checked = settings.flipAutoScaleEnabled || false;
+  if (flipAutoScaleWindow) flipAutoScaleWindow.value = settings.flipAutoScaleWindow !== undefined ? settings.flipAutoScaleWindow : 20;
+  if (flipAutoScaleHighWins) flipAutoScaleHighWins.value = settings.flipAutoScaleHighWins !== undefined ? settings.flipAutoScaleHighWins : 10;
+  if (flipAutoScaleHighSeq) flipAutoScaleHighSeq.value = settings.flipAutoScaleHighSeq || '300, 600, 900';
+  if (flipAutoScaleLowWins) flipAutoScaleLowWins.value = settings.flipAutoScaleLowWins !== undefined ? settings.flipAutoScaleLowWins : 5;
+  if (flipAutoScaleLowSeq) flipAutoScaleLowSeq.value = settings.flipAutoScaleLowSeq || '30, 50, 80';
 
   // Load active strategy settings into the UI
   if (currentActiveId !== 'manual-play' && currentActiveId !== 'meta-bot' && currentActiveId !== 'dual-bot' && currentActiveId !== 'flip-bot') {
@@ -1221,12 +1240,19 @@ if (flipLossPauseTarget) flipLossPauseTarget.addEventListener('change', (e) => c
 if (flipLossPauseMins) flipLossPauseMins.addEventListener('change', (e) => chrome.storage.local.set({ flipLossPauseMins: Number(e.target.value) }));
 if (flipHardStopLoss) flipHardStopLoss.addEventListener('change', (e) => chrome.storage.local.set({ flipHardStopLoss: Number(e.target.value) }));
 if (flipHardStopTarget) flipHardStopTarget.addEventListener('change', (e) => chrome.storage.local.set({ flipHardStopTarget: Number(e.target.value) }));
+
+if (flipAutoScaleToggle) flipAutoScaleToggle.addEventListener('change', (e) => chrome.storage.local.set({ flipAutoScaleEnabled: e.target.checked }));
+if (flipAutoScaleWindow) flipAutoScaleWindow.addEventListener('change', (e) => chrome.storage.local.set({ flipAutoScaleWindow: Number(e.target.value) }));
+if (flipAutoScaleHighWins) flipAutoScaleHighWins.addEventListener('change', (e) => chrome.storage.local.set({ flipAutoScaleHighWins: Number(e.target.value) }));
+if (flipAutoScaleHighSeq) flipAutoScaleHighSeq.addEventListener('change', (e) => chrome.storage.local.set({ flipAutoScaleHighSeq: e.target.value }));
+if (flipAutoScaleLowWins) flipAutoScaleLowWins.addEventListener('change', (e) => chrome.storage.local.set({ flipAutoScaleLowWins: Number(e.target.value) }));
+if (flipAutoScaleLowSeq) flipAutoScaleLowSeq.addEventListener('change', (e) => chrome.storage.local.set({ flipAutoScaleLowSeq: e.target.value }));
 if (flipBotResetBtn) flipBotResetBtn.addEventListener('click', () => {
   const initBal = parseFloat(flipBotInitialBalance.value) || 3000;
   const freshState = {
     balance: initBal, checkpoint: initBal,
     direction: (flipBotDirection ? flipBotDirection.value : 'opposite') || 'opposite',
-    step: 0, flips: 0, pauseRemaining: 0, window: [], consecSeqLosses: 0,
+    step: 0, flips: 0, pauseRemaining: 0, window: [], autoScaleHistory: [], consecSeqLosses: 0,
     lastBetPlaced: null, lastBetAmount: 0, permanentlyStopped: false
   };
   chrome.storage.local.set({ flipBotState: freshState, flipBotResetRequested: false });
