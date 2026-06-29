@@ -283,7 +283,7 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
 
   const nextStake = seq[state.step || 0];
 
-  betsToTrigger.push({ type: nextBetOn, amount: nextStake, label: 'Flip Bot' });
+  betsToTrigger.push({ target: nextBetOn, quantity: nextStake, period: incrementPeriod(latestDraw.period), strategyId: 'Flip Bot' });
   state.lastBetPlaced = nextBetOn;
   state.lastBetAmount = nextStake;
 }
@@ -1015,11 +1015,11 @@ function evaluateDrawHistory(recordBody) {
     }
 
     if (settings.dualBotEnabled && !isPausedGlobally) {
+      evaluateDualBotMaster(dState, settings, latestDraw, betsToTrigger, updatedHistory);
+    }
 
     if (settings.flipBotEnabled && !isPausedGlobally) {
       evaluateFlipBotMaster(fState, settings, latestDraw, betsToTrigger, updatedHistory);
-    }
-      evaluateDualBotMaster(dState, settings, latestDraw, betsToTrigger, updatedHistory);
     }
 
     // Process all strategies in parallel
