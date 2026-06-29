@@ -656,12 +656,12 @@ function updateLiveStatus() {
     
 
     // Sync Flip Bot Status
-    const fInitBal = parseFloat(flipBotInitialBalanceInput.value) || 3000;
-    const fbState = data.flipBotState || { balance: fInitBal, checkpoint: fInitBal, direction: flipBotDirectionSelect.value || 'opposite', step: 0, flips: 0, pauseRemaining: 0, permanentlyStopped: false };
+    const fInitBal = parseFloat(flipBotInitialBalance.value) || 3000;
+    const fbState = data.flipBotState || { balance: fInitBal, checkpoint: fInitBal, direction: flipBotDirection.value || 'opposite', step: 0, flips: 0, pauseRemaining: 0, permanentlyStopped: false };
     
     if (flipBalanceVal) flipBalanceVal.textContent = `₹${Number(fbState.balance).toFixed(2)}`;
     if (flipCheckpointVal) flipCheckpointVal.textContent = `₹${Number(fbState.checkpoint).toFixed(2)}`;
-    if (flipActiveDirVal) flipActiveDirVal.textContent = (fbState.direction || 'opposite').charAt(0).toUpperCase() + (fbState.direction || 'opposite').slice(1);
+    if (flipActiveDirectionVal) flipActiveDirectionVal.textContent = (fbState.direction || 'opposite').charAt(0).toUpperCase() + (fbState.direction || 'opposite').slice(1);
     if (flipActiveStepVal) flipActiveStepVal.textContent = `Step ${fbState.step + 1}`;
     if (flipCountVal) {
       flipCountVal.textContent = fbState.flips || 0;
