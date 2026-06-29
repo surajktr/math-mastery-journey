@@ -161,8 +161,9 @@ function logToStrategySync(strategy, message) {
 // =====================================================================
 
 function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updatedHistory) {
-  if (state.permanentlyStopped) return;
-  if (state.globalPause > 0) return;
+  console.log('[Flip Bot] evaluateFlipBotMaster called. state:', JSON.stringify({balance: state.balance, step: state.step, lastBetPlaced: state.lastBetPlaced, permanentlyStopped: state.permanentlyStopped, pauseRemaining: state.pauseRemaining}));
+  if (state.permanentlyStopped) { console.log('[Flip Bot] SKIPPED: permanentlyStopped is true'); return; }
+  if (state.globalPause > 0) { console.log('[Flip Bot] SKIPPED: globalPause > 0'); return; }
   
   // Check Hard Stops BEFORE doing anything
   if (settings.flipHardStopLoss > 0 && state.balance <= settings.flipHardStopLoss) {
@@ -294,6 +295,7 @@ function evaluateFlipBotMaster(state, settings, latestDraw, betsToTrigger, updat
 
   const nextStake = seq[state.step || 0];
 
+  console.log(`[Flip Bot] Placing bet: ${nextBetOn} ₹${nextStake} for period ${incrementPeriod(latestDraw.period)}`);
   betsToTrigger.push({ target: nextBetOn, quantity: nextStake, period: incrementPeriod(latestDraw.period), strategyId: 'Flip Bot' });
   state.lastBetPlaced = nextBetOn;
   state.lastBetAmount = nextStake;
@@ -991,6 +993,13 @@ function evaluateDrawHistory(recordBody) {
     };
     const fInitBal = settings.flipBotInitialBalance || 3000;
     const fState = settings.flipBotState || { balance: fInitBal, checkpoint: fInitBal, direction: settings.flipBotDirection || 'opposite', step: 0, flips: 0, pauseRemaining: 0, window: [], consecSeqLosses: 0, lastBetPlaced: null, lastBetAmount: 0, permanentlyStopped: false };
+    // If flipBotEnabled just got toggled on but state was permanently stopped from a previous run, auto-clear it
+    if (settings.flipBotEnabled && fState.permanentlyStopped) {
+      console.log('[Flip Bot] Auto-clearing permanentlyStopped since bot is enabled');
+      fState.permanentlyStopped = false;
+      fState.lastBetPlaced = null;
+      fState.step = 0;
+    }
 
 
     // Handle reset request from popup (avoids race condition)
@@ -1030,6 +1039,7 @@ function evaluateDrawHistory(recordBody) {
       evaluateDualBotMaster(dState, settings, latestDraw, betsToTrigger, updatedHistory);
     }
 
+    console.log('[DEBUG] flipBotEnabled:', settings.flipBotEnabled, 'isPausedGlobally:', isPausedGlobally);
     if (settings.flipBotEnabled && !isPausedGlobally) {
       evaluateFlipBotMaster(fState, settings, latestDraw, betsToTrigger, updatedHistory);
     }
